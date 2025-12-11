@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/sign-up.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="menu-overlay" id="menuOverlay">
+    <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
+    <a href="/">HOME</a>
+    <a href="/spot-trade">SPOT TRADES</a>
+    <a href="/future">FUTURE TRADES</a>
+  </div>
+
+  <!-- NVIGATION -->
+
+  <nav>
+    <div class="nav-left">
+      <a href=""><img src="/images/logo.png" alt="Logo" width="100px"></a>
+    </div>
+
+    <div style="display: flex; gap: 20px; align-items: center;">
+      <div class="nav-right">
+        <i class="fa fa-search"></i>
+        <a href="/login">Login</a>
+        <a href="/sign-up" class="sup">Sign up</a>
+        <i class="fa fa-bell"></i>
+        <i class="fa fa-question-circle-o"></i>
+      </div>
+
+      <button onclick="menuOpen()" class="menu"><i class="fa fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <!-- MAIN LOIN -->
+
+  <div class="sign-up">
+
+    <div class="sign-up-left">
+      <h2>Trade with confidence</h2>
+      <p>We don't lend out customer funds, which is <br> verified through our regularly published Proof of <br> Reserves
+        audits.
+      </p>
+      <img src="/images/sign-up.webp" alt="">
+    </div>
+
+    <div class="sign-up-right">
+
+      <div class="user-inputs">
+
+        <h2>Where do you live?</h2>
+        <p class="response">Your response will be used to set up your account and verify your identity.</p>
+
+        <div class="options">
+          <p class="country">Country/region</p>
+        </div>
+
+        <!-- Add select feauture with different countries as options -->
+        <select>
+          <option value="us">United States</option>
+          <option value="ca">Canada</option>
+          <option value="uk">United Kingdom</option>
+          <option value="au">Australia</option>
+          <option value="in">India</option>
+          <option value="de">Germany</option>
+          <option value="fr">France</option>
+          <option value="it">Italy</option>
+          <option value="es">Spain</option>
+          <option value="nl">Nigeria</option>
+          <option value="be">Belgium</option>
+          <option value="ch">Switzerland</option>
+          <option value="se">Sweden</option>
+          <option value="no">Norway</option>
+          <option value="dk">Denmark</option>
+          <option value="fi">Finland</option>
+          <option value="jp">Japan</option>
+          <option value="kr">South Korea</option>
+          <option value="cn">China</option>
+          <option value="br">Brazil</option>
+          <option value="mx">Mexico</option>
+          <option value="za">South Africa</option>
+          <option value="sg">Singapore</option>
+          <option value="hk">Hong Kong</option>
+          <option value="nz">New Zealand</option>
+          <option value="th">Thailand</option>
+        </select>
+
+        <button class="create" onclick="createAccount()">Create account</button>
+
+        <p class=" h-have">Have an account? <a href="/login">Log in</a></p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="foot-left">
+      <img src="/images/logo.png" alt="" class="foot-image">
+    </div>
+
+    <div class="foot-right">
+
+      <p>Community</p>
+
+      <div class="socials">
+        <a href="#">
+          <i class="fa fa-twitter"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-instagram"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-telegram"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-facebook"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-linkedin"></i>
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+<script src="/js/sign-up.js"></script>
+
+</html>

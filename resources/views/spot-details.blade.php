@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Details</title>
+  <link rel="stylesheet" href="/css/spot-details.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+</head>
+
+<body>
+
+  <!-- <div class="menu-overlay" id="menuOverlay">
+    <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
+    <a href="/">HOME</a>
+    <a href="/spot-trade">SPOT TRADE</a>
+    <a href="/future">FUTURE TRADE</a>
+    <a href="#">HISTORY</a>
+  </div>
+ -->
+
+  <!-- NAVIGATION -->
+
+  <!-- <nav>
+    <div class="nav-left">
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="100px"></a>
+      <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
+      <a class="copy" href="/spot-trade">Spot Trades <i class="fa fa-angle-down"></i></a>
+      <a class="history" href="#"> History<i class="fa fa-angle-down"></i></a>
+    </div>
+
+    <div style="display: flex; gap: 20px; align-items: center;">
+      <div class="nav-right">
+        <a href="#" class="deposit">Deposit</a>
+        <i class="fa fa-search"></i>
+        <i class="fa fa-user"></i>
+        <i class="fa fa-bell"></i>
+        <i class="fa fa-question-circle-o"></i>
+      </div>
+
+      <button onclick="menuOpen()" class="menu"><i class="fa fa-bars"></i></button>
+    </div>
+  </nav> -->
+
+  <div class="dt-top">
+
+    <div class="top-left">
+      <div class="link">
+        <a href="/spot-trade">Spot trading <i class="fa fa-angle-right"></i></a>
+        <p class="username"></p>
+      </div>
+
+      <div class="profile">
+        <img src="" alt="User profile" id="user-image">
+        <div>
+          <div>
+            <h2 class="username"></h2>
+          </div>
+
+          <div class="people">
+            <div class="number">
+              <p id="following-num" class="num"></p>
+              <p>Following</p>
+            </div>
+
+            <div class="number">
+              <p id="followers-num" class="num"></p>
+              <p>Followers</p>
+            </div>
+          </div>
+
+          <p id="bio"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-right">
+      <button class="follow">Follow</button>
+      <button class="copy-now">Copy now</button>
+    </div>
+  </div>
+
+  <div class="options">
+    <p class="title tab active" id="tab1">Spot Trades</p>
+  </div>
+
+  <div class="main" id="content1">
+    <div class="perform">
+      <button id="performance" class="clicked">Performance</button>
+      <button id="history1">History</button>
+      <button id="copy1">Copy traders</button>
+    </div>
+
+
+    <div class=" performance">
+
+      <div class="main-left">
+        <div class="performance-left">
+          <div class="tp">
+            <h3>Future Trading performance</h3>
+            <div class="progress">
+              <div class="bar">
+                <div class="green"></div>
+              </div>
+              <div class="days">
+                <p>Days w/ profit <span style="color: #3bb564;">4</span></p>
+                <p>Days w/ loss <span>1</span></p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="p2">
+            <div class="col">
+              <div class="row">
+                <p class="win">Win rate</p>
+                <p class="percent">80.00%</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Profit/Loss ratio</p>
+                <p class="percent">29.95:1</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Average order value</p>
+                <p class="percent">15,150.38</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="performance-left2">
+          <div class="tp">
+            <h3>Lead trader overview</h3>
+          </div>
+
+          <div class="p2">
+
+
+            <div class="col">
+              <div class="row">
+                <p class="win">Days leading trades</p>
+                <p class="percent">90%</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Lead trade assets(USDT)</p>
+                <p class="percent">136,608.46</p>
+              </div>
+
+              <div class="row">
+                <p class="win">AUM</p>
+                <p class="percent">90,118.67</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Current copy trader PnL (USDT)</p>
+                <p class="percent">4.27</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Copy traders</p>
+                <p class="percent">15/300</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Profit-sharing ratio</p>
+                <p class="percent">10%</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="performance-left3">
+          <div class="tp">
+            <h3>Copy traders</h3>
+
+          </div>
+
+          <div class="p2">
+            <div class="col">
+              <div class="row">
+                <p class="win">Cumulative total</p>
+                <p class="percent">81</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Change in last 7 days</p>
+                <p class="percent"><i class="fa fa-arrow-up" style="color: rgb(35, 248, 35)"></i> 4k+145.45%</p>
+              </div>
+
+              <div class="ranks">
+
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <img src="/images/1st.jpg" alt="">
+                    <img src="/images/pf5.jpg" alt="">
+                    <p>DogeDude</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="
+                    green-text">+3.52</p>
+                  </div>
+                </div>
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <img src="/images/2nd.jpg" alt="">
+                    <img src="/images/pf4.jpg" alt="">
+                    <p>XrpMaster</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="
+                    green-text">+1.30</p>
+                  </div>
+                </div>
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <img src="/images/3rd.jpg" alt="">
+                    <img src="/images/pf3.jpg" alt="">
+                    <p>SolKing</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="
+                    green-text">+2.52</p>
+                  </div>
+                </div>
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <div class="dot"></div>
+                    <img src="/images/pf2.jpg" alt="">
+                    <p>AlphaX</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="gray-text">+1.20</p>
+                  </div>
+                </div>
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <div class="dot"></div>
+                    <img src="/images/pf1.jpg" alt="">
+                    <p>Mine13</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="gray-text">+0.95</p>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="performance-right">
+
+        <div class="pr2">
+          <div class="p-right">
+            <p class="weekly">Weekly PnL</p>
+
+            <div class="pnL">
+              <button>PnL%</button>
+              <button>PnL</button>
+            </div>
+          </div>
+
+          <canvas id="weeklyPnL"></canvas>
+        </div>
+
+        <div class="pr3">
+          <div class="p-right">
+            <p class="weekly"> PnL</p>
+
+            <div class="pnL">
+              <button>PnL%</button>
+              <button>PnL</button>
+            </div>
+          </div>
+
+          <canvas id="weeklyPnL2"></canvas>
+        </div>
+
+        <div class="pr4">
+          <div class="p-right">
+            <p class="weekly">Crypto preferences</p>
+          </div>
+
+          <div class="pr4-main">
+            <div class="chart-wrapper">
+              <canvas id="portfolioChart"></canvas>
+            </div>
+
+            <div>
+              <div class="wifi">
+                <div class="bb">
+                  <div class="blue-b"></div>
+                  <p>WI_FI</p>
+                </div>
+
+                <p>80.00%</p>
+              </div>
+              <div>
+                <div class="bnb">
+                  <div class="gg">
+                    <div class="green-b"></div>
+                    <p>BNB</p>
+                  </div>
+
+                  <p>20.00%</p>
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="pr5">
+          <div class="p-right-pr5">
+            <p class="weekly">Holding stats</p>
+            <select>
+              <option>Last 30 days</option>
+              <option>Last 10 days</option>
+              <option>Last 5 days</option>
+            </select>
+          </div>
+
+          <div class="pr5-main">
+            <canvas id="profitLossChart"></canvas>
+          </div>
+
+          <div class="p-l">
+            <div class="profit">
+              <div class="green-ball"></div>
+              <p>Pofit</p>
+            </div>
+
+            <div class="loss">
+              <div class="red-ball"></div>
+              <p>Loss</p>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="main hidden" id="content2">
+    <div class="perform">
+      <button id="SpotPerformance" class="clicked">Performance</button>
+      <button id="history2">History</button>
+      <button id="copy2">Copy traders</button>
+    </div>
+
+
+    <div class="performance">
+
+      <div class="main-left">
+        <div class="performance-left">
+          <div class="tp">
+            <h3>Spot Trading performance</h3>
+            <div class="progress">
+              <div class="bar">
+                <div class="green"></div>
+              </div>
+              <div class="days">
+                <p>Days w/ profit <span style="color: #3bb564;">4</span></p>
+                <p>Days w/ loss <span>1</span></p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="p2">
+            <div class="col">
+              <div class="row">
+                <p class="win">Win rate</p>
+                <p class="percent">80.00%</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Profit/Loss ratio</p>
+                <p class="percent">29.95:1</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Average order value</p>
+                <p class="percent">15,150.38</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="performance-left2">
+          <div class="tp">
+            <h3>Lead trader overview</h3>
+          </div>
+
+          <div class="p2">
+
+
+            <div class="col">
+              <div class="row">
+                <p class="win">Days leading trades</p>
+                <p class="percent">90%</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Lead trade assets(USDT)</p>
+                <p class="percent">136,608.46</p>
+              </div>
+
+              <div class="row">
+                <p class="win">AUM</p>
+                <p class="percent">90,118.67</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Current copy trader PnL (USDT)</p>
+                <p class="percent">4.27</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Copy traders</p>
+                <p class="percent">15/300</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Profit-sharing ratio</p>
+                <p class="percent">10%</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="performance-left3">
+          <div class="tp">
+            <h3>Copy traders</h3>
+
+          </div>
+
+          <div class="p2">
+            <div class="col">
+              <div class="row">
+                <p class="win">Cumulative total</p>
+                <p class="percent">81</p>
+              </div>
+
+              <div class="row">
+                <p class="win">Change in last 7 days</p>
+                <p class="percent"><i class="fa fa-arrow-up" style="color: rgb(35, 248, 35)"></i> 4k+145.45%</p>
+              </div>
+
+              <div class="ranks">
+
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <img src="/images/1st.jpg" alt="">
+                    <img src="/images/pf5.jpg" alt="">
+                    <p>DogeDude</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="
+                    green-text">+3.52</p>
+                  </div>
+                </div>
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <img src="/images/2nd.jpg" alt="">
+                    <img src="/images/pf4.jpg" alt="">
+                    <p>XrpMaster</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="
+                    green-text">+1.30</p>
+                  </div>
+                </div>
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <img src="/images/3rd.jpg" alt="">
+                    <img src="/images/pf3.jpg" alt="">
+                    <p>SolKing</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="
+                    green-text">+2.52</p>
+                  </div>
+                </div>
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <div class="dot"></div>
+                    <img src="/images/pf2.jpg" alt="">
+                    <p>AlphaX</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="gray-text">+1.20</p>
+                  </div>
+                </div>
+                <div class="rank-row">
+                  <div class="rank-left">
+                    <div class="dot"></div>
+                    <img src="/images/pf1.jpg" alt="">
+                    <p>Mine13</p>
+                  </div>
+                  <div class="rank-right">
+                    <p class="gray-text">+0.95</p>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="performance-right">
+
+        <div class="pr2">
+          <div class="p-right">
+            <p class="weekly">Weekly PnL</p>
+
+            <div class="pnL">
+              <button>PnL%</button>
+              <button>PnL</button>
+            </div>
+          </div>
+
+          <canvas id="weeklyPnL3"></canvas>
+        </div>
+
+        <div class="pr3">
+          <div class="p-right">
+            <p class="weekly"> PnL</p>
+
+            <div class="pnL">
+              <button>PnL%</button>
+              <button>PnL</button>
+            </div>
+          </div>
+
+          <canvas id="weeklyPnL4"></canvas>
+        </div>
+
+        <div class="pr4">
+          <div class="p-right">
+            <p class="weekly">Crypto preferences</p>
+          </div>
+
+          <div class="pr4-main">
+            <div class="chart-wrapper">
+              <canvas id="portfolioChart2"></canvas>
+            </div>
+
+            <div>
+              <div class="wifi">
+                <div class="bb">
+                  <div class="blue-b"></div>
+                  <p>WI_FI</p>
+                </div>
+
+                <p>80.00%</p>
+              </div>
+              <div>
+                <div class="bnb">
+                  <div class="gg">
+                    <div class="green-b"></div>
+                    <p>BNB</p>
+                  </div>
+
+                  <p>20.00%</p>
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="pr5">
+          <div class="p-right-pr5">
+            <p class="weekly">Holding stats</p>
+            <select>
+              <option>Last 30 days</option>
+              <option>Last 10 days</option>
+              <option>Last 5 days</option>
+            </select>
+          </div>
+
+          <div class="pr5-main">
+            <canvas id="profitLossChart2"></canvas>
+          </div>
+
+          <div class="p-l">
+            <div class="profit">
+              <div class="green-ball"></div>
+              <p>Pofit</p>
+            </div>
+
+            <div class="loss">
+              <div class="red-ball"></div>
+              <p>Loss</p>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOR WHEN YOU CLICK ON HISTORY -->
+
+  <div class="main hidden" id="content3">
+    <div class="perform">
+      <!-- <button id="HistoryPerformance" class="clicked">Performance</button> -->
+      <button id="history3">History</button>
+      <!-- <button id="HistoryCopy">Copy traders</button> -->
+    </div>
+
+
+
+    <div class="history-row">
+      <div class="title">
+        <img src="/images/btc.png" alt="">
+        <p>BTC/USDT</p>
+      </div>
+      <div class="history-row-bottom">
+        <div class="bs">
+          <div class="bought">
+            <p class="gray">Bought</p>
+            <p>11/01/2025, 09:12:45</p>
+          </div>
+          <div class="sold">
+            <p class="gray">Sold</p>
+            <p>11/02/2025, 14:33:12</p>
+          </div>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Buy price</span> 68,200 USDT</p>
+          <p><span class="gray">Sell price</span> 69,500 USDT</p>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Realized PnL</span> <span class="green-text2">+1,300 USDT</span></p>
+          <p><span class="gray">Realized PnL</span> <span class="green-text2">+1.91%</span></p>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Amount</span> 0.95 BTC</p>
+          <p><span class="gray">Buy value</span> 64,790 USDT</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-row">
+      <div class="title">
+        <img src="/images/eth.png" alt="">
+        <p>ETH/USDT</p>
+      </div>
+      <div class="history-row-bottom">
+        <div class="bs">
+          <div class="bought">
+            <p class="gray">Bought</p>
+            <p>11/02/2025, 16:05:20</p>
+          </div>
+          <div class="sold">
+            <p class="gray">Sold</p>
+            <p>11/03/2025, 08:47:55</p>
+          </div>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Buy price</span> 4,320 USDT</p>
+          <p><span class="gray">Sell price</span> 4,500 USDT</p>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Realized PnL</span> <span class="green-text2">+180 USDT</span></p>
+          <p><span class="gray">Realized PnL</span> <span class="green-text2">+4.17%</span></p>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Amount</span> 10.5 ETH</p>
+          <p><span class="gray">Buy value</span> 45,360 USDT</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-row">
+      <div class="title">
+        <img src="/images/xrp.png" alt="">
+        <p>BNB/USDT</p>
+      </div>
+      <div class="history-row-bottom">
+        <div class="bs">
+          <div class="bought">
+            <p class="gray">Bought</p>
+            <p>11/03/2025, 11:30:00</p>
+          </div>
+          <div class="sold">
+            <p class="gray">Sold</p>
+            <p>11/04/2025, 19:20:30</p>
+          </div>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Buy price</span> 890 USDT</p>
+          <p><span class="gray">Sell price</span> 950 USDT</p>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Realized PnL</span> <span class="green-text2">+4,200 USDT</span></p>
+          <p><span class="gray">Realized PnL</span> <span class="green-text2">+4.72%</span></p>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Amount</span> 75 BNB</p>
+          <p><span class="gray">Buy value</span> 66,750 USDT</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-row">
+      <div class="title">
+        <img src="/images/usdt.png" alt="">
+        <p>ADA/USDT</p>
+      </div>
+      <div class="history-row-bottom">
+        <div class="bs">
+          <div class="bought">
+            <p class="gray">Bought</p>
+            <p>11/04/2025, 09:00:10</p>
+          </div>
+          <div class="sold">
+            <p class="gray">Sold</p>
+            <p>11/04/2025, 23:45:55</p>
+          </div>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Buy price</span> 1.20 USDT</p>
+          <p><span class="gray">Sell price</span> 1.35 USDT</p>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Realized PnL</span> <span class="green-text2">+1,500 USDT</span></p>
+          <p><span class="gray">Realized PnL</span> <span class="green-text2">+12.5%</span></p>
+        </div>
+        <div class="bs">
+          <p><span class="gray">Amount</span> 1,200 ADA</p>
+          <p><span class="gray">Buy value</span> 1,440 USDT</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <!-- FOR WHEN YOU CLICK ON COPY -->
+
+  <div class="main hidden" id="content4">
+    <div class="perform">
+      <!-- <button id="CopyPerformance" class="clicked">Performance</button> -->
+      <!-- <button id="history4">History</button> -->
+      <button id="copy3">Copy traders</button>
+    </div>
+
+    <p class="updated">Last updated: 12/01/2025, 16.59</p>
+
+    <div class="rank-main">
+
+      <div class="rm-row">
+
+        <div class="rm-left">
+          <p class="gray">Ranking</p>
+        </div>
+
+        <div class="rm-right">
+          <div class="rr gray">Time copied</div>
+          <div class="rr gray">Amount invested (USDT)</div>
+          <div class="rr gray">Copy trader PnL (USDT)</div>
+        </div>
+
+      </div>
+
+      <div class="rm-row">
+
+        <div class="rm-left">
+          <img src="/images/1st.jpg" alt="" class="rank">
+          <img src="/images/pf6.jpg" alt="" class="user-image">
+          <p>Mine13</p>
+        </div>
+
+        <div class="rm-right">
+          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
+          <div class="rr">137.72</div>
+          <div class="rr green-text2">+3.52</div>
+        </div>
+
+      </div>
+
+      <div class="rm-row">
+
+        <div class="rm-left">
+          <img src="/images/2nd.jpg" alt="" class="rank">
+          <img src="/images/pf5.jpg" alt="" class="user-image">
+          <p>man***@gmail.com</p>
+        </div>
+
+        <div class="rm-right">
+          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
+          <div class="rr">137.72</div>
+          <div class="rr green-text2">+3.52</div>
+        </div>
+
+      </div>
+
+      <div class="rm-row">
+
+        <div class="rm-left">
+          <img src="/images/3rd.jpg" alt="" class="rank">
+          <img src="/images/pf2.jpg" alt="" class="user-image">
+          <p>110***@qq.com</p>
+        </div>
+
+        <div class="rm-right">
+          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
+          <div class="rr">137.72</div>
+          <div class="rr green-text2">+3.52</div>
+        </div>
+
+      </div>
+
+      <div class="rm-row">
+
+        <div class="rm-left">
+          <div class="gray-circle"></div>
+          <img src="/images/pf3.jpg" alt="" class="user-image">
+          <p>186***@163.com</p>
+        </div>
+
+        <div class="rm-right">
+          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
+          <div class="rr">137.72</div>
+          <div class="rr green-text2">+3.52</div>
+        </div>
+
+      </div>
+
+      <div class="rm-row">
+
+        <div class="rm-left">
+          <div class="gray-circle"></div>
+          <img src="/images/pf4.jpg" alt="" class="user-image">
+          <p>shi***@gmail.com</p>
+        </div>
+
+        <div class="rm-right">
+          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
+          <div class="rr">137.72</div>
+          <div class="rr green-text2">+3.52</div>
+        </div>
+
+      </div>
+
+      <div class="rm-row">
+
+        <div class="rm-left">
+          <div class="gray-circle"></div>
+          <img src="/images/pf1.jpg" alt="" class="user-image">
+          <p>shi***@gmail.com</p>
+        </div>
+
+        <div class="rm-right">
+          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
+          <div class="rr">137.72</div>
+          <div class="rr green-text2">+3.52</div>
+        </div>
+
+      </div>
+
+      <div class="rm-row">
+
+        <div class="rm-left">
+          <div class="gray-circle"></div>
+          <img src="/images/dash-user.png" alt="" class="user-image">
+          <p>shi***@gmail.com</p>
+        </div>
+
+        <div class="rm-right">
+          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
+          <div class="rr">137.72</div>
+          <div class="rr green-text2">+3.52</div>
+        </div>
+
+      </div>
+
+
+
+    </div>
+
+
+
+  </div>
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="foot-left">
+      <img src="/images/logo.png" alt="" class="foot-image">
+    </div>
+
+    <div class="foot-right">
+
+      <p>Community</p>
+
+      <div class="socials">
+        <a href="#">
+          <i class="fa fa-twitter"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-instagram"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-telegram"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-facebook"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-linkedin"></i>
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="/js/spot-details.js"></script>
+
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FUTURE TRADES</title>
+  <link rel="stylesheet" href="/css/spot-trade.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+</head>
+
+<body>
+
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
+      <h2>Deposit</h2>
+
+
+      <div class="amount-preview" id="preview">$0.00</div>
+
+
+      <div class="input-group">
+        <input type="number" id="amount" placeholder="Amount" />
+        <select>
+          <option>USD</option>
+          <option>NGN</option>
+        </select>
+      </div>
+
+
+      <div class="input-group pay-method">
+        <select id="method">
+          <option value="">Select payment method</option>
+          <option value="card" selected>Card</option>
+          <option value="bank">Bank Transfer</option>
+          <option value="crypto">Crypto</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <input type="text" class="" id="paymentInput" placeholder="Enter card details" />
+        <button id="copyBtn" class="details-copy">Copy</button>
+      </div>
+
+      <button class="deposit-btn">Deposit</button>
+    </div>
+  </div>
+
+
+  <div class="menu-overlay" id="menuOverlay">
+    <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
+    <a href="/">HOME</a>
+    <a href="/spot-trade">SPOT TRADE</a>
+    <a href="/future">FUTURE TRADE</a>
+  </div>
+
+
+  <!-- NAVIGATION -->
+
+  <nav>
+    <div class="nav-left">
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="100px"></a>
+      <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
+      <a class="copy" href="/spot-trade">Spot Trades <i class="fa fa-angle-down"></i></a>
+    </div>
+
+    <div style="display: flex; gap: 20px; align-items: center;">
+      <div class="nav-right">
+        <a href="#" class="deposit open-modal">Deposit</a>
+        <i class="fa fa-user"></i>
+        <i class="fa fa-bell"></i>
+        <i class="fa fa-question-circle-o"></i>
+      </div>
+
+      <button onclick="menuOpen()" class="menu"><i class="fa fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+
+  <div class="future-main">
+
+    <h2 class="market">Spot Trade MarketPlace</h2>
+
+    <p class="est">Est total assets<span>0.00</span></p>
+
+    <div class="options">
+      <a href="#" class="my">My trades</a>
+      <a href="#" class="profile">Profile</a>
+    </div>
+
+    <!-- PICKS -->
+
+    <div class="main2">
+
+      <div class="top-links">
+        <a class="m-link" href="#">Smart picks</a>
+        <!-- <a class="m-link" href="#">Future copy trading</a>
+        <a class="m-link" href="#">Spot copy trading</a>
+        <a class="m-link" href="#">Bots</a> -->
+      </div>
+      <div class="search-traders">
+        <i class="fa fa-search"></i>
+        <input type="text" placeholder="Search traders">
+      </div>
+
+      <div class="buttons">
+        <button>Overview</button>
+        <button>PnL%</button>
+        <button>PnL</button>
+        <button>Win rate</button>
+        <!-- <button>AUM</button>
+        <button>No. of copy traders</button>
+        <button>Copy trader PnL</button> -->
+      </div>
+
+      <div class="charts" id="chartsContainer"></div>
+
+      <div class="charts" id="charts">
+
+        <div class="ch-row">
+
+          <div class="ch-main-left">
+            <div class="top-left">
+              <img src="/images/pf1.jpg" alt="Profile image">
+              <div class="top-text">
+                <p class="name">Mine13</p>
+                <p class="long">+1.40x</p>
+              </div>
+            </div>
+            <div>
+              <p class="lead">Lead trader 90D PnL</p>
+              <h2 class="green">+95.62%</h2>
+              <p class="amount">+$96,721.15</p>
+            </div>
+
+            <div class="details">
+              <p class="gray">Copy</p>
+              <p class="gray">AUM</p>
+              <p class="gray">Days leading trades</p>
+            </div>
+          </div>
+
+          <div class="ch-main-right">
+            <a href="/spot-details?id=1">
+              <button class="copy-btn">Copy</button>
+            </a>
+
+            <canvas class="sparkline" id="chart-btc"></canvas>
+
+            <div class="nums">
+              <p>96 / <span>301</span></p>
+              <p>$167,388.82</p>
+              <p>46</p>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="ch-row">
+
+          <div class="ch-main-left">
+            <div class="top-left">
+              <img src="/images/pf2.jpg" alt="Profile image">
+              <div class="top-text">
+                <p class="name">AlphaX</p>
+                <p class="long">+1.40x</p>
+              </div>
+            </div>
+            <div>
+              <p class="lead">Lead trader 90D PnL</p>
+              <h2 class="red">-95.62%</h2>
+              <p class="amount">+$96,721.15</p>
+            </div>
+
+            <div class="details">
+              <p class="gray">Copy</p>
+              <p class="gray">AUM</p>
+              <p class="gray">Days leading trades</p>
+            </div>
+          </div>
+
+          <div class="ch-main-right">
+            <a href="/spot-details?id=2">
+              <button class="copy-btn">Copy</button>
+            </a>
+            <canvas class="sparkline" id="chart-eth"></canvas>
+            <div class="nums">
+              <p>96 / <span>301</span></p>
+              <p>$167,388.82</p>
+              <p>46</p>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="ch-row">
+
+          <div class="ch-main-left">
+            <div class="top-left">
+              <img src="/images/pf3.jpg" alt="Profile image">
+              <div class="top-text">
+                <p class="name">SolKing</p>
+                <p class="long">+1.40x</p>
+              </div>
+            </div>
+            <div>
+              <p class="lead">Lead trader 90D PnL</p>
+              <h2 class="red">-95.62%</h2>
+              <p class="amount">+$96,721.15</p>
+            </div>
+
+            <div class="details">
+              <p class="gray">Copy</p>
+              <p class="gray">AUM</p>
+              <p class="gray">Days leading trades</p>
+            </div>
+          </div>
+
+          <div class="ch-main-right">
+            <a href="/spot-details?id=3">
+              <button class="copy-btn">Copy</button>
+            </a> <canvas class="sparkline" id="chart-eth3"></canvas>
+            <div class="nums">
+              <p>96 / <span>301</span></p>
+              <p>$167,388.82</p>
+              <p>46</p>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="ch-row">
+
+          <div class="ch-main-left">
+            <div class="top-left">
+              <img src="/images/pf4.jpg" alt="Profile image">
+              <div class="top-text">
+                <p class="name">XrpMaster</p>
+                <p class="long">+1.40x</p>
+              </div>
+            </div>
+            <div>
+              <p class="lead">Lead trader 90D PnL</p>
+              <h2 class="green">+95.62%</h2>
+              <p class="amount">+$96,721.15</p>
+            </div>
+
+            <div class="details">
+              <p class="gray">Copy</p>
+              <p class="gray">AUM</p>
+              <p class="gray">Days leading trades</p>
+            </div>
+          </div>
+
+          <div class="ch-main-right">
+            <a href="/spot-details?id=4">
+              <button class="copy-btn">Copy</button>
+            </a> <canvas class="sparkline" id="chart-xrp"></canvas>
+            <div class="nums">
+              <p>96 / <span>301</span></p>
+              <p>$167,388.82</p>
+              <p>46</p>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="ch-row">
+
+          <div class="ch-main-left">
+            <div class="top-left">
+              <img src="/images/pf5.jpg" alt="Profile image">
+              <div class="top-text">
+                <p class="name">DogeDude</p>
+                <p class="long">+1.40x</p>
+              </div>
+            </div>
+            <div>
+              <p class="lead">Lead trader 90D PnL</p>
+              <h2 class="red">-95.62%</h2>
+              <p class="amount">+$96,721.15</p>
+            </div>
+
+            <div class="details">
+              <p class="gray">Copy</p>
+              <p class="gray">AUM</p>
+              <p class="gray">Days leading trades</p>
+            </div>
+          </div>
+
+          <div class="ch-main-right">
+            <a href="/spot-details?id=5">
+              <button class="copy-btn">Copy</button>
+            </a> <canvas class="sparkline" id="chart-eth2"></canvas>
+            <div class="nums">
+              <p>96 / <span>301</span></p>
+              <p>$167,388.82</p>
+              <p>46</p>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="ch-row">
+
+          <div class="ch-main-left">
+            <div class="top-left">
+              <img src="/images/pf6.jpg" alt="Profile image">
+              <div class="top-text">
+                <p class="name">StablePro</p>
+                <p class="long">+1.40x</p>
+              </div>
+            </div>
+            <div>
+              <p class="lead">Lead trader 90D PnL</p>
+              <h2 class="green">+95.62%</h2>
+              <p class="amount">+$96,721.15</p>
+            </div>
+
+            <div class="details">
+              <p class="gray">Copy</p>
+              <p class="gray">AUM</p>
+              <p class="gray">Days leading trades</p>
+            </div>
+          </div>
+
+          <div class="ch-main-right">
+            <a href="/spot-details?id=6">
+              <button class="copy-btn">Copy</button>
+            </a> <canvas class="sparkline" id="chart-btc3"></canvas>
+            <div class="nums">
+              <p>96 / <span>301</span></p>
+              <p>$167,388.82</p>
+              <p>46</p>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  </div>
+
+  </div>
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="foot-left">
+      <img src="/images/logo.png" alt="" class="foot-image">
+    </div>
+
+    <div class="foot-right">
+
+      <p>Community</p>
+
+      <div class="socials">
+        <a href="#">
+          <i class="fa fa-twitter"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-instagram"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-telegram"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-facebook"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-linkedin"></i>
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/spot-trade.js"></script>
+
+
+</html>
