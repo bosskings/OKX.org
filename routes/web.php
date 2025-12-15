@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticationController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
     Route::get('/', function(){ return view('index');})->name('home');
@@ -15,7 +16,11 @@ use Illuminate\Support\Facades\Route;
 
     Route::middleware(['auth'])->group(function () {
     
-        Route::get('/dashboard', function(){return view('dashboard');})->name('dashboard');
+        Route::get('/dashboard', 
+            function(){
+                return view('dashboard', ['user'=>Auth::user()] );
+            }
+        )->name('dashboard');
     
         Route::get('/spot-trade', function(){return view('spot-trade');})->name('spot.trade');
     

@@ -24,7 +24,7 @@ class AuthenticationController extends Controller
 
             $user = User::create([
                 // You may want to save country if your users table has country column
-                // 'country' => $validatedData['country'],
+                'country' => $validatedData['country'],
                 'email'    => $validatedData['email'],
                 'phone'    => $validatedData['phone'],
                 'password' => bcrypt($validatedData['password']),

@@ -78,32 +78,32 @@
           <!-- Add select feature with different countries as options -->
           <select name="country" required>
             <option value="" disabled {{ old('country') ? '' : 'selected' }}>Select your country/region</option>
-            <option value="us" {{ old('country') == 'us' ? 'selected' : '' }}>United States</option>
-            <option value="ca" {{ old('country') == 'ca' ? 'selected' : '' }}>Canada</option>
-            <option value="uk" {{ old('country') == 'uk' ? 'selected' : '' }}>United Kingdom</option>
-            <option value="au" {{ old('country') == 'au' ? 'selected' : '' }}>Australia</option>
-            <option value="in" {{ old('country') == 'in' ? 'selected' : '' }}>India</option>
-            <option value="de" {{ old('country') == 'de' ? 'selected' : '' }}>Germany</option>
-            <option value="fr" {{ old('country') == 'fr' ? 'selected' : '' }}>France</option>
-            <option value="it" {{ old('country') == 'it' ? 'selected' : '' }}>Italy</option>
-            <option value="es" {{ old('country') == 'es' ? 'selected' : '' }}>Spain</option>
-            <option value="ng" {{ old('country') == 'ng' ? 'selected' : '' }}>Nigeria</option>
-            <option value="be" {{ old('country') == 'be' ? 'selected' : '' }}>Belgium</option>
-            <option value="ch" {{ old('country') == 'ch' ? 'selected' : '' }}>Switzerland</option>
-            <option value="se" {{ old('country') == 'se' ? 'selected' : '' }}>Sweden</option>
-            <option value="no" {{ old('country') == 'no' ? 'selected' : '' }}>Norway</option>
-            <option value="dk" {{ old('country') == 'dk' ? 'selected' : '' }}>Denmark</option>
-            <option value="fi" {{ old('country') == 'fi' ? 'selected' : '' }}>Finland</option>
-            <option value="jp" {{ old('country') == 'jp' ? 'selected' : '' }}>Japan</option>
-            <option value="kr" {{ old('country') == 'kr' ? 'selected' : '' }}>South Korea</option>
-            <option value="cn" {{ old('country') == 'cn' ? 'selected' : '' }}>China</option>
-            <option value="br" {{ old('country') == 'br' ? 'selected' : '' }}>Brazil</option>
-            <option value="mx" {{ old('country') == 'mx' ? 'selected' : '' }}>Mexico</option>
-            <option value="za" {{ old('country') == 'za' ? 'selected' : '' }}>South Africa</option>
-            <option value="sg" {{ old('country') == 'sg' ? 'selected' : '' }}>Singapore</option>
-            <option value="hk" {{ old('country') == 'hk' ? 'selected' : '' }}>Hong Kong</option>
-            <option value="nz" {{ old('country') == 'nz' ? 'selected' : '' }}>New Zealand</option>
-            <option value="th" {{ old('country') == 'th' ? 'selected' : '' }}>Thailand</option>
+            <option value="United States" {{ old('country') == 'United States' ? 'selected' : '' }}>United States</option>
+            <option value="Canada" {{ old('country') == 'Canada' ? 'selected' : '' }}>Canada</option>
+            <option value="United Kingdom" {{ old('country') == 'United Kingdom' ? 'selected' : '' }}>United Kingdom</option>
+            <option value="Australia" {{ old('country') == 'Australia' ? 'selected' : '' }}>Australia</option>
+            <option value="India" {{ old('country') == 'India' ? 'selected' : '' }}>India</option>
+            <option value="Germany" {{ old('country') == 'Germany' ? 'selected' : '' }}>Germany</option>
+            <option value="France" {{ old('country') == 'France' ? 'selected' : '' }}>France</option>
+            <option value="Italy" {{ old('country') == 'Italy' ? 'selected' : '' }}>Italy</option>
+            <option value="Spain" {{ old('country') == 'Spain' ? 'selected' : '' }}>Spain</option>
+            <option value="Nigeria" {{ old('country') == 'Nigeria' ? 'selected' : '' }}>Nigeria</option>
+            <option value="Belgium" {{ old('country') == 'Belgium' ? 'selected' : '' }}>Belgium</option>
+            <option value="Switzerland" {{ old('country') == 'Switzerland' ? 'selected' : '' }}>Switzerland</option>
+            <option value="Sweden" {{ old('country') == 'Sweden' ? 'selected' : '' }}>Sweden</option>
+            <option value="Norway" {{ old('country') == 'Norway' ? 'selected' : '' }}>Norway</option>
+            <option value="Denmark" {{ old('country') == 'Denmark' ? 'selected' : '' }}>Denmark</option>
+            <option value="Finland" {{ old('country') == 'Finland' ? 'selected' : '' }}>Finland</option>
+            <option value="Japan" {{ old('country') == 'Japan' ? 'selected' : '' }}>Japan</option>
+            <option value="South Korea" {{ old('country') == 'South Korea' ? 'selected' : '' }}>South Korea</option>
+            <option value="China" {{ old('country') == 'China' ? 'selected' : '' }}>China</option>
+            <option value="Brazil" {{ old('country') == 'Brazil' ? 'selected' : '' }}>Brazil</option>
+            <option value="Mexico" {{ old('country') == 'Mexico' ? 'selected' : '' }}>Mexico</option>
+            <option value="South Africa" {{ old('country') == 'South Africa' ? 'selected' : '' }}>South Africa</option>
+            <option value="Singapore" {{ old('country') == 'Singapore' ? 'selected' : '' }}>Singapore</option>
+            <option value="Hong Kong" {{ old('country') == 'Hong Kong' ? 'selected' : '' }}>Hong Kong</option>
+            <option value="New Zealand" {{ old('country') == 'New Zealand' ? 'selected' : '' }}>New Zealand</option>
+            <option value="Thailand" {{ old('country') == 'Thailand' ? 'selected' : '' }}>Thailand</option>
           </select>
 
           <input type="email" name="email" placeholder="Email" required value="{{ old('email') }}">

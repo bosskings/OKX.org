@@ -131,7 +131,7 @@
           <img src="{{ asset('images/dash-user.png') }}" alt="User image" data-aos="zoom-out">
         </div>
         <div class="user-main-text">
-          <p class="text-mail">shi***@gmail.com</p>
+          <p class="text-mail">{{ $user->email }}</p>
           <p class="gray">780856055025927551</p>
         </div>
       </div>
@@ -139,7 +139,7 @@
       <div class="user-email user-r">
 
         <p class="gray">Email</p>
-        <p class="main-e">shi***@gmail.com</p>
+        <p class="main-e">{{ $user->email }}</p>
 
       </div>
 
@@ -150,7 +150,7 @@
 
       <div class="user-country user-r">
         <p class="gray">Country/Region <i class=" fa fa-angle-right"></i></p>
-        <p class="country-text">United States</p>
+        <p class="country-text">{{ $user->country ?? 'N/A' }}</p>
       </div>
 
       <div class="user-trading user-r">
@@ -165,7 +165,7 @@
 
         <div class="balance">
           <p class="estimated">Estimated total value <i id="toggleEye" class="fa fa-eye"></i></p>
-          <h2 class="money" id="money">50,000 <span class="currency">USD</span></h2>
+          <h2 class="money" id="money">{{ number_format($user->available_balance ?? $user->balance ?? 0, 2) }} <span class="currency">USD</span></h2>
           <p class="today"><span>Today's PnL </span> $10.00(3.22%)</p>
         </div>
 
