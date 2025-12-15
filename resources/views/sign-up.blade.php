@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Register</title>
   <link rel="stylesheet" href="/css/sign-up.css">
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,38 +65,59 @@
         <div class="options">
           <p class="country">Country/region</p>
         </div>
+        
+        <form action="{{ route('register') }}" method="POST">
+          @csrf
 
-        <!-- Add select feauture with different countries as options -->
-        <select>
-          <option value="us">United States</option>
-          <option value="ca">Canada</option>
-          <option value="uk">United Kingdom</option>
-          <option value="au">Australia</option>
-          <option value="in">India</option>
-          <option value="de">Germany</option>
-          <option value="fr">France</option>
-          <option value="it">Italy</option>
-          <option value="es">Spain</option>
-          <option value="nl">Nigeria</option>
-          <option value="be">Belgium</option>
-          <option value="ch">Switzerland</option>
-          <option value="se">Sweden</option>
-          <option value="no">Norway</option>
-          <option value="dk">Denmark</option>
-          <option value="fi">Finland</option>
-          <option value="jp">Japan</option>
-          <option value="kr">South Korea</option>
-          <option value="cn">China</option>
-          <option value="br">Brazil</option>
-          <option value="mx">Mexico</option>
-          <option value="za">South Africa</option>
-          <option value="sg">Singapore</option>
-          <option value="hk">Hong Kong</option>
-          <option value="nz">New Zealand</option>
-          <option value="th">Thailand</option>
-        </select>
+          @if(session('error'))
+            <div id="error-message" style="background: #ffdddd; color: #c00; border: 1px solid #c00; padding: 10px; margin-bottom: 15px; border-radius: 5px; text-align: center;">
+                {{ session('error') }}
+            </div>
+          @endif
 
-        <button class="create" onclick="createAccount()">Create account</button>
+          <!-- Add select feature with different countries as options -->
+          <select name="country" required>
+            <option value="" disabled {{ old('country') ? '' : 'selected' }}>Select your country/region</option>
+            <option value="us" {{ old('country') == 'us' ? 'selected' : '' }}>United States</option>
+            <option value="ca" {{ old('country') == 'ca' ? 'selected' : '' }}>Canada</option>
+            <option value="uk" {{ old('country') == 'uk' ? 'selected' : '' }}>United Kingdom</option>
+            <option value="au" {{ old('country') == 'au' ? 'selected' : '' }}>Australia</option>
+            <option value="in" {{ old('country') == 'in' ? 'selected' : '' }}>India</option>
+            <option value="de" {{ old('country') == 'de' ? 'selected' : '' }}>Germany</option>
+            <option value="fr" {{ old('country') == 'fr' ? 'selected' : '' }}>France</option>
+            <option value="it" {{ old('country') == 'it' ? 'selected' : '' }}>Italy</option>
+            <option value="es" {{ old('country') == 'es' ? 'selected' : '' }}>Spain</option>
+            <option value="ng" {{ old('country') == 'ng' ? 'selected' : '' }}>Nigeria</option>
+            <option value="be" {{ old('country') == 'be' ? 'selected' : '' }}>Belgium</option>
+            <option value="ch" {{ old('country') == 'ch' ? 'selected' : '' }}>Switzerland</option>
+            <option value="se" {{ old('country') == 'se' ? 'selected' : '' }}>Sweden</option>
+            <option value="no" {{ old('country') == 'no' ? 'selected' : '' }}>Norway</option>
+            <option value="dk" {{ old('country') == 'dk' ? 'selected' : '' }}>Denmark</option>
+            <option value="fi" {{ old('country') == 'fi' ? 'selected' : '' }}>Finland</option>
+            <option value="jp" {{ old('country') == 'jp' ? 'selected' : '' }}>Japan</option>
+            <option value="kr" {{ old('country') == 'kr' ? 'selected' : '' }}>South Korea</option>
+            <option value="cn" {{ old('country') == 'cn' ? 'selected' : '' }}>China</option>
+            <option value="br" {{ old('country') == 'br' ? 'selected' : '' }}>Brazil</option>
+            <option value="mx" {{ old('country') == 'mx' ? 'selected' : '' }}>Mexico</option>
+            <option value="za" {{ old('country') == 'za' ? 'selected' : '' }}>South Africa</option>
+            <option value="sg" {{ old('country') == 'sg' ? 'selected' : '' }}>Singapore</option>
+            <option value="hk" {{ old('country') == 'hk' ? 'selected' : '' }}>Hong Kong</option>
+            <option value="nz" {{ old('country') == 'nz' ? 'selected' : '' }}>New Zealand</option>
+            <option value="th" {{ old('country') == 'th' ? 'selected' : '' }}>Thailand</option>
+          </select>
+
+          <input type="email" name="email" placeholder="Email" required value="{{ old('email') }}">
+          <input type="text" name="phone" placeholder="Phone" required value="{{ old('phone') }}">
+
+          <div class="password-field" style="position:relative;">
+            <input type="password" name="password" placeholder="Password" required id="password-input">
+            <span class="toggle-password" onclick="togglePassword()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;">
+              <i class="fa fa-eye" id="togglePasswordIcon"></i>
+            </span>
+          </div>
+          
+          <button class="create">Create account</button>
+        </form>
 
         <p class=" h-have">Have an account? <a href="/login">Log in</a></p>
 

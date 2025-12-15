@@ -64,3 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
   nextBtn.addEventListener('click', next);
 
 });
+
+
+// for signup success message
+setTimeout(function() {
+  var el = document.getElementById('message');
+  if (el) el.style.display = 'none';
+}, 5000);

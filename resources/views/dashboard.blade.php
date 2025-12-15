@@ -1,17 +1,390 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+</head>
+
+<body>
+
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
+      <h2>Deposit</h2>
+
+
+      <div class="amount-preview" id="preview">$0.00</div>
+
+
+      <div class="input-group">
+        <input type="number" id="amount" placeholder="Amount" />
+        <select>
+          <option>USD</option>
+          <option>NGN</option>
+        </select>
+      </div>
+
+
+      <div class="input-group pay-method">
+        <select id="method">
+          <option value="">Select payment method</option>
+          <option value="card" selected>Card</option>
+          <option value="bank">Bank Transfer</option>
+          <option value="crypto">Crypto</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <input type="text" class="" id="paymentInput" placeholder="Enter card details" />
+        <button id="copyBtn" class="details-copy">Copy</button>
+      </div>
+
+      <button class="deposit-btn">Deposit</button>
     </div>
-</x-app-layout>
+  </div>
+
+  <div class="overlay2" id="overlay2">
+    <div class="modal">
+      <div class="close" onclick="toggleModal2()"><i class="fa fa-close"></i></div>
+      <h2>Withdraw Funds</h2>
+
+      <div class="amount-preview" id="preview2">$0.00</div>
+
+      <div class="input-group">
+        <input type="number" id="withdraw_amount" placeholder="Amount" />
+        <select>
+          <option>USD</option>
+          <option>NGN</option>
+        </select>
+      </div>
+
+      <div class="input-group pay-method">
+        <select id="method">
+          <option value="">Select withdrawal method</option>
+          <option value="card" selected>Card</option>
+          <option value="bank">Bank Transfer</option>
+          <option value="crypto">Crypto</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <input type="text" class="" id="paymentInput2" placeholder="Enter card details" />
+        <button id="copyBtn2" class="details-copy">Copy</button>
+      </div>
+
+      <button class="deposit-btn">Deposit</button>
+    </div>
+  </div>
+
+  <div class="menu-overlay" id="menuOverlay">
+    <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
+    <a href="{{ route('home') }}">HOME</a>
+    <a href="{{ route('spot.trade') }}">SPOT TRADE</a>
+    <a href="{{ route('future.trade') }}">FUTURE TRADE</a>
+  </div>
+
+  <!-- NAVIGATION -->
+
+  <nav>
+    <div class="nav-left">
+      <a href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}" alt="Logo" width="100px"></a>
+      <a class="abt" href="{{ route('future.trade') }}">Future Trades <i class="fa fa-angle-down"></i></a>
+      <a class="copy" href="{{ route('spot.trade') }}">Spot Trades <i class="fa fa-angle-down"></i></a>
+    </div>
+
+    <div style="display: flex; gap: 20px; align-items: center;">
+      <div class="nav-right">
+        <i class="fa fa-search"></i>
+        <i class="fa fa-user"></i>
+        <i class="fa fa-bell"></i>
+        <i class="fa fa-question-circle-o"></i>
+      </div>
+
+      <div class="balance-options">
+        <button class="open-modal" onclick="toggleModal2()">Withdraw</button>
+        <button class="deposit open-modal" onclick="toggleModal()">Deposit</button>
+      </div>
+
+      <button onclick="menuOpen()" class="menu"><i class="fa fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <!-- MAIN DASHBOARD -->
+
+  <div class="dash-main">
+
+    <p class="overview">Overview</p>
+
+    <div class="user-details">
+
+      <div class="user-main user">
+        <div class="user-main-left">
+          <img src="{{ asset('images/dash-user.png') }}" alt="User image" data-aos="zoom-out">
+        </div>
+        <div class="user-main-text">
+          <p class="text-mail">shi***@gmail.com</p>
+          <p class="gray">780856055025927551</p>
+        </div>
+      </div>
+
+      <div class="user-email user-r">
+
+        <p class="gray">Email</p>
+        <p class="main-e">shi***@gmail.com</p>
+
+      </div>
+
+      <div class="user-verification user-r">
+        <p class="gray">Identity verification <i class="fa fa-angle-right"></i></p>
+        <a href="#">Verify now</a>
+      </div>
+
+      <div class="user-country user-r">
+        <p class="gray">Country/Region <i class=" fa fa-angle-right"></i></p>
+        <p class="country-text">United States</p>
+      </div>
+
+      <div class="user-trading user-r">
+        <p class="gray">Trading fee tier <i class="fa fa-angle-right"></i></p>
+        <a href="#" class="regular">Regular user</a>
+      </div>
+
+    </div>
+
+    <div class="dash-bottom">
+      <div class="dash-left">
+
+        <div class="balance">
+          <p class="estimated">Estimated total value <i id="toggleEye" class="fa fa-eye"></i></p>
+          <h2 class="money" id="money">50,000 <span class="currency">USD</span></h2>
+          <p class="today"><span>Today's PnL </span> $10.00(3.22%)</p>
+        </div>
+
+        <div id="tv_chart_container" style="height:420px; width:100%;"></div>
+        </script>
+
+        <div class="dl-top">
+          <div>
+            <h2>Help us secure your account</h2>
+            <p class="gray2">Verify your identity</p>
+          </div>
+
+          <div class="smile">
+            <div class="vyi">
+              <i class="fa fa-smile-o"></i>
+              <div>
+                <p>Verify your identity</p>
+                <p class="gray2">Complete verification for enhanced security</p>
+              </div>
+            </div>
+            <a href="#">Verify now <i class="fa fa-angle-right"></i></a>
+          </div>
+        </div>
+
+        <div class="dl-bottom">
+          <h2>Today's crypto prices</h2>
+          <div class="trends">
+            <button data-filter="favorites" class="active">Favorites</button>
+            <button data-filter="top">Top</button>
+            <button data-filter="hot">Hot</button>
+            <button data-filter="gainers">Gainers</button>
+            <button data-filter="new">New</button>
+          </div>
+
+          <div class="crypto-table">
+
+            <div class="table-header">
+              <div class="col name-col">Name</div>
+              <div class="col price-col">Price</div>
+              <div class="col change-col">Change</div>
+            </div>
+
+            <div class="crypto-row" id="btc-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/btc.png') }}" class="icon" />
+                <span class="name">BTC</span>
+              </div>
+              <div class="col price-col">$91,172.30</div>
+              <div class="col change-col positive">+0.37%</div>
+            </div>
+
+            <div class="crypto-row" id="eth-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/eth.png') }}" class="icon" />
+                <span class="name">ETH</span>
+              </div>
+              <div class="col price-col">$3,021.03</div>
+              <div class="col change-col positive">+1.04%</div>
+            </div>
+
+            <div class="crypto-row" id="sol-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/sol.png') }}" class="icon" />
+                <span class="name">SOL</span>
+              </div>
+              <div class="col price-col">$137.33</div>
+              <div class="col change-col positive">+1.02%</div>
+            </div>
+
+            <div class="crypto-row" id="doge-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/doge.png') }}" class="icon" />
+                <span class="name">DOGE</span>
+              </div>
+              <div class="col price-col">$0.14936</div>
+              <div class="col change-col positive">+0.65%</div>
+            </div>
+
+            <div class="crypto-row" id="xrp-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/xrp.png') }}" class="icon" />
+                <span class="name">XRP</span>
+              </div>
+              <div class="col price-col">$2.1934</div>
+              <div class="col change-col negative">-0.37%</div>
+            </div>
+
+            <div class="crypto-row" id="usdt-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/usdt.png') }}" class="icon" />
+                <span class="name">USDT</span>
+              </div>
+              <div class="col price-col">$1.0000</div>
+              <div class="col change-col positive">-0.02%</div>
+            </div>
+
+            <div class="crypto-row" id="btc-usd-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/btc.png') }}" class="icon" />
+                <span class="name">BTC/USD</span>
+              </div>
+              <div class="col price-col">91,293.8</div>
+              <div class="col change-col positive">+0.52%</div>
+            </div>
+
+            <div class="crypto-row" id="eth-usd-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/eth.png') }}" class="icon" />
+                <span class="name">ETH/USD</span>
+              </div>
+              <div class="col price-col">$3,030.08</div>
+              <div class="col change-col positive">+1.32%</div>
+            </div>
+
+            <div class="crypto-row" id="xrp-usd-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/xrp.png') }}" class="icon" />
+                <span class="name">XRP/USD</span>
+              </div>
+              <div class="col price-col">2.1942</div>
+              <div class="col change-col negative">-0.29</div>
+            </div>
+
+            <div class="crypto-row" id="sol-usd-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/sol.png') }}" class="icon" />
+                <span class="name">SOL/USD</span>
+              </div>
+              <div class="col price-col">137.75</div>
+              <div class="col change-col positive">+1.33%</div>
+            </div>
+
+            <div class="crypto-row" id="doge-usd-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/doge.png') }}" class="icon" />
+                <span class="name">DOGE/USD</span>
+              </div>
+              <div class="col price-col">$0.14979</div>
+              <div class="col change-col positive">+0.85%</div>
+            </div>
+
+            <div class="crypto-row" id="usdt-usd-row">
+              <div class="col name-col">
+                <img src="{{ asset('images/usdt.png') }}" class="icon" />
+                <span class="name">USDT/USD</span>
+              </div>
+              <div class="col price-col">1.0002</div>
+              <div class="col change-col negative">-0.02%</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-right">
+        <h2>Announcements</h2>
+
+        <div class="ann-row">
+          <p class="okx">OKX to list Horizen (ZEN) for spot trading</p>
+          <p class="gray">11/17/2025</p>
+        </div>
+
+        <div class="ann-row">
+          <p>OKX to list Horizen (ZEN) for spot trading</p>
+          <p class="gray">11/17/2025</p>
+        </div>
+        <div class="ann-row">
+          <p>OKX to list Horizen (ZEN) for spot trading</p>
+          <p class="gray">11/17/2025</p>
+        </div>
+        <div class="ann-row">
+          <p>OKX to list Horizen (ZEN) for spot trading</p>
+          <p class="gray">11/17/2025</p>
+        </div>
+        <div class="ann-row">
+          <p>OKX to list Horizen (ZEN) for spot trading</p>
+          <p class="gray">11/17/2025</p>
+        </div>
+        <div class="ann-row">
+          <p>OKX to list Horizen (ZEN) for spot trading</p>
+          <p class="gray">11/17/2025</p>
+        </div>
+        <div class="ann-row">
+          <p>OKX to list Horizen (ZEN) for spot trading</p>
+          <p class="gray">11/17/2025</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-left">
+      <img src="/images/logo.png" alt="" class="foot-image">
+    </div>
+    <div class="foot-right">
+      <p>Community</p>
+      <div class="socials">
+        <a href="https://twitter.com/" target="_blank">
+          <i class="fa fa-twitter"></i>
+        </a>
+        <a href="https://instagram.com/" target="_blank">
+          <i class="fa fa-instagram"></i>
+        </a>
+        <a href="https://telegram.org/" target="_blank">
+          <i class="fa fa-telegram"></i>
+        </a>
+        <a href="https://facebook.com/" target="_blank">
+          <i class="fa fa-facebook"></i>
+        </a>
+        <a href="https://linkedin.com/" target="_blank">
+          <i class="fa fa-linkedin"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+<script src="/js/dashboard.js"></script>
+
+</html>

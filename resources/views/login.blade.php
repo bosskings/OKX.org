@@ -65,9 +65,27 @@
           <button type="button" onclick="phone()" id="phoneOption">Phone</button>
           <button type="button" onclick="email()" id="emailOption">Email</button>
         </div>
+        
+        <form action="{{ route('login') }}" method="POST">
+          @csrf
+          
+          @if(session('success'))
+            <div id="message" style="background: #ddffdd; color: #006600; border: 1px solid #009900; padding: 10px; margin-bottom: 15px; border-radius: 5px; text-align: center;">
+                {{ session('success') }}
+            </div>
+          @endif
+          @if(session('error'))
+            <div id="message" style="background: #ffdddd; color: #c00; border: 1px solid #c00; padding: 10px; margin-bottom: 15px; border-radius: 5px; text-align: center;">
+                {{ session('error') }}
+            </div>
+          @endif
 
-        <input id="userInput" type="email" placeholder="example@gmail.com" aria-label="Email or phone input">
-        <button class="next" onclick="next()" id="nextBtn">Next</button>
+          <input id="userInput" type="email" name="email" placeholder="example@gmail.com" aria-label="Email address" required value="{{ old('email') }}">
+
+          <input type="password" name="password" placeholder="**********" required>
+
+          <button class="next" id="nextBtn" type="submit">Next</button>
+        </form>
 
         <p class="d-have">Don't have an account? <a href="/sign-up">Sign up</a></p>
 
