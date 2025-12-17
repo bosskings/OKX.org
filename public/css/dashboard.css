@@ -762,3 +762,26 @@ footer {
     padding: 5px;
   }
 }
+
+
+.wallet-addresses{
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.wallet-addresses span{
+  font-size: 10px;
+  display: inline-block;
+  border: 1px solid dodgerblue;
+  padding: 5px;
+}
+
+.wallet-addresses button{
+  background: dodgerblue;
+  border: none;
+  color: white;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+

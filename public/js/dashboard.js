@@ -200,3 +200,77 @@ if (typeof TradingView !== 'undefined') {
     hide_side_toolbar: false
   });
 }
+
+
+
+
+// for deposit selection 
+
+
+function handleMethodChange() {
+  const method = document.getElementById('method').value;
+  const detailsArea = document.getElementById('detailsArea');
+  const paymentInputGroup = document.getElementById('paymentInputGroup');
+  let html = '';
+  if (method === 'crypto') {
+    paymentInputGroup.style.display = 'none';
+    html = `
+      <div class="wallet-addresses" >
+        <div><strong>BTC:</strong> <br> <span id="btc-address">1BoatSLRHtKNngkdXEeobR76b53LETtpyT</span> <button onclick="copyToClipboard('btc-address')">Copy</button></div>
+        <div><strong>ETH:</strong> <br> <span id="eth-address">0x32be343b94f860124dc4fee278fdcbd38c102d88</span> <button onclick="copyToClipboard('eth-address')">Copy</button></div>
+        <div><strong>BNB:</strong> <br> <span id="bnb-address">bnb1grpf0955h0ykzqpqj52ve9ta7r03gwdp8h4gtk</span> <button onclick="copyToClipboard('bnb-address')">Copy</button></div>
+        <div><strong>USDT (TRC20):</strong><br/> <span id="usdt-address">TYMwiJdeSAApWJg16JuQhXn2UYvr5KdYgj</span> <button onclick="copyToClipboard('usdt-address')">Copy</button></div>
+      </div>
+    `;
+  } else if (method === 'bank') {
+    paymentInputGroup.style.display = 'none';
+    html = `
+      <div class="wallet-addresses">
+        <div><strong>Bank of America:</strong> <br/> <span id="bank1"> 123456789 </span> <button onclick="copyToClipboard('bank1')">Copy</button></div>
+        <div><strong>Chase Bank:</strong><br/> <span id="bank2"> 987654321 </span> <button onclick="copyToClipboard('bank2')">Copy</button></div>
+        <div><strong>Wells Fargo:</strong><br/> <span id="bank3"> 555555555 </span> <button onclick="copyToClipboard('bank3')">Copy</button></div>
+      </div>
+    `;
+  } else {
+    paymentInputGroup.style.display = '';
+    html = '';
+  }
+  detailsArea.innerHTML = html;
+}
+
+function copyToClipboard(id) {
+  const el = document.getElementById(id);
+  const value = el ? el.textContent : '';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(value);
+  } else {
+    // fallback
+    const tmp = document.createElement('textarea');
+    tmp.value = value;
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    document.body.removeChild(tmp);
+  }
+  alert('Copied!');
+}
+
+
+
+
+
+
+
+
+// for error messages
+
+document.addEventListener("DOMContentLoaded", function() {
+  const msg = document.getElementById('session-message');
+  if (msg) {
+    setTimeout(function() {
+      msg.style.transition = 'opacity 0.4s';
+      msg.style.opacity = 0;
+      setTimeout(() => msg.remove(), 400);
+    }, 5000);
+  }
+});

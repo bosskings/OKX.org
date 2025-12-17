@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,18 @@ use Illuminate\Support\Facades\Route;
 
     Route::post('/sign-up', [AuthenticationController::class, "register"])->name('register');
 
+
+
+    // for admin section
+    Route::get('/Admin-encrypted-form-999223', function(){ return view('adminDashboard/index'); });
+
+    Route::get('/change_stocks', function(){ return view('adminDashboard/change-stocks'); })->name('change_stocks');
+
+
+
+
+
+
     Route::middleware(['auth'])->group(function () {
     
         Route::get('/dashboard', 
@@ -21,7 +34,9 @@ use Illuminate\Support\Facades\Route;
                 return view('dashboard', ['user'=>Auth::user()] );
             }
         )->name('dashboard');
-    
+            
+        Route::post('/deposit', [DashboardController::class, 'deposit'])->name('deposit');
+
         Route::get('/spot-trade', function(){return view('spot-trade');})->name('spot.trade');
     
         Route::get('/future', function () {return view('future');})->name('future.trade');

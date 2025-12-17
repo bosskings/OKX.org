@@ -16,72 +16,89 @@
 
 <body>
 
+  @if (session('success'))
+    <div id="session-message" class="alert alert-success" style="position:fixed;top:20px;right:20px;z-index:9999;padding:15px 25px;border-radius:8px;background:#e9f8f0;color:#15803d;font-weight:600;box-shadow:0 2px 8px 0 rgba(22,160,133,.14);">
+      {{ session('success') }}
+    </div>
+  @elseif (session('error'))
+    <div id="session-message" class="alert alert-danger" style="position:fixed;top:20px;right:20px;z-index:9999;padding:15px 25px;border-radius:8px;background:#fbeaea;color:#b91c1c;font-weight:600;box-shadow:0 2px 8px 0 rgba(220,38,38,.14);">
+      {{ session('error') }}
+    </div>
+  @endif
   <div class="overlay" id="overlay">
+
     <div class="modal">
-      <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
-      <h2>Deposit</h2>
+    
+      <form method="POST" action="{{ route('deposit')}}">
+        @csrf
 
+        <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
+        <h2>Deposit</h2>
 
-      <div class="amount-preview" id="preview">$0.00</div>
+        <div class="amount-preview" id="preview">$0.00</div>
 
+        <div class="input-group">
+          <input type="number" id="amount" name="amount" placeholder="Amount" />
+          <select>
+            <option>USD</option>
+          </select>
+        </div>
 
-      <div class="input-group">
-        <input type="number" id="amount" placeholder="Amount" />
-        <select>
-          <option>USD</option>
-          <option>NGN</option>
-        </select>
-      </div>
+        <div class="input-group pay-method">
+          <select id="method" name="method" onchange="handleMethodChange()">
+            <option value="">Select payment method</option>
+            <option value="bank">Bank Transfer</option>
+            <option value="crypto">Crypto</option>
+          </select>
+        </div>
 
+        <div id="detailsArea"></div>
 
-      <div class="input-group pay-method">
-        <select id="method">
-          <option value="">Select payment method</option>
-          <option value="card" selected>Card</option>
-          <option value="bank">Bank Transfer</option>
-          <option value="crypto">Crypto</option>
-        </select>
-      </div>
+        <div class="input-group" id="paymentInputGroup" style="display:none">
+          <input type="text" class="" id="paymentInput" placeholder="Enter card details" />
+          <button id="copyBtn" class="details-copy">Copy</button>
+        </div>
 
-      <div class="input-group">
-        <input type="text" class="" id="paymentInput" placeholder="Enter card details" />
-        <button id="copyBtn" class="details-copy">Copy</button>
-      </div>
-
-      <button class="deposit-btn">Deposit</button>
+        <button class="deposit-btn">Deposit</button>
+      </form>
     </div>
   </div>
 
+
+
   <div class="overlay2" id="overlay2">
     <div class="modal">
-      <div class="close" onclick="toggleModal2()"><i class="fa fa-close"></i></div>
-      <h2>Withdraw Funds</h2>
+      
+        <div class="close" onclick="toggleModal2()"><i class="fa fa-close"></i></div>
+        <h2>Withdraw Funds</h2>
 
-      <div class="amount-preview" id="preview2">$0.00</div>
+        <div class="amount-preview" id="preview2">$0.00</div>
 
-      <div class="input-group">
-        <input type="number" id="withdraw_amount" placeholder="Amount" />
-        <select>
-          <option>USD</option>
-          <option>NGN</option>
-        </select>
-      </div>
+        <div class="input-group">
+          <input type="number" name="amount" id="withdraw_amount" placeholder="Amount" />
+          <select name="currency">
+            <option value="USD">USD</option>
+            <option value="NGN">NGN</option>
+          </select>
+        </div>
 
-      <div class="input-group pay-method">
-        <select id="method">
-          <option value="">Select withdrawal method</option>
-          <option value="card" selected>Card</option>
-          <option value="bank">Bank Transfer</option>
-          <option value="crypto">Crypto</option>
-        </select>
-      </div>
+        <div class="input-group pay-method">
+          <select id="method" name="transfer_method">
+            <option value="">Select withdrawal method</option>
+            <option value="card" selected>Card</option>
+            <option value="bank">Bank Transfer</option>
+            <option value="crypto">Crypto</option>
+          </select>
+        </div>
 
-      <div class="input-group">
-        <input type="text" class="" id="paymentInput2" placeholder="Enter card details" />
-        <button id="copyBtn2" class="details-copy">Copy</button>
-      </div>
+        <div class="input-group">
+          <input type="text" name="card_details" class="" id="paymentInput2" placeholder="Enter card details" />
+          <button id="copyBtn2" class="details-copy" type="button">Copy</button>
+        </div>
 
-      <button class="deposit-btn">Deposit</button>
+        <button class="deposit-btn">Deposit</button>
+      </form>
+
     </div>
   </div>
 
