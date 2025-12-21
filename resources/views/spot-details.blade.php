@@ -29,7 +29,7 @@
 
   <!-- <nav>
     <div class="nav-left">
-      <a href="/"><img src="/images/logo.png" alt="Logo" width="100px"></a>
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="50px"></a>
       <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
       <a class="copy" href="/spot-trade">Spot Trades <i class="fa fa-angle-down"></i></a>
       <a class="history" href="#"> History<i class="fa fa-angle-down"></i></a>
@@ -925,7 +925,7 @@
   <footer>
 
     <div class="foot-left">
-      <img src="/images/logo.png" alt="" class="foot-image">
+      <img src="/images/logo.png" alt="" class="foot-image" width="50px">
     </div>
 
     <div class="foot-right">

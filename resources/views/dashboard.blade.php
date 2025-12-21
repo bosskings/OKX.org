@@ -105,17 +105,17 @@
   <div class="menu-overlay" id="menuOverlay">
     <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
     <a href="{{ route('home') }}">HOME</a>
-    <a href="{{ route('spot.trade') }}">SPOT TRADE</a>
-    <a href="{{ route('future.trade') }}">FUTURE TRADE</a>
+    <a href="{{ route('spots') }}">SPOT TRADE</a>
+    <a href="{{ route('futures') }}">FUTURE TRADE</a>
   </div>
 
   <!-- NAVIGATION -->
 
   <nav>
     <div class="nav-left">
-      <a href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}" alt="Logo" width="100px"></a>
-      <a class="abt" href="{{ route('future.trade') }}">Future Trades <i class="fa fa-angle-down"></i></a>
-      <a class="copy" href="{{ route('spot.trade') }}">Spot Trades <i class="fa fa-angle-down"></i></a>
+      <a href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}" alt="Logo" width="50px"></a>
+      <a class="abt" href="{{ route('futures') }}">Future Trades <i class="fa fa-angle-down"></i></a>
+      <a class="copy" href="{{ route('spots') }}">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>
 
     <div style="display: flex; gap: 20px; align-items: center;">
@@ -162,7 +162,17 @@
 
       <div class="user-verification user-r">
         <p class="gray">Identity verification <i class="fa fa-angle-right"></i></p>
-        <a href="#">Verify now</a>
+        <a href="#">
+          @if(isset($user->status) && $user->status === 'APPROVED')
+            <span style="color:green; font-weight:bold;">
+              Verified <i class="fa fa-check-circle"></i>
+            </span>
+          @else
+            <span style="color:#ff6b6b; font-weight:bold;">
+              Unverified
+            </span>
+          @endif
+        </a>
       </div>
 
       <div class="user-country user-r">
@@ -182,8 +192,14 @@
 
         <div class="balance">
           <p class="estimated">Estimated total value <i id="toggleEye" class="fa fa-eye"></i></p>
-          <h2 class="money" id="money">{{ number_format($user->available_balance ?? $user->balance ?? 0, 2) }} <span class="currency">USD</span></h2>
-          <p class="today"><span>Today's PnL </span> $10.00(3.22%)</p>
+          @if(isset($user->status) && $user->status === 'APPROVED')
+            <h2 class="money" id="money">{{ number_format($user->available_balance ?? $user->balance ?? 0, 2) }} <span class="currency">USD</span></h2>
+          @else
+            <h2 class="money" id="money" style="color: #ccc; text-decoration: line-through;">
+              {{ number_format($user->available_balance ?? $user->balance ?? 0, 2) }} <span class="currency">USD</span>
+            </h2>
+          @endif
+          <p class="today"><span>Today's PnL </span> ${{$user->todays_pnl}}</p>
         </div>
 
         <div id="tv_chart_container" style="height:420px; width:100%;"></div>
@@ -199,11 +215,19 @@
             <div class="vyi">
               <i class="fa fa-smile-o"></i>
               <div>
-                <p>Verify your identity</p>
+                <p>verification After first deposit</p>
                 <p class="gray2">Complete verification for enhanced security</p>
               </div>
             </div>
-            <a href="#">Verify now <i class="fa fa-angle-right"></i></a>
+            @if(isset($user->status) && $user->status === 'APPROVED')
+              <span style="color:green; font-weight:bold;">
+                Verified <i class="fa fa-check-circle"></i>
+              </span>
+            @else
+              <span style="color:#ff6b6b; font-weight:bold;">
+                Unverified
+              </span>
+            @endif
           </div>
         </div>
 
@@ -376,7 +400,7 @@
   <!-- FOOTER -->
   <footer>
     <div class="foot-left">
-      <img src="/images/logo.png" alt="" class="foot-image">
+      <img src="/images/logo.png" alt="" class="foot-image" width="50px">
     </div>
     <div class="foot-right">
       <p>Community</p>

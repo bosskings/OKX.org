@@ -71,3 +71,18 @@ setTimeout(function() {
   var el = document.getElementById('message');
   if (el) el.style.display = 'none';
 }, 5000);
+
+// view and hide password
+function togglePasswordVisibility() {
+  var pwdInput = document.getElementById('passwordInput');
+  var icon = document.getElementById('togglePasswordIcon');
+  if (pwdInput.type === "password") {
+    pwdInput.type = "text";
+    icon.classList.remove('fa-eye');
+    icon.classList.add('fa-eye-slash');
+  } else {
+    pwdInput.type = "password";
+    icon.classList.remove('fa-eye-slash');
+    icon.classList.add('fa-eye');
+  }
+}

@@ -15,11 +15,4 @@ class Trade extends Model
         'trader',
     ];
 
-    /**
-     * Get the user that owns the trade.
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'users_id');
-    }
 }

@@ -132,7 +132,7 @@
   <footer>
 
     <div class="foot-left">
-      <img src="/images/logo.png" alt="" class="foot-image">
+      <img src="/images/logo.png" alt="" class="foot-image" width="50px">
     </div>
 
     <div class="foot-right">

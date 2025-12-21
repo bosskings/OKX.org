@@ -16,37 +16,64 @@
 
 <body>
 
-  <!-- <div class="menu-overlay" id="menuOverlay">
+  @if (session('success'))
+    <div id="message" style="background: #ddffdd; color: #156f29; border: 1px solid #23d172; padding: 12px 20px; border-radius: 5px; margin: 20px auto; width: fit-content; font-size: 16px; box-shadow: 0 2px 6px #eee; position:absolute; right:10px; top:100px; z-index:4">
+      {{ session('success') }}
+    </div>
+  @endif
+  @if (session('error'))
+    <div id="message" style="background: #ffdddd; color: #a01a23; border: 1px solid #ef5350; padding: 12px 20px; border-radius: 5px; margin: 20px auto; width: fit-content; font-size: 16px; box-shadow: 0 2px 6px #eee; position:absolute; right:10px; top:100px; z-index:4">
+      {{ session('error') }}
+    </div>
+  @endif
+
+  {{-- modal for copying trade --}}
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
+      <h2>Copy Trade</h2>
+
+      <span>How much do you want to copy this trade with??</span>
+
+      <form action="{{ route('copyTrades')}}" method="POST">
+        @csrf
+        <div class="input-group">
+          <input type="number" name="amount" placeholder="Amount" />
+
+          <input type="text" name="trader" value="{{$trader->id}}" style="display: none">
+        </div>
+        
+        <button class="deposit-btn">copy this trader</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="menu-overlay" id="menuOverlay">
     <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
     <a href="/">HOME</a>
     <a href="/spot-trade">SPOT TRADE</a>
     <a href="/future">FUTURE TRADE</a>
     <a href="#">HISTORY</a>
   </div>
- -->
-
+ 
   <!-- NAVIGATION -->
 
-  <!-- <nav>
+  <nav>
     <div class="nav-left">
-      <a href="/"><img src="/images/logo.png" alt="Logo" width="100px"></a>
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="30px"></a>
       <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
       <a class="copy" href="/spot-trade">Spot Trades <i class="fa fa-angle-down"></i></a>
-      <a class="history" href="#"> History<i class="fa fa-angle-down"></i></a>
     </div>
 
     <div style="display: flex; gap: 20px; align-items: center;">
       <div class="nav-right">
-        <a href="#" class="deposit">Deposit</a>
-        <i class="fa fa-search"></i>
-        <i class="fa fa-user"></i>
-        <i class="fa fa-bell"></i>
-        <i class="fa fa-question-circle-o"></i>
+        {{-- <a href="#" class="deposit">Deposit</a> --}}
+        
       </div>
 
       <button onclick="menuOpen()" class="menu"><i class="fa fa-bars"></i></button>
     </div>
-  </nav> -->
+  </nav>
 
   <div class="dt-top">
 
@@ -57,7 +84,8 @@
       </div>
 
       <div class="profile">
-        <img src="" alt="User profile" id="user-image">
+        <img src="{{ isset($trader->profile_pic) ? asset('uploads/' . $trader->profile_pic) : '/images/default-profile.png' }}" alt="User profile" id="user-image">
+
         <div>
           <div>
             <h2 class="username"></h2>
@@ -82,7 +110,7 @@
 
     <div class="top-right">
       <button class="follow">Follow</button>
-      <button class="copy-now">Copy now</button>
+      <button class="copy-now open-modal">Copy now</button>
     </div>
   </div>
 
@@ -107,7 +135,7 @@
             <h3>Future Trading performance</h3>
             <div class="progress">
               <div class="bar">
-                <div class="green"></div>
+                <div class="green"> </div>
               </div>
               <div class="days">
                 <p>Days w/ profit <span style="color: #3bb564;">4</span></p>
@@ -923,7 +951,7 @@
   <footer>
 
     <div class="foot-left">
-      <img src="/images/logo.png" alt="" class="foot-image">
+      <img src="/images/logo.png" alt="" class="foot-image" width="50px">
     </div>
 
     <div class="foot-right">

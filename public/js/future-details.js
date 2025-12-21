@@ -7,56 +7,63 @@ function closeMenu() {
   if (menuOverlay) menuOverlay.classList.remove('open');
 }
 
-const users = {
-  1: { name: "Mine13", following: 0, followers: 948, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf1.jpg' },
-  2: { name: "AlphaX", following: 20, followers: 500, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf2.jpg' },
-  3: { name: "SolKing", following: 80, followers: 900, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf3.jpg' },
-  4: { name: "XrpMaster", following: 50, followers: 1400, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf4.jpg' },
-  5: { name: "DogeDude", following: 50, followers: 1500, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf5.jpg' },
-  6: { name: "StablePro", following: 250, followers: 1000, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf6.jpg' },
-};
+document.querySelector('.open-modal').addEventListener('click', toggleModal);
 
-const params = new URLSearchParams(window.location.search);
-const userId = params.get('id');
 
-let user = users[userId];
-
-if (!user && userId !== null) {
-  const n = Number(userId);
-  if (!Number.isNaN(n)) {
-    if (users[String(n)]) user = users[String(n)];
-    if (!user && users[String(n + 1)]) user = users[String(n + 1)];
-    if (!user && users[String(n - 1)]) user = users[String(n - 1)];
-  }
-  if (!user) {
-    const m = userId.match(/(\d+)/);
-    if (m) {
-      const mm = Number(m[1]);
-      if (!Number.isNaN(mm) && users[String(mm)]) user = users[String(mm)];
-    }
-  }
+function toggleModal() {
+  overlay.classList.toggle('modalShow');
 }
 
-if (!user) {
-  console.warn(`details.js: no user found for id="${userId}" — defaulting to id 1`);
-  user = users['1'];
-}
+// const users = {
+//   1: { name: "Mine13", following: 0, followers: 948, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf1.jpg' },
+//   2: { name: "AlphaX", following: 20, followers: 500, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf2.jpg' },
+//   3: { name: "SolKing", following: 80, followers: 900, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf3.jpg' },
+//   4: { name: "XrpMaster", following: 50, followers: 1400, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf4.jpg' },
+//   5: { name: "DogeDude", following: 50, followers: 1500, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf5.jpg' },
+//   6: { name: "StablePro", following: 250, followers: 1000, bio: "Only wish that your clothes are not stained with dust", image: '/images/pf6.jpg' },
+// };
 
-const Uname = user.name || 'Unknown';
-const Ufollowing = user.following ?? 0;
-const Ufollowers = user.followers ?? 0;
-const Ubio = user.bio || '';
-const Uimage = user.image || '';
+// const params = new URLSearchParams(window.location.search);
+// const userId = params.get('id');
 
-document.querySelectorAll('.username').forEach(el => el.textContent = Uname);
-const imgEl = document.getElementById('user-image');
-if (imgEl) imgEl.src = Uimage;
-const followingEl = document.getElementById('following-num');
-if (followingEl) followingEl.textContent = String(Ufollowing);
-const followersEl = document.getElementById('followers-num');
-if (followersEl) followersEl.textContent = String(Ufollowers);
-const bioEl = document.getElementById('bio');
-if (bioEl) bioEl.textContent = Ubio;
+// let user = users[userId];
+
+// if (!user && userId !== null) {
+//   const n = Number(userId);
+//   if (!Number.isNaN(n)) {
+//     if (users[String(n)]) user = users[String(n)];
+//     if (!user && users[String(n + 1)]) user = users[String(n + 1)];
+//     if (!user && users[String(n - 1)]) user = users[String(n - 1)];
+//   }
+//   if (!user) {
+//     const m = userId.match(/(\d+)/);
+//     if (m) {
+//       const mm = Number(m[1]);
+//       if (!Number.isNaN(mm) && users[String(mm)]) user = users[String(mm)];
+//     }
+//   }
+// }
+
+// if (!user) {
+//   console.warn(`details.js: no user found for id="${userId}" — defaulting to id 1`);
+//   user = users['1'];
+// }
+
+// const Uname = user.name || 'Unknown';
+// const Ufollowing = user.following ?? 0;
+// const Ufollowers = user.followers ?? 0;
+// const Ubio = user.bio || '';
+// const Uimage = user.image || '';
+
+// document.querySelectorAll('.username').forEach(el => el.textContent = Uname);
+// const imgEl = document.getElementById('user-image');
+// if (imgEl) imgEl.src = Uimage;
+// const followingEl = document.getElementById('following-num');
+// if (followingEl) followingEl.textContent = String(Ufollowing);
+// const followersEl = document.getElementById('followers-num');
+// if (followersEl) followersEl.textContent = String(Ufollowers);
+// const bioEl = document.getElementById('bio');
+// if (bioEl) bioEl.textContent = Ubio;
 
 
 const ctx = document.getElementById('weeklyPnL');
@@ -75,10 +82,10 @@ new Chart(ctx, {
     labels: ['12W', '10W', '8W', '6W', '4W', '2W'],
     datasets: [{
       label: 'Weekly PnL',
-      data: [2000, 0, 3000, 25000, 12000, 15000],
+      data: Array.from({ length: 6 }, () => Math.floor(Math.random() * 20000) + 1),
       backgroundColor: function (context) {
         const value = context.raw;
-        return value < 0 ? '#e74c3c' : '#2ecc71';
+        return value < 10000 ? 'red' : 'green';
       },
       borderRadius: 4,
       borderSkipped: false,
@@ -120,10 +127,10 @@ new Chart(ctx5, {
     labels: ['12W', '10W', '8W', '6W', '4W', '2W'],
     datasets: [{
       label: 'Weekly PnL',
-      data: [2000, 0, 3000, 25000, 12000, 15000],
+      data: Array.from({ length: 6 }, () => Math.floor(Math.random() * 15000) + 1),
       backgroundColor: function (context) {
         const value = context.raw;
-        return value < 0 ? '#e74c3c' : '#2ecc71';
+        return value < 2000 ? '#e74c3c' : '#2ecc71';
       },
       borderRadius: 4,
       borderSkipped: false,
@@ -170,7 +177,7 @@ new Chart(ctx2, {
   data: {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
     datasets: [{
-      data: [0, 1, 1, 6, 6],
+      data: Array.from({ length: 6 }, () => Math.floor(Math.random() * 10) + 1),
       borderColor: "rgb(34,197,94)",
       borderWidth: 3,
       backgroundColor: gradient,
@@ -198,7 +205,7 @@ new Chart(ctx6, {
   data: {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
     datasets: [{
-      data: [0, 1, 1, 6, 6],
+      data: Array.from({ length: 6 }, () => Math.floor(Math.random() * 10) + 1),
       borderColor: "rgb(34,197,94)",
       borderWidth: 3,
       backgroundColor: gradient,
@@ -242,7 +249,7 @@ new Chart(ctx3, {
     labels: ["WLFI", "BNB"],
     datasets: [
       {
-        data: [80, 20],
+        data: Array.from({ length: 2 }, () => Math.floor(Math.random() * 10) + 1),
         backgroundColor: ["#3b6ef5", "#2bb3c0"],
         borderWidth: 0
       }
@@ -283,7 +290,7 @@ new Chart(ctx7, {
     labels: ["WLFI", "BNB"],
     datasets: [
       {
-        data: [80, 20],
+        data: Array.from({ length: 2 }, () => Math.floor(Math.random() * 10) + 1),
         backgroundColor: ["#3b6ef5", "#2bb3c0"],
         borderWidth: 0
       }
@@ -303,7 +310,7 @@ new Chart(ctx7, {
 
 const profitData = [{
   x: "1m",
-  y: 3450.98
+  y: (Math.random() * (3451.02 - 3450.92) + 3450.92)
 }];
 
 const lossData = [];
@@ -395,7 +402,7 @@ new Chart(ctx8, {
         max: 3451.02,
         grid: {
           color: "rgba(0,0,0,0.05)",
-          borderDash: [4, 4]
+          borderDash: Array.from({ length: 2 }, () => Math.floor(Math.random() * 5) + 1)
         },
         ticks: {
           color: "#999"
@@ -466,3 +473,18 @@ copyBtn1.addEventListener("click", () => {
   content1.classList.add("hidden");
   content3.classList.add("hidden");
 });
+
+
+const greenBar = document.querySelector('.green');
+if (greenBar) {
+  const randomWidth = Math.floor(Math.random() * 101); // 0 to 100
+  greenBar.style.width = randomWidth + '%';
+}
+
+
+
+// for flash success or error messages
+setTimeout(function() {
+  var msg = document.getElementById('message');
+  if (msg) msg.style.display = 'none';
+}, 5000);

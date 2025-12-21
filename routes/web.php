@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +19,17 @@ use Illuminate\Support\Facades\Route;
 
 
     // for admin section
-    Route::get('/Admin-encrypted-form-999223', function(){ return view('adminDashboard/index'); });
+    Route::get('/Admin-encrypted-form-999223', [AdminController::class, 'displayUsers'] )->name('adminHome');
 
-    Route::get('/change_stocks', function(){ return view('adminDashboard/change-stocks'); })->name('change_stocks');
+    Route::get('/createTraders', [AdminController::class, 'showAllTraders'])->name('createTraders');
+
+    Route::post('/createTraders', [AdminController::class, 'createTraders'])->name('createTraders');
+    Route::post('/approveInvestment', [AdminController::class, 'approveInvestment'])->name('approveInvestment');
+    Route::post('/changePnl', [AdminController::class, 'changePnl'])->name('changePnl');
+    Route::post('/changeTotalAssets', [AdminController::class, 'changeTotalAssets'])->name('changeTotalAssets');
+    Route::post('/suspendUser', [AdminController::class, 'suspendUser'])->name('suspendUser');
+
+
 
 
 
@@ -37,17 +46,14 @@ use Illuminate\Support\Facades\Route;
             
         Route::post('/deposit', [DashboardController::class, 'deposit'])->name('deposit');
 
-        Route::get('/spot-trade', function(){return view('spot-trade');})->name('spot.trade');
+        
+        Route::get('/futures', [DashboardController::class, 'showFuturesTraders'])->name('futures');
+        Route::get('/futureDetails/{id?}', [DashboardController::class, 'futureDetails'])->name('futureDetails');
+        Route::post('/copyTrades', [DashboardController::class, 'copyTrades'])->name('copyTrades');
+        
+        Route::get('/spots', function(){return view('spot-trade');})->name('spots');
+        Route::get('/spotDetails', function () {return view('spot-details'); });
     
-        Route::get('/future', function () {return view('future');})->name('future.trade');
-    
-        Route::get('/spot-details', function () {
-            return view('spot-details');
-        });
-    
-        Route::get('/future-details', function () {
-            return view('future-details');
-        });
 
         Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 

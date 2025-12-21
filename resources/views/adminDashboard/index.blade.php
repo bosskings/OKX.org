@@ -16,7 +16,7 @@
     <!-- Custom Css -->
     <link rel="stylesheet" href="./admin_assets/css/style.min.css">
 
-    <meta name="csrf-token" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="theme-blush">
@@ -52,8 +52,8 @@
                     </div>
                 </li>
                 <li>
-                    <a href="/change_stocks" class="btn btn-lg btn-secondary" style="color: #e0e0e0">
-                        Stock figures
+                    <a href="/createTraders" class="btn btn-lg btn-secondary" style="color: #e0e0e0">
+                        Create Traders
                     </a>
                 </li>
             </ul>
@@ -84,196 +84,157 @@
                 <div class="row">
 
                     <!-- Example static card as placeholder for user info, since no dynamic PHP allowed -->
-                    <div class="col-lg-4 col-md-12">
-                        <div class="card mcard_3 ">
-                            <div class="body" style="border: 2px solid #28a745;">
-                                <h4 class="m-t-10">John Doe</h4>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <p class="text-muted">johndoe@example.com</p>
+                    @if(isset($users) && count($users) > 0)
+                        @foreach($users as $user)
+                            <div class="col-lg-4 col-md-12">
+                                <div class="card mcard_3">
+                                    <div class="body" style="border: 2px solid #28a745;">
+                                        <h4 class="m-t-10">{{ $user->email ?? '-' }}</h4>
+                                        <div class="row">
+                                            <div class="col-12">
 
-                                        <!-- Pending Investments (STATIC EXAMPLE) -->
-                                        <div id="statusArea" class="mb-2"
-                                            style="background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; border-radius: 5px;">
-                                            <h6 style="font-weight:bold; color:#b8860b;">Pending Investments:</h6>
-                                            <div style="margin-bottom: 10px;">
-                                                <div>
-                                                    <span><b>Amount:</b> 5,000.00</span><br>
-                                                    <span><b>Stock:</b> AAPL</span><br>
-                                                    <span><b>Payment Method:</b> Bank Transfer</span>
-                                                    <a href="#">
-                                                        <img width="50px" src="./images/payment_proof.png" alt="">
-                                                    </a>
-                                                </div>
-                                                <button class="btn btn-success btn-sm mt-1" onclick="#">
-                                                    approve
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <!-- Pending Withdrawals (STATIC EXAMPLE) -->
-                                        <div id="requestArea" class="mb-2"
-                                            style="background:#e8f4fa; border:1px solid #b8e2f2; padding:10px; border-radius: 5px;">
-                                            <h6 style="font-weight:bold; color:#03719c;">Pending Withdrawals:</h6>
-                                            <div
-                                                style="margin-bottom: 8px; background: #fff; padding: 7px 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
-                                                <div>
-                                                    <span><b>Coin Type:</b> BTC</span><br>
-                                                    <span><b>Amount:</b> 1,200.00</span><br>
-                                                    <span><b>Wallet Address:</b>
-                                                        <span id="withdraw_wallet_1">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</span>
-                                                        <button class="btn btn-light btn-sm"
-                                                            style="padding:1px 8px; font-size:12px;border:1px solid #b3b9be;margin-left:6px;"
-                                                            onclick="navigator.clipboard.writeText('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa'); this.innerText='Copied!'; setTimeout(()=>{this.innerText='Copy';},1300);">
-                                                            Copy
+                                                <!-- Pending Investments (STATIC EXAMPLE) -->
+                                                @if(isset($user->status) && $user->status === 'PENDING')
+                                                <div id="statusArea" class="mb-2"
+                                                    style="background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; border-radius: 5px;">
+                                                    <h6 style="font-weight:bold; color:#b8860b;">Pending Investments:</h6>
+                                                    <div style="margin-bottom: 10px;">
+                                                        <div>
+                                                            <span><b>Amount:</b> {{ number_format($user->available_balance ?? 0, 2) }}</span><br>
+                                                            
+                                                        </div>
+                                                        <button class="btn btn-success btn-sm mt-1" onclick="approve_investment({{$user->id}})">
+                                                            approve
                                                         </button>
-                                                    </span>
-                                                </div>
-                                                <div class="mt-2 d-flex" style="gap:7px;">
-                                                    <div style="margin-left:auto;display:flex;gap:10px;">
-                                                        <button class="btn btn-success btn-sm" onclick="#">Approve</button>
-                                                        <button class="btn btn-danger btn-sm" onclick="#">Cancel</button>
                                                     </div>
                                                 </div>
+                                                @endif
+
+                                                <!-- Pending Withdrawals (STATIC EXAMPLE) -->
+                                                <div id="requestArea" class="mb-2"
+                                                    style="background:#e8f4fa; border:1px solid #b8e2f2; padding:10px; border-radius: 5px;">
+                                                    <h6 style="font-weight:bold; color:#03719c;">Pending Withdrawals:</h6>
+                                                    <div
+                                                        style="margin-bottom: 8px; background: #fff; padding: 7px 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
+                                                        <div>
+                                                            <span><b>Coin Type:</b> BTC</span><br>
+                                                            <span><b>Amount:</b> 1,200.00</span><br>
+                                                            <span><b>Wallet Address:</b>
+                                                                <span id="withdraw_wallet_1">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</span>
+                                                                <button class="btn btn-light btn-sm"
+                                                                    style="padding:1px 8px; font-size:12px;border:1px solid #b3b9be;margin-left:6px;"
+                                                                    onclick="navigator.clipboard.writeText('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa'); this.innerText='Copied!'; setTimeout(()=>{this.innerText='Copy';},1300);">
+                                                                    Copy
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                        <div class="mt-2 d-flex" style="gap:7px;">
+                                                            <div style="margin-left:auto;display:flex;gap:10px;">
+                                                                <button class="btn btn-success btn-sm" onclick="#">Approve</button>
+                                                                <button class="btn btn-danger btn-sm" onclick="#">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control number-format"
+                                                        placeholder="Total Balance" id="balance_{{ $user->id }}" value="{{ number_format($user->available_balance ?? 0, 2) }}">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" style="cursor:pointer;">
+                                                            <a style="color: blue; font-size: 12px; font-weight: bold;"
+                                                                onclick="#">change balance</a>
+                                                        </span>
+                                                    </div>
+                                                    <div id="resultBalance{{ $user->id }}"></div>
+                                                </div>
+
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control number-format"
+                                                        placeholder="Referral Bonus" id="ref{{ $user->id }}" value="{{ number_format($user->todays_pnl ?? 0, 2) }}">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" style="cursor:pointer">
+                                                            <a style="color: blue; font-size: 12px; font-weight: bold;"
+                                                                onclick="#">Todays PNL</a>
+                                                        </span>
+                                                    </div>
+                                                    <div id="resultPnl{{ $user->id }}"></div>
+                                                </div>
+
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control number-format"
+                                                        placeholder="Company Bonus" id="Assets{{ $user->id }}" value="{{ number_format($user->total_assets ?? 0, 2) }}">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" style="cursor:pointer">
+                                                            <a style="color: blue; font-size: 12px; font-weight: bold;"
+                                                                onclick="#">Total Assets</a>
+                                                        </span>
+                                                    </div>
+                                                    <div id="resultAssets{{ $user->id }}"></div>
+                                                </div>
+
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="NO" id="suspend{{ $user->id }}"
+                                                        value="{{ $user->suspended}}">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" style="cursor:pointer">
+                                                            <a style="color: blue; font-size: 12px; font-weight: bold;"
+                                                                onclick="#">suspend User</a>
+                                                        </span>
+                                                    </div>
+                                                    <div id="resultSuspend{{ $user->id }}"></div>
+                                                </div>
+
+                                                <div class="d-flex justify-content-center mb-3">
+                                                    <button type="button" class="btn btn-warning" onclick="#"
+                                                        style="font-weight:bold; min-width:120px;">
+                                                        Reset Password
+                                                    </button>
+                                                </div>
+
+                                                <!-- Stock Option History (TRADES) -->
+                                                <div style="max-height: 200px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 15px;">
+                                                    <table class="table table-striped mb-0">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th scope="col">Type</th>
+                                                                <th scope="col">Amount</th>
+                                                                <th scope="col">date</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php
+                                                                $trades = $userTrades[$user->id] ?? collect();
+                                                            @endphp
+                                                            @if($trades->count() > 0)
+                                                                @foreach($trades as $trade)
+                                                                    <tr>
+                                                                        <td>{{ $trade->type ?? '-' }}</td>
+                                                                        <td>{{ number_format($trade->amount ?? 0, 2) }}</td>
+                                                                        <td>{{ $trade->created_at ? \Carbon\Carbon::parse($trade->created_at)->toDateString() : '-' }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            @else
+                                                                <tr>
+                                                                    <td colspan="5" class="text-center text-muted">No transactions found.</td>
+                                                                </tr>
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- End Stock Option History -->
+
                                             </div>
                                         </div>
-
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control number-format"
-                                                placeholder="Total Balance" id="balance1" value="10,000.00"
-                                                oninput="commaFormatInput(this)">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" style="cursor:pointer;">
-                                                    <a style="color: blue; font-size: 12px; font-weight: bold;"
-                                                        onclick="#">change balance</a>
-                                                </span>
-                                            </div>
-                                            <div id="resultBalance1"></div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control number-format"
-                                                placeholder="Referral Bonus" id="ref1" value="500.00"
-                                                oninput="commaFormatInput(this)">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" style="cursor:pointer">
-                                                    <a style="color: blue; font-size: 12px; font-weight: bold;"
-                                                        onclick="#">referral Bonus</a>
-                                                </span>
-                                            </div>
-                                            <div id="resultRef1"></div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control number-format"
-                                                placeholder="Company Bonus" id="company1" value="200.00"
-                                                oninput="commaFormatInput(this)">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" style="cursor:pointer">
-                                                    <a style="color: blue; font-size: 12px; font-weight: bold;"
-                                                        onclick="#">Company Bonus</a>
-                                                </span>
-                                            </div>
-                                            <div id="resultCompany1"></div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="NO" id="suspend1"
-                                                value="NO">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" style="cursor:pointer">
-                                                    <a style="color: blue; font-size: 12px; font-weight: bold;"
-                                                        onclick="#">suspend User</a>
-                                                </span>
-                                            </div>
-                                            <div id="resultSuspend1"></div>
-                                        </div>
-
-                                        <div class="d-flex justify-content-center mb-3">
-                                            <button type="button" class="btn btn-warning" onclick="#"
-                                                style="font-weight:bold; min-width:120px;">
-                                                Reset Password
-                                            </button>
-                                        </div>
-
-                                        <script>
-                                            // Formats input with commas for thousands and maintains decimals
-                                            function commaFormatInput(el) {
-                                                // Remove all non-numeric except periods and commas
-                                                let val = el.value.replace(/,/g, '');
-                                                // If empty or not a number, blank
-                                                if (val === '' || isNaN(val)) {
-                                                    el.value = '';
-                                                    return;
-                                                }
-                                                // Split on decimal, format only integer part
-                                                let parts = val.split('.');
-                                                let intPart = parts[0];
-                                                let decPart = parts[1] ? parts[1].slice(0, 2) : '';
-                                                intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                el.value = decPart.length > 0 ? intPart + '.' + decPart : intPart;
-                                            }
-
-                                            // On page load, reformat all with .number-format
-                                            document.addEventListener('DOMContentLoaded', function () {
-                                                document.querySelectorAll('.number-format').forEach(function (input) {
-                                                    if (input.value) {
-                                                        let val = input.value.replace(/,/g, '');
-                                                        if (!isNaN(val) && val !== '') {
-                                                            let num = parseFloat(val);
-                                                            input.value = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                                                        }
-                                                    }
-                                                });
-                                            });
-                                        </script>
-
-                                        <!-- Stock Option History (STATIC EXAMPLE) -->
-                                        <div style="max-height: 200px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 15px;">
-                                            <table class="table table-striped mb-0">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th scope="col">Type</th>
-                                                        <th scope="col">Amount</th>
-                                                        <th scope="col">Status</th>
-                                                        <th scope="col">date</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>CALL</td>
-                                                        <td>1,000.00</td>
-                                                        <td style="cursor: pointer">
-                                                            <span class="badge badge-success">ACTIVE</span>
-                                                        </td>
-                                                        <td>2024-01-16</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>PUT</td>
-                                                        <td>2,000.00</td>
-                                                        <td style="cursor: pointer">
-                                                            <span class="badge badge-warning">INACTIVE</span>
-                                                        </td>
-                                                        <td>2024-01-18</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="5" class="text-center text-muted">No transactions found.</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <!-- End Stock Option History -->
-
                                     </div>
                                 </div>
                             </div>
+                        @endforeach
+                    @else
+                        <div class="col-12">
+                            <div class="alert alert-info">No users found.</div>
                         </div>
-                    </div>
-
-                    <!-- Example - add more cards as needed for placeholder users -->
-                    <div class="col-12">
-                        <div class="alert alert-info">No users found.</div>
-                    </div>
+                    @endif
 
                 </div>
             </div>

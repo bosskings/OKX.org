@@ -65,7 +65,7 @@
 
   <nav>
     <div class="nav-left">
-      <a href="/"><img src="/images/logo.png" alt="Logo" width="100px"></a>
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="50px"></a>
       <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
       <a class="copy" href="/spot-trade">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>
@@ -150,11 +150,11 @@
           </div>
 
           <div class="ch-main-right">
-            <a href="/future-details?id=1">
+            <a href="/future-details?id=3">
               <button class="copy-btn">Copy</button>
             </a>
 
-            <canvas class="sparkline" id="chart-btc"></canvas>
+            <canvas class="sparkline up"></canvas>
 
             <div class="nums">
               <p>96 / <span>301</span></p>
@@ -167,7 +167,6 @@
         </div>
 
         <div class="ch-row">
-
           <div class="ch-main-left">
             <div class="top-left">
               <img src="/images/pf2.jpg" alt="Profile image">
@@ -193,164 +192,59 @@
             <a href="/future-details?id=2">
               <button class="copy-btn">Copy</button>
             </a>
-            <canvas class="sparkline" id="chart-eth"></canvas>
+            <canvas class="sparkline down"></canvas>
+
             <div class="nums">
               <p>96 / <span>301</span></p>
               <p>$167,388.82</p>
               <p>46</p>
             </div>
           </div>
-
-
         </div>
 
-        <div class="ch-row">
 
-          <div class="ch-main-left">
-            <div class="top-left">
-              <img src="/images/pf3.jpg" alt="Profile image">
-              <div class="top-text">
-                <p class="name">SolKing</p>
-                <p class="long">+1.40x</p>
+        @foreach($traders as $trader)
+          <div class="ch-row">
+            <div class="ch-main-left">
+              <div class="top-left">
+                <img src="{{ isset($trader->profile_pic) ? asset('uploads/' . $trader->profile_pic) : '/images/default-profile.png' }}" alt="Profile image">
+                <div class="top-text">
+                  <p class="name">{{ $trader->name }}</p>
+                  <p class="long">+{{ $trader->leading_trades ?? '+1.00x' }}x</p>
+                </div>
+              </div>
+              <div>
+                <p class="lead">Lead trader 90D PnL</p>
+                @php
+                  // decide class color based on profit sign
+                  $profitValue = floatval(preg_replace('/[^\d\.\-]/', '', $trader->profit_percentage));
+                  $profitClass = $profitValue < 0 ? 'red' : 'green';
+                @endphp
+                <h2 class="{{ $profitClass }}">{{ $trader->profit_percentage }}</h2>
+                <p class="amount">{{ $trader->amount_made }}</p>
+              </div>
+              <div class="details">
+                <p class="gray">Copy</p>
+                <p class="gray">AUM</p>
+                <p class="gray">Days leading trades</p>
               </div>
             </div>
-            <div>
-              <p class="lead">Lead trader 90D PnL</p>
-              <h2 class="red">-95.62%</h2>
-              <p class="amount">+$96,721.15</p>
-            </div>
-
-            <div class="details">
-              <p class="gray">Copy</p>
-              <p class="gray">AUM</p>
-              <p class="gray">Days leading trades</p>
-            </div>
-          </div>
-
-          <div class="ch-main-right">
-            <a href="/future-details?id=3">
-              <button class="copy-btn">Copy</button>
-            </a> <canvas class="sparkline" id="chart-eth3"></canvas>
-            <div class="nums">
-              <p>96 / <span>301</span></p>
-              <p>$167,388.82</p>
-              <p>46</p>
-            </div>
-          </div>
-
-
-        </div>
-
-        <div class="ch-row">
-
-          <div class="ch-main-left">
-            <div class="top-left">
-              <img src="/images/pf4.jpg" alt="Profile image">
-              <div class="top-text">
-                <p class="name">XrpMaster</p>
-                <p class="long">+1.40x</p>
+            <div class="ch-main-right">
+              <a href="/futureDetails?id={{ $trader->id }}">
+                <button class="copy-btn">Copy</button>
+              </a>
+              
+              <!-- You could use a unique id for each chart if needed, e.g. chart-{{ $trader->id }} -->
+              <canvas class="sparkline {{ $trader->direction }}" ></canvas>
+              <div class="nums">
+                <p>{{ $trader->copies }} / <span>{{ $trader->aum }}</span></p>
+                <p>{{ $trader->amount_made }}</p>
+                <p>{{ $trader->leading_trades }}</p>
               </div>
             </div>
-            <div>
-              <p class="lead">Lead trader 90D PnL</p>
-              <h2 class="green">+95.62%</h2>
-              <p class="amount">+$96,721.15</p>
-            </div>
-
-            <div class="details">
-              <p class="gray">Copy</p>
-              <p class="gray">AUM</p>
-              <p class="gray">Days leading trades</p>
-            </div>
           </div>
-
-          <div class="ch-main-right">
-            <a href="/future-details?id=4">
-              <button class="copy-btn">Copy</button>
-            </a> <canvas class="sparkline" id="chart-xrp"></canvas>
-            <div class="nums">
-              <p>96 / <span>301</span></p>
-              <p>$167,388.82</p>
-              <p>46</p>
-            </div>
-          </div>
-
-
-        </div>
-
-        <div class="ch-row">
-
-          <div class="ch-main-left">
-            <div class="top-left">
-              <img src="/images/pf5.jpg" alt="Profile image">
-              <div class="top-text">
-                <p class="name">DogeDude</p>
-                <p class="long">+1.40x</p>
-              </div>
-            </div>
-            <div>
-              <p class="lead">Lead trader 90D PnL</p>
-              <h2 class="red">-95.62%</h2>
-              <p class="amount">+$96,721.15</p>
-            </div>
-
-            <div class="details">
-              <p class="gray">Copy</p>
-              <p class="gray">AUM</p>
-              <p class="gray">Days leading trades</p>
-            </div>
-          </div>
-
-          <div class="ch-main-right">
-            <a href="/future-details?id=5">
-              <button class="copy-btn">Copy</button>
-            </a> <canvas class="sparkline" id="chart-eth2"></canvas>
-            <div class="nums">
-              <p>96 / <span>301</span></p>
-              <p>$167,388.82</p>
-              <p>46</p>
-            </div>
-          </div>
-
-
-        </div>
-
-        <div class="ch-row">
-
-          <div class="ch-main-left">
-            <div class="top-left">
-              <img src="/images/pf6.jpg" alt="Profile image">
-              <div class="top-text">
-                <p class="name">StablePro</p>
-                <p class="long">+1.40x</p>
-              </div>
-            </div>
-            <div>
-              <p class="lead">Lead trader 90D PnL</p>
-              <h2 class="green">+95.62%</h2>
-              <p class="amount">+$96,721.15</p>
-            </div>
-
-            <div class="details">
-              <p class="gray">Copy</p>
-              <p class="gray">AUM</p>
-              <p class="gray">Days leading trades</p>
-            </div>
-          </div>
-
-          <div class="ch-main-right">
-            <a href="/future-details?id=6">
-              <button class="copy-btn">Copy</button>
-            </a> <canvas class="sparkline" id="chart-btc3"></canvas>
-            <div class="nums">
-              <p>96 / <span>301</span></p>
-              <p>$167,388.82</p>
-              <p>46</p>
-            </div>
-          </div>
-
-
-        </div>
+        @endforeach
+        
 
       </div>
 
@@ -367,7 +261,7 @@
   <footer>
 
     <div class="foot-left">
-      <img src="/images/logo.png" alt="" class="foot-image">
+      <img src="/images/logo.png" alt="" class="foot-image" width="50px">
     </div>
 
     <div class="foot-right">

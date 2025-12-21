@@ -27,7 +27,7 @@
 
   <nav>
     <div class="nav-left">
-      <a href="/"><img src="/images/logo.png" alt="Logo" width="100px"></a>
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="50px"></a>
     </div>
 
     <div style="display: flex; gap: 20px; align-items: center;">
@@ -82,8 +82,12 @@
 
           <input id="userInput" type="email" name="email" placeholder="example@gmail.com" aria-label="Email address" required value="{{ old('email') }}">
 
-          <input type="password" name="password" placeholder="**********" required>
-
+          <div style="position: relative;">
+            <input type="password" name="password" id="passwordInput" placeholder="**********" required style="padding-right: 40px;">
+            <span onclick="togglePasswordVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+              <i class="fa fa-eye" id="togglePasswordIcon"></i>
+            </span>
+          </div>
           <button class="next" id="nextBtn" type="submit">Next</button>
         </form>
 
@@ -126,7 +130,7 @@
   <footer>
 
     <div class="foot-left">
-      <img src="/images/logo.png" alt="" class="foot-image">
+      <img src="/images/logo.png" alt="" class="foot-image" width="50px">
     </div>
 
     <div class="foot-right">

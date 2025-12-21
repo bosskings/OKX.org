@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('following', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('traders_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('transaction_type');
-            $table->decimal('amount', 15, 2);
-            $table->string('status')->default('pending');
-            $table->string('method')->default(null);
-            $table->string('address')->default(null);
             $table->timestamps();
 
+            $table->foreign('traders_id')->references('id')->on('traders')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('following');
     }
 };
