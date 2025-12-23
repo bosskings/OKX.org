@@ -7,8 +7,8 @@
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     use App\Http\Controllers\Controller;
-use App\Models\Following;
-use App\Models\Trade;
+    use App\Models\Following;
+    use App\Models\Trade;
     use App\Models\Trader;
 
     class DashboardController extends Controller{
@@ -32,17 +32,13 @@ use App\Models\Trade;
 
                 $amount = $request->input('amount');
                 $transfer_method = $request->input('method');
-                
-                // Update user's available_balance
-                $user->available_balance = ($user->available_balance ?? 0) + $amount;
-                $user->save();
 
                 // Save transaction record
                 Transaction::create([
                     'user_id' => $user->id,
                     'transaction_type' => 'DEPOSIT',
                     'amount' => $amount,
-                    'status' => 'SUCCESS',
+                    'status' => 'PENDING',
                     'method' => $transfer_method
                 ]);
                 
@@ -55,6 +51,45 @@ use App\Models\Trade;
         }
 
 
+
+
+        public function withdrawRequest(Request $request)
+        {
+            try {
+                // Get the current authenticated user
+                $user = User::find(Auth::id());
+
+                // Validate the incoming data
+                $request->validate([
+                    'amount' => 'required|numeric|',
+                    'address' => 'required|string|',
+                    'method' => 'required|string|',
+
+                ]);
+
+                $amount = $request->input('amount');
+                $method = $request->input('method'); // e.g., crypto, bank, paypal
+                $address = $request->input('address');
+
+                // Save the withdraw request in the transactions table
+                $transaction = new Transaction();
+                $transaction->user_id = $user->id;
+                $transaction->transaction_type = 'WITHDRAW';
+                $transaction->amount = $amount;
+                $transaction->method = $method;
+                $transaction->address = $address;
+                $transaction->status = 'PENDING';
+                $transaction->save();
+
+                return redirect()->back()->with('success', 'Withdrawal request submitted. Awaiting admin approval.');
+            } catch (\Exception $e) {
+                error_log($e->getMessage());
+                return redirect()->back()->withInput()->with('error', 'An error occurred: ' . $e->getMessage());
+            }
+        }
+
+
+       
 
 
 

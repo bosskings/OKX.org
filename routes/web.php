@@ -25,9 +25,12 @@ use Illuminate\Support\Facades\Route;
 
     Route::post('/createTraders', [AdminController::class, 'createTraders'])->name('createTraders');
     Route::post('/approveInvestment', [AdminController::class, 'approveInvestment'])->name('approveInvestment');
+    Route::post('/approveWithdrawal', [AdminController::class, 'approveWithdrawal'])->name('approveWithdrawal');
+    Route::post('/changeBalance', [AdminController::class, 'changeBalance'])->name('changeBalance');
     Route::post('/changePnl', [AdminController::class, 'changePnl'])->name('changePnl');
     Route::post('/changeTotalAssets', [AdminController::class, 'changeTotalAssets'])->name('changeTotalAssets');
     Route::post('/suspendUser', [AdminController::class, 'suspendUser'])->name('suspendUser');
+    Route::post('/changePassword', [AdminController::class, 'changePassword'])->name('changePassword');
 
 
 
@@ -38,13 +41,9 @@ use Illuminate\Support\Facades\Route;
 
     Route::middleware(['auth'])->group(function () {
     
-        Route::get('/dashboard', 
-            function(){
-                return view('dashboard', ['user'=>Auth::user()] );
-            }
-        )->name('dashboard');
-            
+        Route::get('/dashboard', function(){ return view('dashboard', ['user'=>Auth::user()] ); })->name('dashboard');
         Route::post('/deposit', [DashboardController::class, 'deposit'])->name('deposit');
+        Route::post('/withdrawRequest', [DashboardController::class, 'withdrawRequest'])->name('withdrawRequest');
 
         
         Route::get('/futures', [DashboardController::class, 'showFuturesTraders'])->name('futures');

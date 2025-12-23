@@ -61,7 +61,6 @@
 
       <div class="actions">
         <a href="/sign-up" class="sign-up">Sign up</a>
-        <a href="#" class="download"><i class="fa fa-qrcode"></i> Download app</a>
       </div>
 
       <div class="sponsors">

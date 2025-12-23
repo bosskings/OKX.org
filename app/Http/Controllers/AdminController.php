@@ -6,30 +6,60 @@
     use App\Http\Controllers\Controller;
     use App\Models\Trade;
     use App\Models\Trader;
-    use App\Models\User;
+use App\Models\Transaction;
+use App\Models\User;
+use Illuminate\Container\Attributes\Log;
+use Illuminate\Support\Facades\Log as FacadesLog;
 
     class AdminController extends Controller{
 
         // function to display all users
         public function displayUsers()
         {
-            // Retrieve all users from the database, order by id DESC
-            $users = User::orderBy('id', 'DESC')->get();
+            try {
+                // Retrieve all users from the database, order by id DESC
+                $users = User::orderBy('id', 'DESC')->get();
 
-            // Get all traders
-            // $traders = Trader::orderBy('id', 'DESC')->get();
+                // Collect per-user data
+                $userTrades = [];
+                $userLatestPendingWithdraw = [];
+                foreach ($users as $user) {
+                    // Get trades for this user
+                    $userTrades[$user->id] = Trade::where('users_id', $user->id)->get();
 
-            // For each user, get their trades from the Trade model
-            $userTrades = [];
-            foreach ($users as $user) {
-                // Assuming Trade model has a 'user_id' foreign key
-                $userTrades[$user->id] = Trade::where('users_id', $user->id)->get();
+                    // Get only the latest PENDING WITHDRAW transaction for this user
+                    $userLatestPendingWithdraw[$user->id] = Transaction::where('user_id', $user->id)
+                        ->where('status', 'PENDING')
+                        ->where('transaction_type', 'WITHDRAW')
+                        ->orderBy('created_at', 'desc')
+                        ->first();
+                }
+
+                // Get all PENDING DEPOSIT transactions
+                $pendingDepositTransactions = Transaction::where('transaction_type', 'DEPOSIT')
+                    ->where('status', 'PENDING')
+                    ->get();
+
+                // Build unique set of users for those pending deposit transactions
+                $pendingDepositUsers = [];
+                foreach ($pendingDepositTransactions as $transaction) {
+                    if (!isset($pendingDepositUsers[$transaction->user_id])) {
+                        $pendingDepositUsers[$transaction->user_id] = User::find($transaction->user_id);
+                    }
+                }
+
+                return view('adminDashboard.index', [
+                    'users' => $users,
+                    'userTrades' => $userTrades,
+                    'userLatestPendingWithdraw' => $userLatestPendingWithdraw,
+                    'pendingDepositTransactions' => $pendingDepositTransactions,
+                    'pendingDepositUsers' => $pendingDepositUsers,
+                ]);
+            } catch (\Exception $e) {
+                // Optionally send the error to the log
+                    FacadesLog::error('Admin displayUsers error: ' . $e->getMessage());
+                return view('adminDashboard.index')->with(['error' => 'An unexpected error occurred.']);
             }
-
-            return view('adminDashboard.index', [
-                'users' => $users,
-                'userTrades' => $userTrades
-            ]);
         }
 
 
@@ -104,6 +134,8 @@
         public function approveInvestment(Request $request)
         {
             $userId = $request->input('user_id');
+            $amount = $request->input('amount');
+            $transactionId = $request->input('transaction_id');
 
             // Find the user by id
             $user = User::find($userId);
@@ -115,88 +147,237 @@
                 ]);
             }
 
-            // Update user's status to APPROVED
+            // Find the transaction and update its status to SUCCESS
+            $transaction = Transaction::find($transactionId);
+
+            if (!$transaction) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Transaction not found.',
+                ]);
+            }
+
+            $transaction->status = 'SUCCESS';
+            $transaction->save();
+
+            // Update user's available_balance and status
+            // If user doesn't have available_balance column, fallback to balance
+            if (isset($user->available_balance)) {
+                $user->available_balance = ($user->available_balance ?? 0) + floatval($amount);
+            } else {
+                $user->balance = ($user->balance ?? 0) + floatval($amount);
+            }
             $user->status = 'APPROVED';
             $user->save();
 
             return response()->json([
                 'success' => true,
-                'message' => 'User status updated to APPROVED.',
+                'message' => 'Transaction approved. User status updated. Balance increased.',
             ]);
         }
 
 
+        public function changeBalance(Request $request)
+        {
+            $userId = $request->input('user_id');
+            $amount = $request->input('amount');
 
-    // Function to change PnL (Profit and Loss) of a trader
-    public function changePnl(Request $request)
-    {
-        $traderId = $request->input('trader_id');
-        $pnl = $request->input('pnl');
+            // Find the user by id
+            $user = User::find($userId);
 
-        $trader = Trader::find($traderId);
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found.',
+                ]);
+            }
 
-        if (!$trader) {
+            // Update the available_balance (or fallback to balance if not present)
+            if (isset($user->available_balance)) {
+                $user->available_balance = floatval($amount);
+            } else {
+                $user->balance = floatval($amount);
+            }
+            $user->save();
+
             return response()->json([
-                'success' => false,
-                'message' => 'Trader not found.',
+                'success' => true,
+                'message' => 'User balance updated successfully.'
             ]);
         }
 
-        $trader->profit = $pnl;
-        $trader->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Trader profit updated successfully.'
-        ]);
-    }
 
-    // Function to change total assets of a trader
-    public function changeTotalAssets(Request $request)
-    {
-        $traderId = $request->input('trader_id');
-        $aum = $request->input('aum');
 
-        $trader = Trader::find($traderId);
+        // Function to change PnL (Profit and Loss) of a trader
+        public function changePnl(Request $request)
+        {
+            $traderId = $request->input('user_id');
+            $amount = $request->input('amount');
 
-        if (!$trader) {
+            $user = User::find($traderId);
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Trader not found.',
+                ]);
+            }
+
+            $user->todays_pnl = $amount;
+            $user->save();
+
             return response()->json([
-                'success' => false,
-                'message' => 'Trader not found.',
+                'success' => true,
+                'message' => 'User PNLprofit updated successfully.'
             ]);
         }
 
-        $trader->aum = $aum;
-        $trader->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Trader assets updated successfully.'
-        ]);
-    }
 
-    // Function to suspend a user by id
-    public function suspendUser(Request $request)
-    {
-        $userId = $request->input('user_id');
 
-        $user = User::find($userId);
+        // Function to change total assets of a trader
+        public function changeTotalAssets(Request $request)
+        {
+            $userId = $request->input('user_id');
+            $amount = $request->input('amount');
 
-        if (!$user) {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Trader not found.',
+                ]);
+            }
+
+            $user->total_assets = $amount;
+            $user->save();
+
             return response()->json([
-                'success' => false,
-                'message' => 'User not found.',
+                'success' => true,
+                'message' => 'user assets updated successfully.'
             ]);
         }
 
-        $user->status = 'SUSPENDED';
-        $user->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'User has been suspended successfully.'
-        ]);
-    }
+
+        // Function to suspend a user by id
+        public function suspendUser(Request $request)
+        {
+            $userId = $request->input('user_id');
+            $action = $request->input('data');
+
+            $user = User::find($userId);
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found.',
+                ]);
+            }
+
+            $user->suspended = $action;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User has been suspended successfully.'
+            ]);
+        }
+
+        public function changePassword(Request $request)
+        {
+            $userId = $request->input('user_id');
+            $newPassword = $request->input('password');
+
+            $user = User::find($userId);
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found.',
+                ]);
+            }
+
+            // Encrypt the password as usual (using bcrypt)
+            $user->password = bcrypt($newPassword);
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Password changed successfully.'
+            ]);
+        }
+
+
+
+
+
+        public function approveWithdrawal(Request $request)
+        {
+            // Validate incoming data
+            try {
+                $request->validate([
+                    'user_id' => 'required|integer',
+                    'status' => 'required|string',
+                    'amount' => 'required|numeric',
+                    'withdraw_id' => 'required|integer',
+                ]);
+            
+                $userId = $request->input('user_id');
+                $amount = floatval($request->input('amount'));
+                $status = $request->input('status');
+                $withdrawId = $request->input('withdraw_id');
+
+                // Retrieve user
+                $user = User::find($userId);
+
+                // Find the withdrawal transaction by ID
+                $transaction = Transaction::find($withdrawId);
+              
+                if (strtoupper($status) === 'DECLINED') {
+                    $transaction->status = 'DECLINED';
+                    $transaction->save();
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Withdrawal declined and status updated.',
+                    ]);
+                } elseif (strtoupper($status) === 'SUCCESS') {
+                    // Check available_balance and subtract withdrawal amount
+                    if (!isset($user->available_balance) || $user->available_balance < $amount) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Insufficient available balance.',
+                        ]);
+                    }
+                    
+                    // Update the original withdrawal request as SUCCESS
+                    $transaction->status = 'SUCCESS';
+                    $transaction->save();
+
+                    // Subtract from user
+                    $user->available_balance = $user->available_balance - $amount;
+                    $user->save();
+
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Withdrawal approved, balance updated, and transaction recorded.',
+                    ]);
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Invalid status.',
+                    ]);
+                }
+            } catch (\Exception $e) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'An error occurred: ' . $e->getMessage(),
+                ]);
+            }
+        }
 
 
     }

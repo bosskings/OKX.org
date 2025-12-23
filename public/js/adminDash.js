@@ -5,8 +5,6 @@ function addTraders() {
     
     var formData = new FormData(form);
     
-    console.log(formData);
-    
     // jQuery AJAX request
     $.ajax({
         url: "/createTraders",
@@ -37,13 +35,15 @@ function addTraders() {
 }
 
 
-function approve_investment(id, amount) {
+function approve_investment(id, amount, transaction_id) {
 
     $.ajax({
         url: "/approveInvestment", // Route to search
         type: "POST",
         data: { 
-            user_id: id
+            user_id: id,
+            amount:amount,
+            transaction_id:transaction_id
         },
 
         success: function(data) {
@@ -54,9 +54,8 @@ function approve_investment(id, amount) {
             if(data.success) {
                 $('#statusArea').html('<span class="text-success">User investment approved!</span>').css('display', 'block');
                 setTimeout(function() {
-                    $('#statusArea').css('display', 'none');
-                }, 1000);
-                $('#statusArea').css('display', 'none')   
+                    location.reload();
+                }, 2000);
             }
         }, 
         error: function() {
@@ -68,28 +67,30 @@ function approve_investment(id, amount) {
 }
 
 
-function approve_withdraw(id, status, amount) {
+function approveWithdrawal(status, id, amount, withdraw_id) {
 
     $.ajax({
-        url: "/withdraw_request", // Route to search
-        type: "GET",
+        url: "/approveWithdrawal", // Route to search
+        type: "POST",
         data: { 
+            user_id:id,
             status: status, 
             amount:amount,
-            transaction_id: id
+            withdraw_id: withdraw_id
         },
 
         success: function(data) {
 
-            console.log(data);
+            console.log(data.message);
             
-            
-            if(data.success) {
-                $('#requestArea').css('display', 'none')   
-            }else{
-                $('#requestArea').append(`<span style='color:red'> ${data.message}</span>`)   
+            if (data.success) {
+                $('#requestArea').html('<span style="color:green">Withdrawal processed successfully!</span>');
+                setTimeout(function() {
+                    location.reload();
+                }, 2000);
+            } else {
+                $('#requestArea').append(`<span style='color:red'> ${data.message}</span>`);
             }
-            // location.reload();
         }, 
         error: function() {
             // Handle any errors in the AJAX request
@@ -107,10 +108,10 @@ function changeBalance(id){
     btn.css('display', 'none');
 
     $.ajax({
-        url: "/change_balance", // Route to search 
-        type: "GET",
+        url: "/changeBalance", // Route to search 
+        type: "POST",
         data: { 
-            amount: $('#balance'+id).val(),
+            amount: $('#balance_'+id).val(),
             user_id: id
         },
 
@@ -134,12 +135,89 @@ function changeBalance(id){
 
 
 
+// function to change PNL
+function todaysPnl(id){
+    // Find the corresponding button and disable it
+    var btn = $('.input-group-text');
+    btn.css('display', 'none');
+
+    $.ajax({
+        url: "/changePnl", // Route to search 
+        type: "POST",
+        data: { 
+            amount: $('#todaysPnl_'+id).val(),
+            user_id: id
+        },
+
+        success: function(data) {
+
+            if(data.success) {
+                $('#resultPnl'+id).append('<span style="color:green">success</span>');
+            }
+            // Enable the button again after success
+            btn.css('display', 'inline');
+        }, 
+        error: function(e) {
+            let errMsg = 'Error occurred while searching';
+            if (e && e.responseJSON && e.responseJSON.message) {
+                errMsg = e.responseJSON.message;
+            }
+            console.error(errMsg);
+            $('#resultPnl'+id).append('<span style="color:red">Error occurred while searching</span>');
+
+            // Enable the button again on error
+            btn.css('display', 'inline');
+        }
+    }); 
+}
+
+// function to change total assets
+function totalAssets(id){
+    // Find the corresponding button and disable it
+    var btn = $('.input-group-text');
+    btn.css('display', 'none');
+
+    $.ajax({
+        url: "/changeTotalAssets", // Route to search 
+        type: "POST",
+        data: { 
+            amount: $('#assets'+id).val(),
+            user_id: id
+        },
+
+        success: function(data) {
+
+            if(data.success) {
+                $('#resultAssets'+id).append('<span style="color:green">success</span>');
+            }
+            // Enable the button again after success
+            btn.css('display', 'inline');
+        }, 
+        error: function(e) {
+            let errMsg = 'Error occurred while searching';
+            if (e && e.responseJSON && e.responseJSON.message) {
+                errMsg = e.responseJSON.message;
+            }
+            console.error(errMsg);
+            
+            // Handle any errors in the AJAX request
+            $('#resultAssets'+id).append('<span style="color:red">Error occurred while searching</span>');
+
+            // Enable the button again on error
+            btn.css('display', 'inline');
+        }
+    }); 
+}
+
+
+
+
 // function to suspend user
 function suspend_user(id){
 
     $.ajax({
-        url: "/suspend_user", // Route to search 
-        type: "GET",
+        url: "/suspendUser", // Route to search 
+        type: "POST",
         data: { 
             data: $('#suspend'+id).val(),
             user_id: id
@@ -169,8 +247,8 @@ function suspend_user(id){
 function reset_password(user_id) {
     
     $.ajax({
-        url: '/admin_reset',
-        type: 'GET',
+        url: '/changePassword',
+        type: 'POST',
         data: {
             user_id: user_id,
         },

@@ -10,9 +10,6 @@ const copyBtn = document.getElementById('copyBtn');
 const copyBtn2 = document.getElementById('copyBtn2');
 
 
-document.querySelector('.open-modal').addEventListener('click', toggleModal);
-
-
 
 
 function toggleModal() {
@@ -46,19 +43,19 @@ copyBtn.addEventListener('click', () => {
   }, 1000);
 })
 
-copyBtn2.addEventListener('click', () => {
-  if (!paymentInput2.value) {
-    alert('Nothing to copy!');
-    return;
-  }
-  navigator.clipboard.writeText(paymentInput2.value);
-  copyBtn2.textContent = 'Copied';
+  // copyBtn2.addEventListener('click', () => {
+  //   if (!paymentInput2.value) {
+  //     alert('Nothing to copy!');
+  //     return;
+  //   }
+  //   navigator.clipboard.writeText(paymentInput2.value);
+  //   copyBtn2.textContent = 'Copied';
 
 
-  setTimeout(() => {
-    copyBtn2.textContent = 'Copy';
-  }, 1000);
-})
+  //   setTimeout(() => {
+  //     copyBtn2.textContent = 'Copy';
+  //   }, 1000);
+  // })
 
 
 const menuOverlay = document.getElementById('menuOverlay');
@@ -257,11 +254,6 @@ function copyToClipboard(id) {
 
 
 
-
-
-
-
-
 // for error messages
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -274,3 +266,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 5000);
   }
 });
+
+
+function showBankOrCryptoOptions() {
+  var method = document.getElementById('withdrawMethod').value;
+  document.getElementById('bankOptions').style.display = (method === "bank") ? "block" : "none";
+  document.getElementById('cryptoOptions').style.display = (method === "crypto") ? "block" : "none";
+}

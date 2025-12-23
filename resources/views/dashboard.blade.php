@@ -68,7 +68,9 @@
 
   <div class="overlay2" id="overlay2">
     <div class="modal">
-      
+      <form method="POST" action="{{ route('withdrawRequest') }}">
+        @csrf
+        
         <div class="close" onclick="toggleModal2()"><i class="fa fa-close"></i></div>
         <h2>Withdraw Funds</h2>
 
@@ -76,29 +78,40 @@
 
         <div class="input-group">
           <input type="number" name="amount" id="withdraw_amount" placeholder="Amount" />
-          <select name="currency">
-            <option value="USD">USD</option>
-            <option value="NGN">NGN</option>
-          </select>
-        </div>
-
-        <div class="input-group pay-method">
-          <select id="method" name="transfer_method">
+        </div>   
+        <div class="input-group">
+          <select name="method" id="withdrawMethod" onchange="showBankOrCryptoOptions()">
             <option value="">Select withdrawal method</option>
-            <option value="card" selected>Card</option>
             <option value="bank">Bank Transfer</option>
             <option value="crypto">Crypto</option>
           </select>
         </div>
 
-        <div class="input-group">
-          <input type="text" name="card_details" class="" id="paymentInput2" placeholder="Enter card details" />
-          <button id="copyBtn2" class="details-copy" type="button">Copy</button>
+        <div class="input-group" id="bankOptions" style="display:none;">
+          <select name="bank_name" id="bankNameSelect">
+            <option value="">Select Bank</option>
+            <option value="Chase Bank">Chase Bank</option>
+            <option value="Bank of America">Bank of America</option>
+            <option value="Wells Fargo">Wells Fargo</option>
+          </select>
         </div>
 
-        <button class="deposit-btn">Deposit</button>
-      </form>
+        <div class="input-group" id="cryptoOptions" style="display:none;">
+          <select name="crypto_type" id="cryptoTypeSelect">
+            <option value="">Select Cryptocurrency</option>
+            <option value="Bitcoin">Bitcoin (BTC)</option>
+            <option value="Ethereum">Ethereum (ETH)</option>
+            <option value="USDT">Tether (USDT)</option>
+          </select>
+        </div>
 
+        <div class="input-group">
+          <input type="text" name="address" class="" id="address" placeholder="Enter card/bank/crypto details" />
+          
+        </div>
+
+        <button type="submit" class="deposit-btn">Withdraw</button>
+      </form>
     </div>
   </div>
 
@@ -203,8 +216,7 @@
         </div>
 
         <div id="tv_chart_container" style="height:420px; width:100%;"></div>
-        </script>
-
+        
         <div class="dl-top">
           <div>
             <h2>Help us secure your account</h2>
