@@ -132,12 +132,12 @@
     </div>
 
     <div style="display: flex; gap: 20px; align-items: center;">
-      <div class="nav-right">
+      {{-- <div class="nav-right">
         <i class="fa fa-search"></i>
         <i class="fa fa-user"></i>
         <i class="fa fa-bell"></i>
         <i class="fa fa-question-circle-o"></i>
-      </div>
+      </div> --}}
 
       <div class="balance-options">
         <button class="open-modal" onclick="toggleModal2()">Withdraw</button>
@@ -247,127 +247,119 @@
           <h2>Today's crypto prices</h2>
           <div class="trends">
             <button data-filter="favorites" class="active">Favorites</button>
-            <button data-filter="top">Top</button>
-            <button data-filter="hot">Hot</button>
-            <button data-filter="gainers">Gainers</button>
-            <button data-filter="new">New</button>
           </div>
 
-          <div class="crypto-table">
+          <div class="crypto-table" style="height:70vh">
 
-            <div class="table-header">
-              <div class="col name-col">Name</div>
-              <div class="col price-col">Price</div>
-              <div class="col change-col">Change</div>
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/" rel="noopener nofollow" target="_blank"><span class="blue-text">Market summary</span></a><span class="trademark"> by TradingView</span></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+              {
+              "colorTheme": "dark",
+              "locale": "en",
+              "largeChartUrl": "",
+              "isTransparent": false,
+              "showSymbolLogo": true,
+              "backgroundColor": "#0F0F0F",
+              "support_host": "https://www.tradingview.com",
+              "width": "100%",
+              "height": "100%",
+              "symbolsGroups": [
+                
+                {
+                  "name": "Futures",
+                  "symbols": [
+                    {
+                      "name": "BINANCE:BTCUSDT",
+                      "displayName": "BTC"
+                    },
+                    {
+                      "name": "BINANCE:ETHUSDT",
+                      "displayName": "ETH"
+                    },
+                    {
+                      "name": "BINANCE:SOLUSDT",
+                      "displayName": "SOL"
+                    },
+                    {
+                      "name": "BINANCE:BNBUSDT",
+                      "displayName": "XRP"
+                    },
+                    {
+                      "name": "BINANCE:BNBUSDT",
+                      "displayName": "BNB"
+                    },
+                    {
+                      "name": "BINANCE:LTCUSDT",
+                      "displayName": "LTC"
+                    }
+                  ]
+                },
+                {
+                  "name": "Bonds",
+                  "symbols": [
+                    {
+                      "name": "BINANCE:BTCUSDT",
+                      "displayName": "BTC"
+                    },
+                    {
+                      "name": "BINANCE:ETHUSDT",
+                      "displayName": "ETH"
+                    },
+                    {
+                      "name": "BINANCE:SOLUSDT",
+                      "displayName": "SOL"
+                    },
+                    {
+                      "name": "BINANCE:BNBUSDT",
+                      "displayName": "XRP"
+                    },
+                    {
+                      "name": "BINANCE:BNBUSDT",
+                      "displayName": "BNB"
+                    },
+                    {
+                      "name": "BINANCE:LTCUSDT",
+                      "displayName": "LTC"
+                    }
+                  ]
+                },
+                {
+                  "name": "Forex",
+                  "symbols": [
+                    {
+                      "name": "BINANCE:BTCUSDT",
+                      "displayName": "BTC"
+                    },
+                    {
+                      "name": "BINANCE:ETHUSDT",
+                      "displayName": "ETH"
+                    },
+                    {
+                      "name": "BINANCE:SOLUSDT",
+                      "displayName": "SOL"
+                    },
+                    {
+                      "name": "BINANCE:BNBUSDT",
+                      "displayName": "XRP"
+                    },
+                    {
+                      "name": "BINANCE:BNBUSDT",
+                      "displayName": "BNB"
+                    },
+                    {
+                      "name": "BINANCE:LTCUSDT",
+                      "displayName": "LTC"
+                    }
+                  ]
+                }
+              ]
+            }
+              </script>
             </div>
-
-            <div class="crypto-row" id="btc-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/btc.png') }}" class="icon" />
-                <span class="name">BTC</span>
-              </div>
-              <div class="col price-col">$91,172.30</div>
-              <div class="col change-col positive">+0.37%</div>
-            </div>
-
-            <div class="crypto-row" id="eth-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/eth.png') }}" class="icon" />
-                <span class="name">ETH</span>
-              </div>
-              <div class="col price-col">$3,021.03</div>
-              <div class="col change-col positive">+1.04%</div>
-            </div>
-
-            <div class="crypto-row" id="sol-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/sol.png') }}" class="icon" />
-                <span class="name">SOL</span>
-              </div>
-              <div class="col price-col">$137.33</div>
-              <div class="col change-col positive">+1.02%</div>
-            </div>
-
-            <div class="crypto-row" id="doge-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/doge.png') }}" class="icon" />
-                <span class="name">DOGE</span>
-              </div>
-              <div class="col price-col">$0.14936</div>
-              <div class="col change-col positive">+0.65%</div>
-            </div>
-
-            <div class="crypto-row" id="xrp-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/xrp.png') }}" class="icon" />
-                <span class="name">XRP</span>
-              </div>
-              <div class="col price-col">$2.1934</div>
-              <div class="col change-col negative">-0.37%</div>
-            </div>
-
-            <div class="crypto-row" id="usdt-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/usdt.png') }}" class="icon" />
-                <span class="name">USDT</span>
-              </div>
-              <div class="col price-col">$1.0000</div>
-              <div class="col change-col positive">-0.02%</div>
-            </div>
-
-            <div class="crypto-row" id="btc-usd-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/btc.png') }}" class="icon" />
-                <span class="name">BTC/USD</span>
-              </div>
-              <div class="col price-col">91,293.8</div>
-              <div class="col change-col positive">+0.52%</div>
-            </div>
-
-            <div class="crypto-row" id="eth-usd-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/eth.png') }}" class="icon" />
-                <span class="name">ETH/USD</span>
-              </div>
-              <div class="col price-col">$3,030.08</div>
-              <div class="col change-col positive">+1.32%</div>
-            </div>
-
-            <div class="crypto-row" id="xrp-usd-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/xrp.png') }}" class="icon" />
-                <span class="name">XRP/USD</span>
-              </div>
-              <div class="col price-col">2.1942</div>
-              <div class="col change-col negative">-0.29</div>
-            </div>
-
-            <div class="crypto-row" id="sol-usd-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/sol.png') }}" class="icon" />
-                <span class="name">SOL/USD</span>
-              </div>
-              <div class="col price-col">137.75</div>
-              <div class="col change-col positive">+1.33%</div>
-            </div>
-
-            <div class="crypto-row" id="doge-usd-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/doge.png') }}" class="icon" />
-                <span class="name">DOGE/USD</span>
-              </div>
-              <div class="col price-col">$0.14979</div>
-              <div class="col change-col positive">+0.85%</div>
-            </div>
-
-            <div class="crypto-row" id="usdt-usd-row">
-              <div class="col name-col">
-                <img src="{{ asset('images/usdt.png') }}" class="icon" />
-                <span class="name">USDT/USD</span>
-              </div>
-              <div class="col price-col">1.0002</div>
-              <div class="col change-col negative">-0.02%</div>
-            </div>
+            <!-- TradingView Widget END -->
 
           </div>
         </div>

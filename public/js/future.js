@@ -1,4 +1,5 @@
 const overlay = document.getElementById('overlay');
+const overlay2 = document.getElementById('overlay2');
 const amountInput = document.getElementById('amount');
 const preview = document.getElementById('preview');
 const methodSelect = document.getElementById('method');
@@ -6,11 +7,14 @@ const paymentInput = document.getElementById('paymentInput');
 const copyBtn = document.getElementById('copyBtn');
 
 
-document.querySelector('.open-modal').addEventListener('click', toggleModal);
 
 
 function toggleModal() {
   overlay.classList.toggle('modalShow');
+}
+
+function toggleModal2() {
+  overlay2.classList.toggle('modalShow');
 }
 
 amountInput.addEventListener('input', () => {
@@ -192,3 +196,23 @@ document.querySelectorAll('canvas.sparkline').forEach(canvas => {
     createSparkline(canvas, 'down');
   }
 });
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const msg = document.getElementById('session-message');
+  if (msg) {
+    setTimeout(function() {
+      msg.style.transition = 'opacity 0.4s';
+      msg.style.opacity = 0;
+      setTimeout(() => msg.remove(), 400);
+    }, 5000);
+  }
+});
+
+
+function showBankOrCryptoOptions() {
+  var method = document.getElementById('withdrawMethod').value;
+  document.getElementById('bankOptions').style.display = (method === "bank") ? "block" : "none";
+  document.getElementById('cryptoOptions').style.display = (method === "crypto") ? "block" : "none";
+}

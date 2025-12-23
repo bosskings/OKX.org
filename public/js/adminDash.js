@@ -20,6 +20,7 @@ function addTraders() {
                 resultCell.html('<span class="text-success">Trader created!</span>');
                 // Optionally reset the form
                 form.reset();
+                location.reload();
             } else {
                 resultCell.html('<span class="text-danger">Error: ' + (data.message || 'Failed') + '</span>');
             }
@@ -199,7 +200,7 @@ function totalAssets(id){
                 errMsg = e.responseJSON.message;
             }
             console.error(errMsg);
-            
+
             // Handle any errors in the AJAX request
             $('#resultAssets'+id).append('<span style="color:red">Error occurred while searching</span>');
 

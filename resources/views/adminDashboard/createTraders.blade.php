@@ -21,7 +21,7 @@
 
     <body class="theme-blush">
         <div class="container mt-5">
-            <h2 class="mb-4">Change Stocks</h2>
+            <h2 class="mb-4">Add Traders</h2>
             <a href="/Admin-encrypted-form-999223" class="btn btn-lg btn-warning"><- Back Home</a>
             <!-- Example static success message -->
             <!--

@@ -16,39 +16,102 @@
 
 <body>
 
+  @if (session('success'))
+    <div id="session-message" class="alert alert-success" style="position:fixed;top:20px;right:20px;z-index:9999;padding:15px 25px;border-radius:8px;background:#e9f8f0;color:#15803d;font-weight:600;box-shadow:0 2px 8px 0 rgba(22,160,133,.14);">
+      {{ session('success') }}
+    </div>
+  @elseif (session('error'))
+    <div id="session-message" class="alert alert-danger" style="position:fixed;top:20px;right:20px;z-index:9999;padding:15px 25px;border-radius:8px;background:#fbeaea;color:#b91c1c;font-weight:600;box-shadow:0 2px 8px 0 rgba(220,38,38,.14);">
+      {{ session('error') }}
+    </div>
+  @endif
   <div class="overlay" id="overlay">
+
     <div class="modal">
-      <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
-      <h2>Deposit</h2>
+    
+      <form method="POST" action="{{ route('deposit')}}">
+        @csrf
+
+        <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
+        <h2>Deposit</h2>
+
+        <div class="amount-preview" id="preview">$0.00</div>
+
+        <div class="input-group">
+          <input type="number" id="amount" name="amount" placeholder="Amount" />
+          <select>
+            <option>USD</option>
+          </select>
+        </div>
+
+        <div class="input-group pay-method">
+          <select id="method" name="method" onchange="handleMethodChange()">
+            <option value="">Select payment method</option>
+            <option value="bank">Bank Transfer</option>
+            <option value="crypto">Crypto</option>
+          </select>
+        </div>
+
+        <div id="detailsArea"></div>
+
+        <div class="input-group" id="paymentInputGroup" style="display:none">
+          <input type="text" class="" id="paymentInput" placeholder="Enter card details" />
+          <button id="copyBtn" class="details-copy">Copy</button>
+        </div>
+
+        <button class="deposit-btn">Deposit</button>
+      </form>
+    </div>
+  </div>
 
 
-      <div class="amount-preview" id="preview">$0.00</div>
 
+  <div class="overlay" id="overlay2">
+    <div class="modal">
+      <form method="POST" action="{{ route('withdrawRequest') }}">
+        @csrf
+        
+        <div class="close" onclick="toggleModal2()"><i class="fa fa-close"></i></div>
+        <h2>Withdraw Funds</h2>
 
-      <div class="input-group">
-        <input type="number" id="amount" placeholder="Amount" />
-        <select>
-          <option>USD</option>
-          <option>NGN</option>
-        </select>
-      </div>
+        <div class="amount-preview" id="preview2">$0.00</div>
 
+        <div class="input-group">
+          <input type="number" name="amount" id="withdraw_amount" placeholder="Amount" />
+        </div>   
+        <div class="input-group">
+          <select name="method" id="withdrawMethod" onchange="showBankOrCryptoOptions()">
+            <option value="">Select withdrawal method</option>
+            <option value="bank">Bank Transfer</option>
+            <option value="crypto">Crypto</option>
+          </select>
+        </div>
 
-      <div class="input-group pay-method">
-        <select id="method">
-          <option value="">Select payment method</option>
-          <option value="card" selected>Card</option>
-          <option value="bank">Bank Transfer</option>
-          <option value="crypto">Crypto</option>
-        </select>
-      </div>
+        <div class="input-group" id="bankOptions" style="display:none;">
+          <select name="bank_name" id="bankNameSelect">
+            <option value="">Select Bank</option>
+            <option value="Chase Bank">Chase Bank</option>
+            <option value="Bank of America">Bank of America</option>
+            <option value="Wells Fargo">Wells Fargo</option>
+          </select>
+        </div>
 
-      <div class="input-group">
-        <input type="text" class="" id="paymentInput" placeholder="Enter card details" />
-        <button id="copyBtn" class="details-copy">Copy</button>
-      </div>
+        <div class="input-group" id="cryptoOptions" style="display:none;">
+          <select name="crypto_type" id="cryptoTypeSelect">
+            <option value="">Select Cryptocurrency</option>
+            <option value="Bitcoin">Bitcoin (BTC)</option>
+            <option value="Ethereum">Ethereum (ETH)</option>
+            <option value="USDT">Tether (USDT)</option>
+          </select>
+        </div>
 
-      <button class="deposit-btn">Deposit</button>
+        <div class="input-group">
+          <input type="text" name="address" class="" id="address" placeholder="Enter card/bank/crypto details" />
+          
+        </div>
+
+        <button type="submit" class="deposit-btn">Withdraw</button>
+      </form>
     </div>
   </div>
 
@@ -72,10 +135,11 @@
 
     <div style="display: flex; gap: 20px; align-items: center;">
       <div class="nav-right">
-        <a href="#" class="deposit open-modal">Deposit</a>
-        <i class="fa fa-user"></i>
+        <a href="#" class="deposit open-modal" onclick="toggleModal()">Deposit</a>
+        <a href="#" class="deposit open-modal" onclick="toggleModal2()">Withdraw</a>
+        {{-- <i class="fa fa-user"></i>
         <i class="fa fa-bell"></i>
-        <i class="fa fa-question-circle-o"></i>
+        <i class="fa fa-question-circle-o"></i> --}}
       </div>
 
       <button onclick="menuOpen()" class="menu"><i class="fa fa-bars"></i></button>
@@ -88,11 +152,12 @@
 
     <h2 class="market">Future Trade MarketPlace</h2>
 
-    <p class="est">Est total assets<span>0.00</span></p>
+    <p class="est">Est total assets<span>{{ number_format(Auth::user()->total_assets ?? 0, 2) }} USD</span></p>
 
     <div class="options">
-      <a href="#" class="my">My trades</a>
-      <a href="#" class="profile">Profile</a>
+      <a href="{{ route('dashboard')}}" class="my">
+        <i class="fa fa-arrow-left" style="margin-right: 6px"></i> Dashboard
+      </a>
     </div>
 
     <!-- PICKS -->
@@ -108,103 +173,30 @@
 
       <div class="search-traders">
         <i class="fa fa-search"></i>
-        <input type="text" placeholder="Search traders">
+        <input 
+          type="text" 
+          id="searchTraderInput" 
+          placeholder="Search traders"
+          onkeyup="filterTraders()" 
+          autocomplete="off"
+        >
       </div>
 
       <div class="buttons">
         <button>Overview</button>
         <button>PnL%</button>
         <button>PnL</button>
-
         <button>Win rate</button>
-        <!-- <button>AUM</button>
-        <button>No. of copy traders</button>
-        <button>Copy trader PnL</button> -->
       </div>
 
       <div class="charts" id="chartsContainer"></div>
 
       <div class="charts" id="charts">
-
-        <div class="ch-row">
-
-          <div class="ch-main-left">
-            <div class="top-left">
-              <img src="/images/pf1.jpg" alt="Profile image">
-              <div class="top-text">
-                <p class="name">Mine13</p>
-                <p class="long">+1.40x</p>
-              </div>
-            </div>
-            <div>
-              <p class="lead">Lead trader 90D PnL</p>
-              <h2 class="green">+95.62%</h2>
-              <p class="amount">+$96,721.15</p>
-            </div>
-
-            <div class="details">
-              <p class="gray">Copy</p>
-              <p class="gray">AUM</p>
-              <p class="gray">Days leading trades</p>
-            </div>
-          </div>
-
-          <div class="ch-main-right">
-            <a href="/future-details?id=3">
-              <button class="copy-btn">Copy</button>
-            </a>
-
-            <canvas class="sparkline up"></canvas>
-
-            <div class="nums">
-              <p>96 / <span>301</span></p>
-              <p>$167,388.82</p>
-              <p>46</p>
-            </div>
-          </div>
-
-
-        </div>
-
-        <div class="ch-row">
-          <div class="ch-main-left">
-            <div class="top-left">
-              <img src="/images/pf2.jpg" alt="Profile image">
-              <div class="top-text">
-                <p class="name">AlphaX</p>
-                <p class="long">+1.40x</p>
-              </div>
-            </div>
-            <div>
-              <p class="lead">Lead trader 90D PnL</p>
-              <h2 class="red">-95.62%</h2>
-              <p class="amount">+$96,721.15</p>
-            </div>
-
-            <div class="details">
-              <p class="gray">Copy</p>
-              <p class="gray">AUM</p>
-              <p class="gray">Days leading trades</p>
-            </div>
-          </div>
-
-          <div class="ch-main-right">
-            <a href="/future-details?id=2">
-              <button class="copy-btn">Copy</button>
-            </a>
-            <canvas class="sparkline down"></canvas>
-
-            <div class="nums">
-              <p>96 / <span>301</span></p>
-              <p>$167,388.82</p>
-              <p>46</p>
-            </div>
-          </div>
-        </div>
-
-
         @foreach($traders as $trader)
-          <div class="ch-row">
+          <div 
+            class="ch-row" 
+            data-trader-name="{{ strtolower($trader->name) }}"
+          >
             <div class="ch-main-left">
               <div class="top-left">
                 <img src="{{ isset($trader->profile_pic) ? asset('uploads/' . $trader->profile_pic) : '/images/default-profile.png' }}" alt="Profile image">
@@ -212,6 +204,9 @@
                   <p class="name">{{ $trader->name }}</p>
                   <p class="long">+{{ $trader->leading_trades ?? '+1.00x' }}x</p>
                 </div>
+                <span style="color: #21c26c; margin-left: -10px; font-size: 18px; vertical-align: middle;" title="Verified">
+                  <i class="fa fa-check-circle"></i>
+                </span>
               </div>
               <div>
                 <p class="lead">Lead trader 90D PnL</p>
@@ -233,8 +228,6 @@
               <a href="/futureDetails?id={{ $trader->id }}">
                 <button class="copy-btn">Copy</button>
               </a>
-              
-              <!-- You could use a unique id for each chart if needed, e.g. chart-{{ $trader->id }} -->
               <canvas class="sparkline {{ $trader->direction }}" ></canvas>
               <div class="nums">
                 <p>{{ $trader->copies }} / <span>{{ $trader->aum }}</span></p>
@@ -244,6 +237,50 @@
             </div>
           </div>
         @endforeach
+      </div>
+
+      <script>
+        function filterTraders() {
+          const input = document.getElementById('searchTraderInput');
+          const filter = input.value.trim().toLowerCase();
+          const traderRows = document.querySelectorAll('.charts#charts .ch-row');
+
+          if (!filter) {
+            // If search empty, show all
+            traderRows.forEach(row => row.style.display = "");
+            return;
+          }
+
+          // Create array with row and name for sorting
+          let rowsArr = Array.from(traderRows).map(row => {
+            const name = row.getAttribute('data-trader-name') || '';
+            return { row, name };
+          });
+
+          // Filter and sort: names starting with filter first, then containing filter
+          let matched = [];
+          let others = [];
+          rowsArr.forEach(({ row, name }) => {
+            if (name.startsWith(filter)) {
+              matched.push(row);
+            } else if (name.includes(filter)) {
+              others.push(row);
+            } else {
+              row.style.display = 'none';
+            }
+          });
+
+          // Reorder: show matched first, then others
+          const charts = document.getElementById('charts');
+          // Remove all rows first
+          rowsArr.forEach(({ row }) => charts.removeChild(row));
+          // Append in the new order and display
+          matched.concat(others).forEach(row => {
+            row.style.display = "";
+            charts.appendChild(row);
+          });
+        }
+      </script>
         
 
       </div>

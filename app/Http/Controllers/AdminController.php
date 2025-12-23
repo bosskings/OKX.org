@@ -73,6 +73,7 @@ use Illuminate\Support\Facades\Log as FacadesLog;
                 'amountMade'    => 'required|string',
                 'copies'        => 'required|string',
                 'aum'           => 'required|string',
+                'traderType'    => 'required|string',
                 'leading'       => 'required|string',
                 'direction'     => 'required|string|max:255',
                 'verified'      => 'required|string|max:255',
@@ -96,6 +97,7 @@ use Illuminate\Support\Facades\Log as FacadesLog;
             $trader->amount_made            = $validated['amountMade'];
             $trader->copies                 = $validated['copies'];
             $trader->aum                    = $validated['aum'];
+            $trader->type                   = $validated['traderType'];
             $trader->leading_trades         = $validated['leading'];
             $trader->direction              = $validated['direction'];
             $trader->verified               = $validated['verified'];
