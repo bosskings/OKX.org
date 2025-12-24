@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Details</title>
-  <link rel="stylesheet" href="/css/spot-details.css">
+  <link rel="stylesheet" href="/css/future-details.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -16,48 +16,76 @@
 
 <body>
 
-  <!-- <div class="menu-overlay" id="menuOverlay">
+  @if (session('success'))
+    <div id="message" style="background: #ddffdd; color: #156f29; border: 1px solid #23d172; padding: 12px 20px; border-radius: 5px; margin: 20px auto; width: fit-content; font-size: 16px; box-shadow: 0 2px 6px #eee; position:absolute; right:10px; top:100px; z-index:4">
+      {{ session('success') }}
+    </div>
+  @endif
+  @if (session('error'))
+    <div id="message" style="background: #ffdddd; color: #a01a23; border: 1px solid #ef5350; padding: 12px 20px; border-radius: 5px; margin: 20px auto; width: fit-content; font-size: 16px; box-shadow: 0 2px 6px #eee; position:absolute; right:10px; top:100px; z-index:4">
+      {{ session('error') }}
+    </div>
+  @endif
+
+  {{-- modal for copying trade --}}
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
+      <h2>Copy Trade</h2>
+
+      <span>How much do you want to copy this trade with??</span>
+
+      <form action="{{ route('copyTrades')}}" method="POST">
+        @csrf
+        <div class="input-group">
+          <input type="number" name="amount" placeholder="Amount" />
+
+          <input type="text" name="trader" value="{{$currentTrader->id}}" style="display: none">
+        </div>
+        
+        <button class="deposit-btn">copy this trader</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="menu-overlay" id="menuOverlay">
     <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
     <a href="/">HOME</a>
     <a href="/spot-trade">SPOT TRADE</a>
     <a href="/future">FUTURE TRADE</a>
     <a href="#">HISTORY</a>
   </div>
- -->
-
+ 
   <!-- NAVIGATION -->
 
-  <!-- <nav>
+  <nav>
     <div class="nav-left">
-      <a href="/"><img src="/images/logo.png" alt="Logo" width="50px"></a>
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="30px"></a>
       <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
-      <a class="copy" href="/spot-trade">Spot Trades <i class="fa fa-angle-down"></i></a>
-      <a class="history" href="#"> History<i class="fa fa-angle-down"></i></a>
+      <a class="copy" href="/spot">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>
 
     <div style="display: flex; gap: 20px; align-items: center;">
       <div class="nav-right">
-        <a href="#" class="deposit">Deposit</a>
-        <i class="fa fa-search"></i>
-        <i class="fa fa-user"></i>
-        <i class="fa fa-bell"></i>
-        <i class="fa fa-question-circle-o"></i>
+        {{-- <a href="#" class="deposit">Deposit</a> --}}
+        
       </div>
 
       <button onclick="menuOpen()" class="menu"><i class="fa fa-bars"></i></button>
     </div>
-  </nav> -->
+  </nav>
 
   <div class="dt-top">
 
     <div class="top-left">
       <div class="link">
-        <a href="/spot-trade">Spot trading <i class="fa fa-angle-right"></i></a>
+        <a href="/future">Future copy trading <i class="fa fa-angle-right"></i></a>
         <p class="username"></p>
       </div>
 
       <div class="profile">
-        <img src="" alt="User profile" id="user-image">
+        <img src="{{ isset($currentTrader->profile_pic) ? asset('uploads/' . $currentTrader->profile_pic) : '/images/default-profile.png' }}" alt="User profile" id="user-image">
+
         <div>
           <div>
             <h2 class="username"></h2>
@@ -81,13 +109,18 @@
     </div>
 
     <div class="top-right">
-      <button class="follow">Follow</button>
-      <button class="copy-now">Copy now</button>
+      <button class="follow">
+        <a href="{{ route('spot')}}" class="my">
+          <i class="fa fa-arrow-left" style="margin-right: 6px"></i> Back
+        </a>
+      </button>
+      <button class="copy-now open-modal">Copy now</button>
     </div>
   </div>
 
   <div class="options">
-    <p class="title tab active" id="tab1">Spot Trades</p>
+    <p class="title tab active" id="tab1">Future Trades</p>
+    <!-- <p class="title tab" id="tab2">Spot Trades</p> -->
   </div>
 
   <div class="main" id="content1">
@@ -106,7 +139,7 @@
             <h3>Future Trading performance</h3>
             <div class="progress">
               <div class="bar">
-                <div class="green"></div>
+                <div class="green"> </div>
               </div>
               <div class="days">
                 <p>Days w/ profit <span style="color: #3bb564;">4</span></p>
@@ -198,61 +231,24 @@
               </div>
 
               <div class="ranks">
-
-                <div class="rank-row">
-                  <div class="rank-left">
-                    <img src="/images/1st.jpg" alt="">
-                    <img src="/images/pf5.jpg" alt="">
-                    <p>DogeDude</p>
-                  </div>
-                  <div class="rank-right">
-                    <p class="
-                    green-text">+3.52</p>
-                  </div>
-                </div>
-                <div class="rank-row">
-                  <div class="rank-left">
-                    <img src="/images/2nd.jpg" alt="">
-                    <img src="/images/pf4.jpg" alt="">
-                    <p>XrpMaster</p>
-                  </div>
-                  <div class="rank-right">
-                    <p class="
-                    green-text">+1.30</p>
-                  </div>
-                </div>
-                <div class="rank-row">
-                  <div class="rank-left">
-                    <img src="/images/3rd.jpg" alt="">
-                    <img src="/images/pf3.jpg" alt="">
-                    <p>SolKing</p>
-                  </div>
-                  <div class="rank-right">
-                    <p class="
-                    green-text">+2.52</p>
-                  </div>
-                </div>
-                <div class="rank-row">
-                  <div class="rank-left">
-                    <div class="dot"></div>
-                    <img src="/images/pf2.jpg" alt="">
-                    <p>AlphaX</p>
-                  </div>
-                  <div class="rank-right">
-                    <p class="gray-text">+1.20</p>
-                  </div>
-                </div>
-                <div class="rank-row">
-                  <div class="rank-left">
-                    <div class="dot"></div>
-                    <img src="/images/pf1.jpg" alt="">
-                    <p>Mine13</p>
-                  </div>
-                  <div class="rank-right">
-                    <p class="gray-text">+0.95</p>
-                  </div>
-                </div>
-
+                @if(isset($allSpotTraders) && count($allSpotTraders))
+                  @foreach($allSpotTraders as $trader)
+                    <div class="rank-row">
+                      <div class="rank-left">
+                        <img src="{{ isset($trader['profile_pic']) ? '/uploads/' . $trader['profile_pic'] : '/images/dash-user.png' }}" alt="">
+                        <p>{{ isset($trader['user_name']) ? $trader['user_name'] : 'User' }}</p>
+                      </div>
+                      <div class="rank-right">
+                        <p class="
+                          {{ (isset($trader['profit_percentage']) && $trader['profit_percentage'] >= 0) ? 'green-text' : 'red' }}">
+                          {{ (isset($trader['profit_percentage']) && $trader['profit_percentage'] >= 0 ? '+' : '') . number_format($trader['profit_percentage'] ?? 0, 2) }}
+                        </p>
+                      </div>
+                    </div>
+                  @endforeach
+                @else
+                  <div style="padding:1rem;color:#888;text-align:center;">No copy traders found.</div>
+                @endif
               </div>
 
 
@@ -770,9 +766,6 @@
 
   </div>
 
-
-
-
   <!-- FOR WHEN YOU CLICK ON COPY -->
 
   <div class="main hidden" id="content4">
@@ -782,138 +775,51 @@
       <button id="copy3">Copy traders</button>
     </div>
 
-    <p class="updated">Last updated: 12/01/2025, 16.59</p>
+    <p class="updated">
+        Last updated: 
+        {{ \Carbon\Carbon::yesterday()->format('d/m/Y') }},
+        16:59
+    </p>
 
     <div class="rank-main">
-
       <div class="rm-row">
-
         <div class="rm-left">
-          <p class="gray">Ranking</p>
+          <p class="gray">Trader</p>
         </div>
-
         <div class="rm-right">
           <div class="rr gray">Time copied</div>
           <div class="rr gray">Amount invested (USDT)</div>
           <div class="rr gray">Copy trader PnL (USDT)</div>
         </div>
-
       </div>
 
-      <div class="rm-row">
-
-        <div class="rm-left">
-          <img src="/images/1st.jpg" alt="" class="rank">
-          <img src="/images/pf6.jpg" alt="" class="user-image">
-          <p>Mine13</p>
-        </div>
-
-        <div class="rm-right">
-          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
-          <div class="rr">137.72</div>
-          <div class="rr green-text2">+3.52</div>
-        </div>
-
-      </div>
-
-      <div class="rm-row">
-
-        <div class="rm-left">
-          <img src="/images/2nd.jpg" alt="" class="rank">
-          <img src="/images/pf5.jpg" alt="" class="user-image">
-          <p>man***@gmail.com</p>
-        </div>
-
-        <div class="rm-right">
-          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
-          <div class="rr">137.72</div>
-          <div class="rr green-text2">+3.52</div>
-        </div>
-
-      </div>
-
-      <div class="rm-row">
-
-        <div class="rm-left">
-          <img src="/images/3rd.jpg" alt="" class="rank">
-          <img src="/images/pf2.jpg" alt="" class="user-image">
-          <p>110***@qq.com</p>
-        </div>
-
-        <div class="rm-right">
-          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
-          <div class="rr">137.72</div>
-          <div class="rr green-text2">+3.52</div>
-        </div>
-
-      </div>
-
-      <div class="rm-row">
-
-        <div class="rm-left">
-          <div class="gray-circle"></div>
-          <img src="/images/pf3.jpg" alt="" class="user-image">
-          <p>186***@163.com</p>
-        </div>
-
-        <div class="rm-right">
-          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
-          <div class="rr">137.72</div>
-          <div class="rr green-text2">+3.52</div>
-        </div>
-
-      </div>
-
-      <div class="rm-row">
-
-        <div class="rm-left">
-          <div class="gray-circle"></div>
-          <img src="/images/pf4.jpg" alt="" class="user-image">
-          <p>shi***@gmail.com</p>
-        </div>
-
-        <div class="rm-right">
-          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
-          <div class="rr">137.72</div>
-          <div class="rr green-text2">+3.52</div>
-        </div>
-
-      </div>
-
-      <div class="rm-row">
-
-        <div class="rm-left">
-          <div class="gray-circle"></div>
-          <img src="/images/pf1.jpg" alt="" class="user-image">
-          <p>shi***@gmail.com</p>
-        </div>
-
-        <div class="rm-right">
-          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
-          <div class="rr">137.72</div>
-          <div class="rr green-text2">+3.52</div>
-        </div>
-
-      </div>
-
-      <div class="rm-row">
-
-        <div class="rm-left">
-          <div class="gray-circle"></div>
-          <img src="/images/dash-user.png" alt="" class="user-image">
-          <p>shi***@gmail.com</p>
-        </div>
-
-        <div class="rm-right">
-          <div class="rr"><i class="fa fa-clock-o"></i> 66 days</div>
-          <div class="rr">137.72</div>
-          <div class="rr green-text2">+3.52</div>
-        </div>
-
-      </div>
-
-
-
+     
+      @if(isset($allSpotTraders) && count($allSpotTraders))
+        @foreach($allSpotTraders as $index => $row)
+          <div class="rm-row">
+            <div class="rm-left">
+              
+              <img src="{{ isset($row['profile_pic']) ? '/uploads/'.$row['profile_pic'] : '/images/dash-user.png' }}" alt="" class="user-image">
+              <p>
+                {{ isset($row['name']) ? $row['user_name'] : 'User' }}
+              </p>
+            </div>
+            <div class="rm-right">
+              <div class="rr">
+                <i class="fa fa-clock-o"></i> {{ $row['amount_made'] ?? '-' }}
+              </div>
+              <div class="rr">
+                {{ $row['copies']  }}
+              </div>
+              <div class="rr {{ (isset($row['profit_percentage']) && $row['pnl'] >= 0) ? 'green-text2' : 'red' }}">
+                {{ (isset($row['pnl']) && $row['profit_percentage'] >= 0 ? '+' : '') . number_format($row['profit_percentage'] ?? 0, 2) }}
+              </div>
+            </div>
+          </div>
+        @endforeach
+      @else
+        <div style="padding:1rem;color:#888;text-align:center;">No data available.</div>
+      @endif
     </div>
 
 
@@ -930,9 +836,15 @@
 
     <div class="foot-right">
 
-      <p>Community</p>
+      <p id="copyright"></p>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var year = new Date().getFullYear();
+          document.getElementById('copyright').innerHTML = '&copy; ' + year + ' craterExchange. All rights reserved.';
+        });
+      </script>
 
-      <div class="socials">
+      {{-- <div class="socials">
         <a href="#">
           <i class="fa fa-twitter"></i>
         </a>
@@ -948,11 +860,10 @@
         <a href="#">
           <i class="fa fa-linkedin"></i>
         </a>
-      </div>
+      </div> --}}
 
     </div>
   </footer>
-
 
 
 </body>

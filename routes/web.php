@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\Route;
 
     Route::middleware(['auth'])->group(function () {
     
-        Route::get('/dashboard', function(){ return view('dashboard', ['user'=>Auth::user()] ); })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
         Route::post('/deposit', [DashboardController::class, 'deposit'])->name('deposit');
         Route::post('/withdrawRequest', [DashboardController::class, 'withdrawRequest'])->name('withdrawRequest');
 
@@ -50,8 +50,8 @@ use Illuminate\Support\Facades\Route;
         Route::get('/futureDetails/{id?}', [DashboardController::class, 'futureDetails'])->name('futureDetails');
         Route::post('/copyTrades', [DashboardController::class, 'copyTrades'])->name('copyTrades');
         
-        Route::get('/spots', function(){return view('spot-trade');})->name('spots');
-        Route::get('/spotDetails', function () {return view('spot-details'); });
+        Route::get('/spot', [DashboardController::class, 'showSpotTraders'])->name('spot');
+        Route::get('/spotDetails', [DashboardController::class, 'spotDetails'] )->name('spotDetails');
     
 
         Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');

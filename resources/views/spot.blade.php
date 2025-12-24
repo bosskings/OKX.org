@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FUTURE TRADES</title>
-  <link rel="stylesheet" href="/css/future.css">
+  <title>SPOT TRADES</title>
+  <link rel="stylesheet" href="/css/spot-trade.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -25,6 +25,7 @@
       {{ session('error') }}
     </div>
   @endif
+
   <div class="overlay" id="overlay">
 
     <div class="modal">
@@ -129,7 +130,7 @@
   <nav>
     <div class="nav-left">
       <a href="/"><img src="/images/logo.png" alt="Logo" width="50px"></a>
-      <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
+      <a class="abt" href="/futures">Future Trades <i class="fa fa-angle-down"></i></a>
       <a class="copy" href="/spot">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>
 
@@ -150,9 +151,9 @@
 
   <div class="future-main">
 
-    <h2 class="market">Future Trade MarketPlace</h2>
+    <h2 class="market">Spot Trade MarketPlace</h2>
 
-    <p class="est">Est total assets<span>{{ number_format(Auth::user()->total_assets ?? 0, 2) }} USD</span></p>
+    <p class="est">Est total assets<span>{{ number_format(Auth::user()->total_assets ?? 0, 2) }} USD</span> </p>
 
     <div class="options">
       <a href="{{ route('dashboard')}}" class="my">
@@ -211,7 +212,6 @@
               <div>
                 <p class="lead">Lead trader 90D PnL</p>
                 @php
-                  // decide class color based on profit sign
                   $profitValue = floatval(preg_replace('/[^\d\.\-]/', '', $trader->profit_percentage));
                   $profitClass = $profitValue < 0 ? 'red' : 'green';
                 @endphp
@@ -225,10 +225,10 @@
               </div>
             </div>
             <div class="ch-main-right">
-              <a href="/futureDetails?id={{ $trader->id }}">
+              <a href="/spotDetails?id={{ $trader->id }}">
                 <button class="copy-btn">Copy</button>
               </a>
-              <canvas class="sparkline {{ $trader->direction }}" ></canvas>
+              <canvas class="sparkline {{ $trader->direction }}"></canvas>
               <div class="nums">
                 <p>{{ $trader->copies }} / <span>{{ $trader->aum }}</span></p>
                 <p>{{ $trader->amount_made }}</p>
@@ -238,6 +238,7 @@
           </div>
         @endforeach
       </div>
+
 
       <script>
         function filterTraders() {
@@ -281,13 +282,10 @@
           });
         }
       </script>
-        
-
 
     </div>
 
   </div>
-
 
 
   <!-- FOOTER -->
@@ -308,30 +306,21 @@
         });
       </script>
 
-      {{-- <div class="socials">
-        <a href="#">
-          <i class="fa fa-twitter"></i>
-        </a>
-        <a href="#">
-          <i class="fa fa-instagram"></i>
-        </a>
-        <a href="#">
-          <i class="fa fa-telegram"></i>
-        </a>
-        <a href="#">
-          <i class="fa fa-facebook"></i>
-        </a>
-        <a href="#">
-          <i class="fa fa-linkedin"></i>
-        </a>
-      </div> --}}
+      <p id="copyright"></p>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var year = new Date().getFullYear();
+          document.getElementById('copyright').innerHTML = '&copy; ' + year + ' craterExchange. All rights reserved.';
+        });
+      </script>
 
     </div>
   </footer>
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/js/future.js"></script>
+<script src="/js/spot.js"></script>
+
 
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">

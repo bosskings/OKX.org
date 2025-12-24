@@ -213,10 +213,9 @@ function handleMethodChange() {
     paymentInputGroup.style.display = 'none';
     html = `
       <div class="wallet-addresses" >
-        <div><strong>BTC:</strong> <br> <span id="btc-address">1BoatSLRHtKNngkdXEeobR76b53LETtpyT</span> <button onclick="copyToClipboard('btc-address')">Copy</button></div>
-        <div><strong>ETH:</strong> <br> <span id="eth-address">0x32be343b94f860124dc4fee278fdcbd38c102d88</span> <button onclick="copyToClipboard('eth-address')">Copy</button></div>
-        <div><strong>BNB:</strong> <br> <span id="bnb-address">bnb1grpf0955h0ykzqpqj52ve9ta7r03gwdp8h4gtk</span> <button onclick="copyToClipboard('bnb-address')">Copy</button></div>
-        <div><strong>USDT (TRC20):</strong><br/> <span id="usdt-address">TYMwiJdeSAApWJg16JuQhXn2UYvr5KdYgj</span> <button onclick="copyToClipboard('usdt-address')">Copy</button></div>
+        <div><strong>BTC:</strong> <br> <span id="btc-address">bc1qhgudn7vl0rwks55xphayl9qyd05lxxxf5scqpq</span> <button onclick="copyToClipboard('btc-address')">Copy</button></div>
+        <div><strong>ETH:</strong> <br> <span id="eth-address">0xea978943B493E7284F5bE85294c44976C2a7Ed7c</span> <button onclick="copyToClipboard('eth-address')">Copy</button></div>
+        <div><strong>USDT (TRC20):</strong><br/> <span id="usdt-address">TQw1Tf4zogp19aDMt1HgVcrTe3nXTwWmHN</span> <button onclick="copyToClipboard('usdt-address')">Copy</button></div>
       </div>
     `;
   } else if (method === 'bank') {

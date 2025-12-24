@@ -137,9 +137,15 @@
 
     <div class="foot-right">
 
-      <p>Community</p>
+      <p id="copyright"></p>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var year = new Date().getFullYear();
+          document.getElementById('copyright').innerHTML = '&copy; ' + year + ' craterExchange. All rights reserved.';
+        });
+      </script>
 
-      <div class="socials">
+      {{-- <div class="socials">
         <a href="#">
           <i class="fa fa-twitter"></i>
         </a>
@@ -155,7 +161,7 @@
         <a href="#">
           <i class="fa fa-linkedin"></i>
         </a>
-      </div>
+      </div> --}}
 
     </div>
   </footer>

@@ -118,7 +118,7 @@
   <div class="menu-overlay" id="menuOverlay">
     <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
     <a href="{{ route('home') }}">HOME</a>
-    <a href="{{ route('spots') }}">SPOT TRADE</a>
+    <a href="{{ route('spot') }}">SPOT TRADE</a>
     <a href="{{ route('futures') }}">FUTURE TRADE</a>
   </div>
 
@@ -128,7 +128,7 @@
     <div class="nav-left">
       <a href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}" alt="Logo" width="50px"></a>
       <a class="abt" href="{{ route('futures') }}">Future Trades <i class="fa fa-angle-down"></i></a>
-      <a class="copy" href="{{ route('spots') }}">Spot Trades <i class="fa fa-angle-down"></i></a>
+      <a class="copy" href="{{ route('spot') }}">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>
 
     <div style="display: flex; gap: 20px; align-items: center;">
@@ -366,39 +366,43 @@
       </div>
 
       <div class="dash-right">
-        <h2>Announcements</h2>
+        <h2>Transaction History</h2>
+        
+        @if(isset($no_transactions_message))
+          <div class="ann-row">
+            <span style="color:#888;">{{ $no_transactions_message }}</span>
+          </div>
+        @elseif(isset($transactions) && count($transactions) > 0)
+          @foreach($transactions as $transaction)
+            <div class="ann-row" style="display: flex; align-items: center; flex-wrap: wrap; margin-bottom:8px; font-size:10px;">
+              <span style="border-left:1px solid #ddd; border-right:1px solid #ddd; padding: 0 8px; font-size:10px;">#{{ $transaction->id }}</span>
+              <span style="border-left:1px solid #ddd; border-right:1px solid #ddd; padding: 0 8px; font-size:10px;">{{ $transaction->transaction_type }}</span>
+              <span style="border-left:1px solid #ddd; border-right:1px solid #ddd; padding: 0 8px; font-size:10px;">${{ number_format($transaction->amount, 2) }}</span>
+              <span style="border-left:1px solid #ddd; border-right:1px solid #ddd; padding: 0 8px; font-size:10px;">
+                <span style="color:
+                  @if(strtoupper($transaction->status) === 'SUCCESS')green
+                  @elseif(strtoupper($transaction->status) === 'PENDING')orange
+                  @elseif(strtoupper($transaction->status) === 'DECLINED')#ff6b6b
+                  @else #666
+                  @endif;
+                  font-weight: bold; font-size:10px;">
+                  {{ strtoupper($transaction->status) }}
+                </span>
+              </span>
+              <span style="border-left:1px solid #ddd; border-right:1px solid #ddd; padding: 0 8px; font-size:10px;">{{ $transaction->method ?? '-' }}</span>
+              <span style="padding: 0 4px; font-size:9px; color:#888;">{{ \Carbon\Carbon::parse($transaction->created_at)->format('m/d H:i') }}</span>
+            </div>
+          @endforeach
+        @else
+          <div class="ann-row">
+            <span style="color:#888;">No transactions have occurred yet.</span>
+          </div>
+        @endif
 
-        <div class="ann-row">
-          <p class="okx">OKX to list Horizen (ZEN) for spot trading</p>
-          <p class="gray">11/17/2025</p>
-        </div>
-
-        <div class="ann-row">
-          <p>OKX to list Horizen (ZEN) for spot trading</p>
-          <p class="gray">11/17/2025</p>
-        </div>
-        <div class="ann-row">
-          <p>OKX to list Horizen (ZEN) for spot trading</p>
-          <p class="gray">11/17/2025</p>
-        </div>
-        <div class="ann-row">
-          <p>OKX to list Horizen (ZEN) for spot trading</p>
-          <p class="gray">11/17/2025</p>
-        </div>
-        <div class="ann-row">
-          <p>OKX to list Horizen (ZEN) for spot trading</p>
-          <p class="gray">11/17/2025</p>
-        </div>
-        <div class="ann-row">
-          <p>OKX to list Horizen (ZEN) for spot trading</p>
-          <p class="gray">11/17/2025</p>
-        </div>
-        <div class="ann-row">
-          <p>OKX to list Horizen (ZEN) for spot trading</p>
-          <p class="gray">11/17/2025</p>
-        </div>
       </div>
+
     </div>
+    
   </div>
 
   <!-- FOOTER -->
@@ -407,8 +411,15 @@
       <img src="/images/logo.png" alt="" class="foot-image" width="50px">
     </div>
     <div class="foot-right">
-      <p>Community</p>
-      <div class="socials">
+      <p id="copyright"></p>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var year = new Date().getFullYear();
+          document.getElementById('copyright').innerHTML = '&copy; ' + year + ' craterExchange. All rights reserved.';
+        });
+      </script>
+
+       {{-- <div class="socials">
         <a href="https://twitter.com/" target="_blank">
           <i class="fa fa-twitter"></i>
         </a>
@@ -424,12 +435,26 @@
         <a href="https://linkedin.com/" target="_blank">
           <i class="fa fa-linkedin"></i>
         </a>
-      </div>
+      </div> --}}
     </div>
   </footer>
 
 </body>
 <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 <script src="/js/dashboard.js"></script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/694c2852420bc819787f5259/1jd8nr0qg';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+</script>
+<!--End of Tawk.to Script-->
 
 </html>

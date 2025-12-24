@@ -14,6 +14,37 @@
     class DashboardController extends Controller{
 
 
+        // function to display transaction history
+        public function showDashboard()
+        {
+            try {
+                // Fetch all transactions for the authenticated user
+                $user = Auth::user();
+
+                // You can change the logic here if you want all users' transactions for admin
+                $transactions = Transaction::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+
+                // If there are no transactions, set a message
+                if ($transactions->isEmpty()) {
+                    return view('dashboard', [
+                        'user' => $user,
+                        'transactions' => $transactions,
+                        'no_transactions_message' => 'No transactions have occurred yet.',
+                    ]);
+                }
+
+                // error_log($transactions);
+                return view('dashboard', [
+                    'user' => $user,
+                    'transactions' => $transactions,
+                ]);
+            } catch (\Exception $e) {
+                error_log($e->getMessage());
+                return redirect()->back()->with('error', 'An error occurred while fetching transactions: ' . $e->getMessage());
+            }
+        }
+
+
 
 
         // function to aid users deposit
@@ -89,15 +120,10 @@
         }
 
 
-       
-
-
-
-        // function to display traders that the admin created
+        // function to display future traders that the admin created
         public function showFuturesTraders(){
-            
-            // Get all traders from the database
-            $traders = Trader::all();
+            // Only get traders with type 'FUTURE'
+            $traders = Trader::where('type', 'FUTURE')->get();
 
             // Send the traders data back to the 'futures' blade view
             return view('future', ['traders' => $traders]);
@@ -106,21 +132,62 @@
 
 
         public function futureDetails(Request $request){
-
-
             // Get the trader ID from the URL (?id=...)
             $id = $request->query('id');
 
-            // Retrieve the trader with all relevant information
-            $trader = Trader::find($id);
+            // Retrieve the current FUTURE trader by id
+            $currentTrader = Trader::where('id', $id)
+                                   ->where('type', 'FUTURE')
+                                   ->first();
 
             // Optionally, handle trader not found
-            if (!$trader) {
+            if (!$currentTrader) {
                 return redirect()->route('futures')->with('error', 'Trader not found.');
             }
 
-            // Return the 'future-details' view with trader details
-            return view('futureDetails', ['trader' => $trader]);
+            // Retrieve all FUTURE traders (excluding or including the current as needed)
+            $allFutureTraders = Trader::where('type', 'FUTURE')->get();
+
+            // Return the 'futureDetails' view with current trader and all future traders
+            return view('futureDetails', [
+                'currentTrader' => $currentTrader,
+                'allFutureTraders' => $allFutureTraders
+            ]);
+        }
+
+
+        // function to display spot traders that the admin created
+        public function showSpotTraders(){
+            // Only get traders with type 'FUTURE'
+            $traders = Trader::where('type', 'SPOT')->get();
+
+            // Send the traders data back to the 'futures' blade view
+            return view('spot', ['traders' => $traders]);
+        }
+
+
+        public function spotDetails(Request $request){
+            // Get the trader ID from the URL (?id=...)
+            $id = $request->query('id');
+
+            // Retrieve the current SPOT trader by id
+            $currentTrader = Trader::where('id', $id)
+                                   ->where('type', 'SPOT')
+                                   ->first();
+
+            // Optionally, handle trader not found
+            if (!$currentTrader) {
+                return redirect()->route('spot')->with('error', 'Trader not found.');
+            }
+
+            // Retrieve all SPOT traders (excluding or including the current as needed)
+            $allSpotTraders = Trader::where('type', 'SPOT')->get();
+
+            // Return the 'spotDetails' view with current trader and all spot traders
+            return view('spotDetails', [
+                'currentTrader' => $currentTrader,
+                'allSpotTraders' => $allSpotTraders
+            ]);
         }
 
 
@@ -129,8 +196,6 @@
         public function copyTrades(Request $request){
             try {
                 
-                error_log("came----------------------");
-    
                 // Validate input
                 $request->validate([
                     'amount' => 'required|string',
@@ -181,6 +246,40 @@
             }
 
         }
+
+
+
+
+
+        // // function to display traders on spot
+        // public function showFutureDetailsTraders()
+        // {
+        //     try {
+        //         // Assuming you have a Trader model with a 'type' attribute (spot/future)
+        //         $spotTraders = Trader::where('type', 'SPOT')->get();
+
+        //         return view('futureDetails', ['traders' => $spotTraders]);
+        //     } catch (\Exception $e) {
+        //         error_log($e->getMessage());
+        //         return redirect()->back()->with('error', 'Failed to fetch spot traders.');
+        //     }
+        // }
+
+        // // function to display traders on spot
+        // public function showSpotDetailsTraders()
+        // {
+        //     try {
+        //         // Assuming you have a Trader model with a 'type' attribute (spot/future)
+        //         $spotTraders = Trader::where('type', 'SPOT')->get();
+
+        //         return view('spotDetails', ['traders' => $spotTraders]);
+        //     } catch (\Exception $e) {
+        //         error_log($e->getMessage());
+        //         return redirect()->back()->with('error', 'Failed to fetch spot traders.');
+        //     }
+        // }
+
+
 
 
     }

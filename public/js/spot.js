@@ -2,11 +2,6 @@ const overlay = document.getElementById('overlay');
 const overlay2 = document.getElementById('overlay2');
 const amountInput = document.getElementById('amount');
 const preview = document.getElementById('preview');
-const methodSelect = document.getElementById('method');
-const paymentInput = document.getElementById('paymentInput');
-const copyBtn = document.getElementById('copyBtn');
-
-
 
 
 function toggleModal() {
@@ -23,25 +18,6 @@ amountInput.addEventListener('input', () => {
     : '$0.00';
 });
 
-methodSelect.addEventListener('change', () => {
-
-  if (methodSelect.value === 'card') {
-    paymentInput.placeholder = 'Enter your card details';
-    paymentInput.value = '';
-  }
-
-  if (methodSelect.value === 'bank') {
-    paymentInput.placeholder = 'Enter your bank account number';
-    paymentInput.value = '';
-  }
-
-  if (methodSelect.value === 'crypto') {
-    paymentInput.placeholder = 'Enter your crypto wallet address';
-    paymentInput.value = '';
-  }
-
-})
-
 copyBtn.addEventListener('click', () => {
   if (!paymentInput.value) {
     alert('Nothing to copy!');
@@ -56,7 +32,6 @@ copyBtn.addEventListener('click', () => {
   }, 1000);
 })
 
-
 const menuOverlay = document.getElementById('menuOverlay');
 
 function menuOpen() {
@@ -65,7 +40,6 @@ function menuOpen() {
 function closeMenu() {
   menuOverlay.classList.remove('open')
 }
-
 
 // const data = {
 //   overview: [
@@ -216,15 +190,6 @@ function showBankOrCryptoOptions() {
   document.getElementById('bankOptions').style.display = (method === "bank") ? "block" : "none";
   document.getElementById('cryptoOptions').style.display = (method === "crypto") ? "block" : "none";
 }
-
-
-
-
-
-
-
-
-
 
 
 
