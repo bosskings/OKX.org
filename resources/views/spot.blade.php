@@ -122,6 +122,7 @@
     <a href="/">HOME</a>
     <a href="/spot">SPOT TRADE</a>
     <a href="/future">FUTURE TRADE</a>
+    <a href="/logout">Logout</a>
   </div>
 
 

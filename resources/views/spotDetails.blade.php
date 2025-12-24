@@ -52,8 +52,8 @@
     <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
     <a href="/">HOME</a>
     <a href="/spot-trade">SPOT TRADE</a>
-    <a href="/future">FUTURE TRADE</a>
-    <a href="#">HISTORY</a>
+    <a href="/futures">FUTURE TRADE</a>
+    <a href="/logout">Logout</a>
   </div>
  
   <!-- NAVIGATION -->

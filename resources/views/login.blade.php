@@ -20,7 +20,8 @@
     <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
     <a href="/">HOME</a>
     <a href="/spot-trade">SPOT TRADES</a>
-    <a href="/future">FUTURE TRADES</a>
+    <a href="/futures">FUTURE TRADES</a>
+    <a href="/logout">Logout</a>
   </div>
 
   <!-- NVIGATION -->

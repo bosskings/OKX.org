@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OKC</title>
+  <title>Craterxchange</title>
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="/css/aos-master/dist/aos.css">
+  <link rel="stylesheet" href="/aos-master/dist/aos.css">
 
 </head>
 
@@ -22,8 +22,9 @@
   <div class="menu-overlay" id="menuOverlay">
     <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
     <a href="/">HOME</a>
-    <a href="/spot-trade">SPOT TRADE</a>
-    <a href="/future">FUTURE TRADE</a>
+    <a href="/spot">SPOT TRADE</a>
+    <a href="/futures">FUTURE TRADE</a>
+    <a href="/logout">Logout</a>
   </div>
 
   <!-- NVIGATION -->
@@ -32,7 +33,7 @@
     <div class="nav-left">
       <a href="/"><img src="/images/logo.png" alt="Logo" width="50px"></a>
       <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
-      <a class="copy" href="/spot-trade">Spot Trades <i class="fa fa-angle-down"></i></a>
+      <a class="copy" href="/spot">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>
 
     <div style="display: flex; gap: 20px; align-items: center;">
@@ -376,7 +377,7 @@
   </footer>
 
 </body>
-<script src="/js/aos-master/dist/aos.js"></script>
+<script src="/aos-master/dist/aos.js"></script>
 <script src="/js/script.js"></script>
 
 

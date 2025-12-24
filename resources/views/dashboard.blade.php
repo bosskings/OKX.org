@@ -120,6 +120,7 @@
     <a href="{{ route('home') }}">HOME</a>
     <a href="{{ route('spot') }}">SPOT TRADE</a>
     <a href="{{ route('futures') }}">FUTURE TRADE</a>
+    <a href="/logout">Logout</a>
   </div>
 
   <!-- NAVIGATION -->

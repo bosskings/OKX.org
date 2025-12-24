@@ -54,7 +54,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/spotDetails', [DashboardController::class, 'spotDetails'] )->name('spotDetails');
     
 
-        Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+        Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 
     });
 
