@@ -61,7 +61,7 @@
   <nav>
     <div class="nav-left">
       <a href="/"><img src="/images/logo.png" alt="Logo" width="30px"></a>
-      <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
+      <a class="abt" href="/futures">Future Trades <i class="fa fa-angle-down"></i></a>
       <a class="copy" href="/spot">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>
 

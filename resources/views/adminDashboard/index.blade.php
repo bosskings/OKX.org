@@ -82,6 +82,8 @@
             </div>
             <div class="container-fluid">
                 <div class="row">
+                    
+                    {{-- <pre>{{ print_r($pendingDepositTransactions) }}</pre> --}}
 
                     <!-- Example static card as placeholder for user info, since no dynamic PHP allowed -->
                     @if(isset($users) && count($users) > 0)
@@ -93,26 +95,32 @@
                                         <div class="row">
                                             <div class="col-12">
 
-                                                {{-- Deposit request starts here --}}
-                                                @if(isset($pendingDepositUsers[$user->id]) && count($pendingDepositUsers[$user->id]) > 0)
+
+                                                {{-- Show pending DEPOSIT transactions for this user --}}
+                                                @php
+                                                    // Controller provides $pendingDepositTransactions as a collection of all PENDING DEPOSITs
+                                                    // We need to filter only those for this user
+                                                    $userPendingDeposits = $pendingDepositTransactions->where('user_id', $user->id);
+                                                @endphp
+                                                @if($userPendingDeposits->count() > 0)
                                                     <div id="statusArea" class="mb-2"
                                                         style="background: #fff3cd; border: 1px solid #ffeeba; padding: 10px; border-radius: 5px;">
                                                         <h6 style="font-weight:bold; color:#b8860b;">Pending Investments:</h6>
-                                                        @foreach($pendingDepositUsers[$user->id] as $transaction)
+                                                        @foreach($userPendingDeposits as $transaction)
                                                             <div style="margin-bottom: 10px;">
                                                                 <div>
                                                                     <span><b>Amount:</b> {{ number_format($transaction->amount ?? 0, 2) }}</span><br>
                                                                     <span><b>Method:</b> {{ $transaction->method ?? '-' }}</span><br>
                                                                 </div>
-                                                                <button class="btn btn-success btn-sm mt-1" onclick="approve_investment({{ $user->id }}, {{ $transaction->amount}}, {{ $transaction->id  }})">
-                                                                    approve
+                                                                <button class="btn btn-success btn-sm mt-1" onclick="approve_investment({{ $user->id }}, {{ $transaction->amount }}, {{ $transaction->id }})">
+                                                                    Approve
                                                                 </button>
                                                             </div>
                                                         @endforeach
                                                     </div>
                                                 @endif
 
-                                                {{-- Withdraw request starts here --}}
+                                                {{-- Show latest PENDING WITHDRAW transaction for this user --}}
                                                 @if(isset($userLatestPendingWithdraw[$user->id]) && $userLatestPendingWithdraw[$user->id])
                                                     @php
                                                         $withdrawal = $userLatestPendingWithdraw[$user->id];

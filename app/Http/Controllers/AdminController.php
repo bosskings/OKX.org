@@ -40,20 +40,12 @@ use Illuminate\Support\Facades\Log as FacadesLog;
                     ->where('status', 'PENDING')
                     ->get();
 
-                // Build unique set of users for those pending deposit transactions
-                $pendingDepositUsers = [];
-                foreach ($pendingDepositTransactions as $transaction) {
-                    if (!isset($pendingDepositUsers[$transaction->user_id])) {
-                        $pendingDepositUsers[$transaction->user_id] = User::find($transaction->user_id);
-                    }
-                }
 
                 return view('adminDashboard.index', [
                     'users' => $users,
                     'userTrades' => $userTrades,
                     'userLatestPendingWithdraw' => $userLatestPendingWithdraw,
                     'pendingDepositTransactions' => $pendingDepositTransactions,
-                    'pendingDepositUsers' => $pendingDepositUsers,
                 ]);
             } catch (\Exception $e) {
                 // Optionally send the error to the log
