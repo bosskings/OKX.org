@@ -12,7 +12,7 @@ body {
 }
 
 .overlay,
-.overlay2 {
+.overlay2,.overlay3 {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.90);
@@ -25,7 +25,7 @@ body {
 
 
 .overlay.modalShow,
-.overlay2.modalShow {
+.overlay2.modalShow, .overlay3.modalShow {
   display: flex;
 }
 

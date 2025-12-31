@@ -28,7 +28,7 @@
 
   <nav>
     <div class="nav-left">
-      <a href="/"><img src="/images/logo.png" alt="Logo" width="50px"></a>
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="100px"></a>
     </div>
 
     <div style="display: flex; gap: 20px; align-items: center;">
@@ -93,31 +93,6 @@
         </form>
 
         <p class="d-have">Don't have an account? <a href="/sign-up">Sign up</a></p>
-
-        <div class="continue">
-          <div class="line"></div>
-          <p> Or continue with </p>
-          <div class="line"></div>
-        </div>
-
-        <div class="other-options">
-          <div class="other-opt">
-            <i class="fa fa-key"></i>
-            <p>Passkey</p>
-          </div>
-          <div class="other-opt">
-            <img src="/images/google.png" alt="">
-            <p>Google</p>
-          </div>
-          <div class="other-opt">
-            <img src="/images/apple.png" alt="">
-            <p>Apple</p>
-          </div>
-          <div class="other-opt">
-            <img src="/images/telegram.png" alt="">
-            <p>Telegram</p>
-          </div>
-        </div>
 
       </div>
 

@@ -28,11 +28,12 @@
   <div class="overlay" id="overlay">
 
     <div class="modal">
+      <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
     
+      @if(Auth::user() && Auth::user()->status === 'APPROVED')
       <form method="POST" action="{{ route('deposit')}}">
         @csrf
 
-        <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
         <h2>Deposit</h2>
 
         <div class="amount-preview" id="preview">$0.00</div>
@@ -61,6 +62,12 @@
 
         <button class="deposit-btn">Deposit</button>
       </form>
+      @else
+      <div style="text-align:center; padding:32px 18px;">
+        <i class="fa fa-exclamation-triangle" style="color:#eab308; font-size:32px; margin-bottom:12px;"></i>
+        <div style="font-size:18px; font-weight:600; margin-bottom:10px; color:#be123c;">You must be verified to make deposits</div>
+      </div>
+      @endif
     </div>
   </div>
 
@@ -68,10 +75,11 @@
 
   <div class="overlay" id="overlay2">
     <div class="modal">
+      <div class="close" onclick="toggleModal2()"><i class="fa fa-close"></i></div>
+      @if(Auth::user() && Auth::user()->status === 'APPROVED')
       <form method="POST" action="{{ route('withdrawRequest') }}">
         @csrf
         
-        <div class="close" onclick="toggleModal2()"><i class="fa fa-close"></i></div>
         <h2>Withdraw Funds</h2>
 
         <div class="amount-preview" id="preview2">$0.00</div>
@@ -112,6 +120,11 @@
 
         <button type="submit" class="deposit-btn">Withdraw</button>
       </form>
+      @else
+        <div style="padding: 30px; text-align: center; color: #b91c1c; font-weight: 600; font-size: 1.05em;">
+          You must be verified to make withdrawals.
+        </div>
+      @endif
     </div>
   </div>
 
@@ -129,7 +142,7 @@
 
   <nav>
     <div class="nav-left">
-      <a href="/"><img src="/images/logo.png" alt="Logo" width="50px"></a>
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="100px"></a>
       <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
       <a class="copy" href="/spot">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>

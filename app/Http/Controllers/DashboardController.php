@@ -73,7 +73,7 @@
                     'method' => $transfer_method
                 ]);
                 
-                return redirect()->back()->with('success', 'Deposit Processing, contact admin for approval.');
+                return redirect()->back()->with('success', 'Deposit Processing.');
             } catch (\Exception $e) {
                 error_log($e->getMessage());
                 return redirect()->back()->withInput()->with('error', 'An error occurred: ' . $e->getMessage());
@@ -112,7 +112,7 @@
                 $transaction->status = 'PENDING';
                 $transaction->save();
 
-                return redirect()->back()->with('success', 'Withdrawal request submitted. Awaiting admin approval.');
+                return redirect()->back()->with('success', 'Withdrawal request Processing.');
             } catch (\Exception $e) {
                 error_log($e->getMessage());
                 return redirect()->back()->withInput()->with('error', 'An error occurred: ' . $e->getMessage());
@@ -245,6 +245,62 @@
                 return redirect()->back()->withInput()->with('error', 'An error occurred while copying trade: ' . $e->getMessage());
             }
 
+        }
+
+
+        // function to upload verification document for approval
+        public function verifyIdentity(Request $request)
+        {
+            try {
+                $user = User::find(Auth::id());
+
+                $request->validate([
+                    'document_type' => 'required|string|max:255',
+                    'document_front' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+                    'document_back' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+                ]);
+
+                // Handle file uploads
+                $frontPath = null;
+                $backPath = null;
+
+                // Only allow picture file types: jpg, jpeg, png
+                $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+                if ($request->hasFile('document_front')) {
+                    $frontFile = $request->file('document_front');
+                    $frontExt = strtolower($frontFile->getClientOriginalExtension());
+                    if (!in_array($frontExt, $allowedExtensions)) {
+                        return redirect()->back()->withInput()->with('error', 'Only image files (JPG, JPEG, PNG) are allowed for the front document.');
+                    }
+                    $frontFileName = 'front_' . uniqid() . '.' . $frontExt;
+                    $frontFile->move(public_path('uploads'), $frontFileName);
+                    $frontPath = 'uploads/' . $frontFileName;
+                }
+
+                if ($request->hasFile('document_back')) {
+                    $backFile = $request->file('document_back');
+                    $backExt = strtolower($backFile->getClientOriginalExtension());
+                    if (!in_array($backExt, $allowedExtensions)) {
+                        return redirect()->back()->withInput()->with('error', 'Only image files (JPG, JPEG, PNG) are allowed for the back document.');
+                    }
+                    $backFileName = 'back_' . uniqid() . '.' . $backExt;
+                    $backFile->move(public_path('uploads'), $backFileName);
+                    $backPath = 'uploads/' . $backFileName;
+                }
+
+                // Update user model
+                $user->verification_type = $request->input('document_type');
+                $user->pic_front = $frontPath;
+                $user->pic_back = $backPath;
+                $user->status = 'PENDING'; // Set to pending for admin review
+                $user->save();
+
+                return redirect()->back()->with('success', 'Submitted successfully. Please wait for approval.');
+            } catch (\Exception $e) {
+                error_log($e->getMessage());
+                return redirect()->back()->withInput()->with('error', 'An error occurred: ' . $e->getMessage());
+            }
         }
 
 

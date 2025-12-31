@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
     Route::get('/', function(){ return view('index');})->name('home');
 
+    Route::get('/about', function(){return view('about');})->name('about');
     Route::get('/login', function(){return view('login');})->name('login');
 
     Route::post('/login', [AuthenticationController::class, "login"])->name('login');
@@ -30,6 +31,7 @@ use Illuminate\Support\Facades\Route;
     Route::post('/changePnl', [AdminController::class, 'changePnl'])->name('changePnl');
     Route::post('/changeTotalAssets', [AdminController::class, 'changeTotalAssets'])->name('changeTotalAssets');
     Route::post('/suspendUser', [AdminController::class, 'suspendUser'])->name('suspendUser');
+    Route::post('/verifyUser', [AdminController::class, 'verifyUser'])->name('verifyUser');
     Route::post('/changePassword', [AdminController::class, 'changePassword'])->name('changePassword');
 
 
@@ -44,6 +46,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
         Route::post('/deposit', [DashboardController::class, 'deposit'])->name('deposit');
         Route::post('/withdrawRequest', [DashboardController::class, 'withdrawRequest'])->name('withdrawRequest');
+        Route::post('/verifyIdentity', [DashboardController::class, 'verifyIdentity'])->name('verifyIdentity');
 
         
         Route::get('/futures', [DashboardController::class, 'showFuturesTraders'])->name('futures');

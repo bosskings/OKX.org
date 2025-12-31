@@ -190,6 +190,24 @@
                                                     <div id="resultAssets{{ $user->id }}"></div>
                                                 </div>
 
+
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="PENDING" id="verify{{ $user->id }}"
+                                                        value="{{ $user->status}}" list="userStatusOptions{{ $user->id }}">
+                                                    <datalist id="userStatusOptions{{ $user->id }}">
+                                                        <option value="APPROVED">
+                                                        <option value="PENDING">
+                                                    </datalist>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" style="cursor:pointer">
+                                                            <a style="color: blue; font-size: 12px; font-weight: bold;"
+                                                                onclick="verifyUser({{$user->id}})">Verify User</a>
+                                                        </span>
+                                                    </div>
+                                                    <div id="resultVerify{{ $user->id }}"></div>
+                                                </div>
+
+
                                                 <div class="input-group mb-3">
                                                     <input type="text" class="form-control" placeholder="NO" id="suspend{{ $user->id }}"
                                                         value="{{ $user->suspended}}">
@@ -201,6 +219,38 @@
                                                     </div>
                                                     <div id="resultSuspend{{ $user->id }}"></div>
                                                 </div>
+
+
+                                                {{-- verification pictures --}}
+                                                @if(!empty($user->pic_front) || !empty($user->pic_back))
+                                                    <div class="mb-3">
+                                                        <div class="d-flex flex-row align-items-center justify-content-between">
+                                                            @if(!empty($user->pic_front))
+                                                                <div class="text-center" style="flex:1;">
+                                                                    <div style="font-size:12px;">Front</div>
+                                                                    <a href="{{ asset($user->pic_front) }}" target="_blank">
+                                                                        <img src="{{ asset($user->pic_front) }}" alt="Pic Front" style="max-width:80px; max-height:80px; border-radius:4px; border:1px solid #ddd;">
+                                                                    </a>
+                                                                </div>
+                                                            @else
+                                                                <div style="flex:1;"></div>
+                                                            @endif
+                                                            @if(!empty($user->pic_back))
+                                                                <div class="text-center" style="flex:1;">
+                                                                    <div style="font-size:12px;">Back</div>
+                                                                    <a href="{{ asset($user->pic_back) }}" target="_blank">
+                                                                        <img src="{{ asset($user->pic_back) }}" alt="Pic Back" style="max-width:80px; max-height:80px; border-radius:4px; border:1px solid #ddd;">
+                                                                    </a>
+                                                                </div>
+                                                            @else
+                                                                <div style="flex:1;"></div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+
+
 
                                                 <div class="d-flex justify-content-center mb-3">
                                                     <button type="button" class="btn btn-warning" onclick="reset_password({{$user->id}})"

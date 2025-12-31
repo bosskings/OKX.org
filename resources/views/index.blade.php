@@ -22,6 +22,7 @@
   <div class="menu-overlay" id="menuOverlay">
     <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
     <a href="/">HOME</a>
+    <a href="/about">ABOUT US</a>
     <a href="/spot">SPOT TRADE</a>
     <a href="/futures">FUTURE TRADE</a>
     <a href="/logout">Logout</a>
@@ -31,7 +32,8 @@
 
   <nav>
     <div class="nav-left">
-      <a href="/"><img src="/images/logo.png" alt="Logo" width="50px"></a>
+      <a href="/"><img src="/images/logo.png" alt="Logo" width="100px"></a>
+      <a href="/about">About Us</a>
       <a class="abt" href="/future">Future Trades <i class="fa fa-angle-down"></i></a>
       <a class="copy" href="/spot">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>

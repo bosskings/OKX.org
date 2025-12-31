@@ -1,10 +1,10 @@
-const overlay = document.getElementById('overlay');
-const overlay2 = document.getElementById('overlay2');
-const amountInput = document.getElementById('amount');
-const preview = document.getElementById('preview');
-const methodSelect = document.getElementById('method');
-const paymentInput = document.getElementById('paymentInput');
-const copyBtn = document.getElementById('copyBtn');
+const overlay = document.getElementById('overlay') || {};
+const overlay2 = document.getElementById('overlay2') || {};
+const amountInput = document.getElementById('amount') || { addEventListener: () => {}, value: '' };
+const preview = document.getElementById('preview') || { textContent: '' };
+const methodSelect = document.getElementById('method') || { addEventListener: () => {}, value: '' };
+const paymentInput = document.getElementById('paymentInput') || { placeholder: '', value: '' };
+const copyBtn = document.getElementById('copyBtn') || { addEventListener: () => {}, textContent: '' };
 
 
 

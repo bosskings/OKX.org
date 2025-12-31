@@ -28,11 +28,12 @@
   <div class="overlay" id="overlay">
 
     <div class="modal">
+      <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
     
+      @if(Auth::user() && Auth::user()->status === 'APPROVED')
       <form method="POST" action="{{ route('deposit')}}">
         @csrf
 
-        <div class="close" onclick="toggleModal()"><i class="fa fa-close"></i></div>
         <h2>Deposit</h2>
 
         <div class="amount-preview" id="preview">$0.00</div>
@@ -61,17 +62,24 @@
 
         <button class="deposit-btn">Deposit</button>
       </form>
+      @else
+        <div style="text-align:center; padding:32px 18px;">
+          <i class="fa fa-exclamation-triangle" style="color:#eab308; font-size:32px; margin-bottom:12px;"></i>
+          <div style="font-size:18px; font-weight:600; margin-bottom:10px; color:#be123c;">You must be verified to make deposits</div>
+        </div>
+      @endif
     </div>
   </div>
 
 
-
+  {{-- modal for withdrawal starts here --}}
   <div class="overlay2" id="overlay2">
     <div class="modal">
+      <div class="close" onclick="toggleModal2()"><i class="fa fa-close"></i></div>
+      @if(Auth::user() && Auth::user()->status === 'APPROVED')
       <form method="POST" action="{{ route('withdrawRequest') }}">
         @csrf
         
-        <div class="close" onclick="toggleModal2()"><i class="fa fa-close"></i></div>
         <h2>Withdraw Funds</h2>
 
         <div class="amount-preview" id="preview2">$0.00</div>
@@ -112,8 +120,52 @@
 
         <button type="submit" class="deposit-btn">Withdraw</button>
       </form>
+      @else
+      <div style="padding: 30px; text-align: center; color: #b91c1c; font-weight: 600; font-size: 1.05em;">
+        You must be verified to make withdrawals.
+      </div>
+      @endif
     </div>
   </div>
+
+
+
+  {{-- modal for identity verification --}}
+  <div class="overlay3" id="overlay3">
+    <div class="modal">
+      <div class="close" onclick="toggleModal3()"><i class="fa fa-close"></i></div>
+      <form method="POST" action="{{ route('verifyIdentity') }}" enctype="multipart/form-data">
+        @csrf
+        
+        <h2>Identity Verification</h2>
+
+        <div class="input-group">
+          
+          <select name="document_type" id="document_type" required>
+            <option value="">Select document type</option>
+            <option value="passport">Passport</option>
+            <option value="drivers_license">Driver's License</option>
+            <option value="national_id">National ID Card</option>
+            <option value="residence_permit">Residence Permit</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="document_front">Front page</label>
+          <input type="file" name="document_front" id="document_front" accept="image/*" required />
+        </div>
+
+        <div class="input-group">
+          <label for="document_back">Back Page</label>
+          <input type="file" name="document_back" id="document_back" accept="image/*" required />
+        </div>
+
+        <button type="submit" class="deposit-btn">Submit for Verification</button>
+      </form>
+    </div>
+  </div>
+
+  {{-- Endddd  --}}
 
   <div class="menu-overlay" id="menuOverlay">
     <button onclick="closeMenu()"><i class="fa fa-close"></i></button>
@@ -127,7 +179,7 @@
 
   <nav>
     <div class="nav-left">
-      <a href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}" alt="Logo" width="50px"></a>
+      <a href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}" alt="Logo" width="100px"></a>
       <a class="abt" href="{{ route('futures') }}">Future Trades <i class="fa fa-angle-down"></i></a>
       <a class="copy" href="{{ route('spot') }}">Spot Trades <i class="fa fa-angle-down"></i></a>
     </div>
@@ -174,7 +226,7 @@
 
       </div>
 
-      <div class="user-verification user-r">
+      <div class="user-verification user-r" onclick="toggleModal3()">
         <p class="gray">Identity verification <i class="fa fa-angle-right"></i></p>
         <a href="#">
           @if(isset($user->status) && $user->status === 'APPROVED')

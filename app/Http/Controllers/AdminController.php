@@ -161,12 +161,11 @@ use Illuminate\Support\Facades\Log as FacadesLog;
             } else {
                 $user->balance = ($user->balance ?? 0) + floatval($amount);
             }
-            $user->status = 'APPROVED';
             $user->save();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Transaction approved. User status updated. Balance increased.',
+                'message' => 'Transaction approved, Balance increased.',
             ]);
         }
 
@@ -279,6 +278,32 @@ use Illuminate\Support\Facades\Log as FacadesLog;
                 'message' => 'User has been suspended successfully.'
             ]);
         }
+
+
+
+        public function verifyUser(Request $request)
+        {
+            $userId = $request->input('user_id');
+            $status = $request->input('data');
+
+            $user = User::find($userId);
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found.',
+                ]);
+            }
+
+            $user->status = $status;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User status updated successfully.'
+            ]);
+        }
+
 
         public function changePassword(Request $request)
         {

@@ -244,6 +244,37 @@ function suspend_user(id){
 
 
 
+// function to verify user
+function verifyUser(id){
+
+    $.ajax({
+        url: "/verifyUser", // Route to search 
+        type: "POST",
+        data: { 
+            data: $('#verify'+id).val(),
+            user_id: id
+        },
+
+        success: function(data) {
+            
+            if(data.success) {
+                $('#resultVerify'+id).append('<span style="color:green">success</span>')   
+            }
+        }, 
+        error: function(e) {
+            // console.error(e && e.responseJSON && e.responseJSON.message ? e.responseJSON.message : e);
+            
+            // Handle any errors in the AJAX request
+            $('#resultVerify'+id).append('<span style="color:red">Error occurred </span>');
+        }
+    });
+
+    // Disable all buttons with class "input-group-text"
+    $('.input-group-text').prop('disabled', true);
+}
+
+
+
 // function to reset password
 function reset_password(user_id) {
     

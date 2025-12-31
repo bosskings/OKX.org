@@ -1,6 +1,6 @@
-const overlay = document.getElementById('overlay');
-const overlay2 = document.getElementById('overlay2');
-const amountInput = document.getElementById('amount');
+const overlay = document.getElementById('overlay') || { classList: { toggle(){} }};
+const overlay2 = document.getElementById('overlay2') || { classList: { toggle(){} }};
+const amountInput = document.getElementById('amount') || { addEventListener(){} };
 const preview = document.getElementById('preview');
 
 

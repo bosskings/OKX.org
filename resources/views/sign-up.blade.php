@@ -76,40 +76,40 @@
             </div>
           @endif
 
-          <!-- Add select feature with different countries as options -->
-          <select name="country" required>
-            <option value="" disabled {{ old('country') ? '' : 'selected' }}>Select your country/region</option>
-            <option value="United States" {{ old('country') == 'United States' ? 'selected' : '' }}>United States</option>
-            <option value="Canada" {{ old('country') == 'Canada' ? 'selected' : '' }}>Canada</option>
-            <option value="United Kingdom" {{ old('country') == 'United Kingdom' ? 'selected' : '' }}>United Kingdom</option>
-            <option value="Australia" {{ old('country') == 'Australia' ? 'selected' : '' }}>Australia</option>
-            <option value="India" {{ old('country') == 'India' ? 'selected' : '' }}>India</option>
-            <option value="Germany" {{ old('country') == 'Germany' ? 'selected' : '' }}>Germany</option>
-            <option value="France" {{ old('country') == 'France' ? 'selected' : '' }}>France</option>
-            <option value="Italy" {{ old('country') == 'Italy' ? 'selected' : '' }}>Italy</option>
-            <option value="Spain" {{ old('country') == 'Spain' ? 'selected' : '' }}>Spain</option>
-            <option value="Nigeria" {{ old('country') == 'Nigeria' ? 'selected' : '' }}>Nigeria</option>
-            <option value="Belgium" {{ old('country') == 'Belgium' ? 'selected' : '' }}>Belgium</option>
-            <option value="Switzerland" {{ old('country') == 'Switzerland' ? 'selected' : '' }}>Switzerland</option>
-            <option value="Sweden" {{ old('country') == 'Sweden' ? 'selected' : '' }}>Sweden</option>
-            <option value="Norway" {{ old('country') == 'Norway' ? 'selected' : '' }}>Norway</option>
-            <option value="Denmark" {{ old('country') == 'Denmark' ? 'selected' : '' }}>Denmark</option>
-            <option value="Finland" {{ old('country') == 'Finland' ? 'selected' : '' }}>Finland</option>
-            <option value="Japan" {{ old('country') == 'Japan' ? 'selected' : '' }}>Japan</option>
-            <option value="South Korea" {{ old('country') == 'South Korea' ? 'selected' : '' }}>South Korea</option>
-            <option value="China" {{ old('country') == 'China' ? 'selected' : '' }}>China</option>
-            <option value="Brazil" {{ old('country') == 'Brazil' ? 'selected' : '' }}>Brazil</option>
-            <option value="Mexico" {{ old('country') == 'Mexico' ? 'selected' : '' }}>Mexico</option>
-            <option value="South Africa" {{ old('country') == 'South Africa' ? 'selected' : '' }}>South Africa</option>
-            <option value="Singapore" {{ old('country') == 'Singapore' ? 'selected' : '' }}>Singapore</option>
-            <option value="Hong Kong" {{ old('country') == 'Hong Kong' ? 'selected' : '' }}>Hong Kong</option>
-            <option value="New Zealand" {{ old('country') == 'New Zealand' ? 'selected' : '' }}>New Zealand</option>
-            <option value="Thailand" {{ old('country') == 'Thailand' ? 'selected' : '' }}>Thailand</option>
+          <!-- Country select with data-phone-code attribute for each option -->
+          <select name="country" id="country-select" required>
+            <option value="" data-phone-code="" disabled {{ old('country') ? '' : 'selected' }}>Select your country/region</option>
+            <option value="United States" data-phone-code="+1" {{ old('country') == 'United States' ? 'selected' : '' }}>United States</option>
+            <option value="Canada" data-phone-code="+1" {{ old('country') == 'Canada' ? 'selected' : '' }}>Canada</option>
+            <option value="United Kingdom" data-phone-code="+44" {{ old('country') == 'United Kingdom' ? 'selected' : '' }}>United Kingdom</option>
+            <option value="Australia" data-phone-code="+61" {{ old('country') == 'Australia' ? 'selected' : '' }}>Australia</option>
+            <option value="India" data-phone-code="+91" {{ old('country') == 'India' ? 'selected' : '' }}>India</option>
+            <option value="Germany" data-phone-code="+49" {{ old('country') == 'Germany' ? 'selected' : '' }}>Germany</option>
+            <option value="France" data-phone-code="+33" {{ old('country') == 'France' ? 'selected' : '' }}>France</option>
+            <option value="Italy" data-phone-code="+39" {{ old('country') == 'Italy' ? 'selected' : '' }}>Italy</option>
+            <option value="Spain" data-phone-code="+34" {{ old('country') == 'Spain' ? 'selected' : '' }}>Spain</option>
+            <option value="Nigeria" data-phone-code="+234" {{ old('country') == 'Nigeria' ? 'selected' : '' }}>Nigeria</option>
+            <option value="Belgium" data-phone-code="+32" {{ old('country') == 'Belgium' ? 'selected' : '' }}>Belgium</option>
+            <option value="Switzerland" data-phone-code="+41" {{ old('country') == 'Switzerland' ? 'selected' : '' }}>Switzerland</option>
+            <option value="Sweden" data-phone-code="+46" {{ old('country') == 'Sweden' ? 'selected' : '' }}>Sweden</option>
+            <option value="Norway" data-phone-code="+47" {{ old('country') == 'Norway' ? 'selected' : '' }}>Norway</option>
+            <option value="Denmark" data-phone-code="+45" {{ old('country') == 'Denmark' ? 'selected' : '' }}>Denmark</option>
+            <option value="Finland" data-phone-code="+358" {{ old('country') == 'Finland' ? 'selected' : '' }}>Finland</option>
+            <option value="Japan" data-phone-code="+81" {{ old('country') == 'Japan' ? 'selected' : '' }}>Japan</option>
+            <option value="South Korea" data-phone-code="+82" {{ old('country') == 'South Korea' ? 'selected' : '' }}>South Korea</option>
+            <option value="China" data-phone-code="+86" {{ old('country') == 'China' ? 'selected' : '' }}>China</option>
+            <option value="Brazil" data-phone-code="+55" {{ old('country') == 'Brazil' ? 'selected' : '' }}>Brazil</option>
+            <option value="Mexico" data-phone-code="+52" {{ old('country') == 'Mexico' ? 'selected' : '' }}>Mexico</option>
+            <option value="South Africa" data-phone-code="+27" {{ old('country') == 'South Africa' ? 'selected' : '' }}>South Africa</option>
+            <option value="Singapore" data-phone-code="+65" {{ old('country') == 'Singapore' ? 'selected' : '' }}>Singapore</option>
+            <option value="Hong Kong" data-phone-code="+852" {{ old('country') == 'Hong Kong' ? 'selected' : '' }}>Hong Kong</option>
+            <option value="New Zealand" data-phone-code="+64" {{ old('country') == 'New Zealand' ? 'selected' : '' }}>New Zealand</option>
+            <option value="Thailand" data-phone-code="+66" {{ old('country') == 'Thailand' ? 'selected' : '' }}>Thailand</option>
           </select>
 
           <input type="email" name="email" placeholder="Email" required value="{{ old('email') }}">
-          <input type="text" name="phone" placeholder="Phone" required value="{{ old('phone') }}">
-
+          <input type="text" name="phone" id="phone-input" placeholder="Phone" required value="{{ old('phone') }}">
+          
           <div class="password-field" style="position:relative;">
             <input type="password" name="password" placeholder="Password" required id="password-input">
             <span class="toggle-password" onclick="togglePassword()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;">

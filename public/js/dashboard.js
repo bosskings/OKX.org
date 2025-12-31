@@ -1,13 +1,14 @@
-const overlay = document.getElementById('overlay');
-const overlay2 = document.getElementById('overlay2');
-const paymentInput = document.getElementById('paymentInput');
-const paymentInput2 = document.getElementById('paymentInput2');
-const amountInput = document.getElementById('amount');
-const withdraw_amount = document.getElementById('withdraw_amount');
-const preview = document.getElementById('preview');
-const preview2 = document.getElementById('preview2');
-const copyBtn = document.getElementById('copyBtn');
-const copyBtn2 = document.getElementById('copyBtn2');
+const overlay = document.getElementById('overlay') || {};
+const overlay2 = document.getElementById('overlay2') || {};
+const overlay3 = document.getElementById('overlay3') || {};
+const paymentInput = document.getElementById('paymentInput') || { value: '' };
+const paymentInput2 = document.getElementById('paymentInput2') || { value: '' };
+const amountInput = document.getElementById('amount') || { addEventListener: () => {}, value: '' };
+const withdraw_amount = document.getElementById('withdraw_amount') || { addEventListener: () => {}, value: '' };
+const preview = document.getElementById('preview') || { textContent: '' };
+const preview2 = document.getElementById('preview2') || { textContent: '' };
+const copyBtn = document.getElementById('copyBtn') || { addEventListener: () => {}, textContent: '' };
+const copyBtn2 = document.getElementById('copyBtn2') || { addEventListener: () => {}, textContent: '' };
 
 
 
@@ -18,6 +19,11 @@ function toggleModal() {
 
 function toggleModal2() {
   overlay2.classList.toggle('modalShow');
+}
+
+
+function toggleModal3() {
+  overlay3.classList.toggle('modalShow');
 }
 
 
