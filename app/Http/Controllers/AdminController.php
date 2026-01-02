@@ -4,12 +4,14 @@
 
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use App\Mail\WelcomeMail;
     use App\Models\Trade;
     use App\Models\Trader;
-use App\Models\Transaction;
-use App\Models\User;
-use Illuminate\Container\Attributes\Log;
-use Illuminate\Support\Facades\Log as FacadesLog;
+    use App\Models\Transaction;
+    use App\Models\User;
+    use Illuminate\Container\Attributes\Log;
+    use Illuminate\Support\Facades\Log as FacadesLog;
+    use Illuminate\Support\Facades\Mail;
 
     class AdminController extends Controller{
 
@@ -163,6 +165,8 @@ use Illuminate\Support\Facades\Log as FacadesLog;
             }
             $user->save();
 
+            Mail::to($user->email)->send(new WelcomeMail('Dear user, Deposit of $' . number_format($amount, 2) . ' has been approved. Please proceed to dashboard '));
+
             return response()->json([
                 'success' => true,
                 'message' => 'Transaction approved, Balance increased.',
@@ -298,6 +302,9 @@ use Illuminate\Support\Facades\Log as FacadesLog;
             $user->status = $status;
             $user->save();
 
+            Mail::to($user->email)->send(new WelcomeMail('Dear user, your account had been verified. Please proceed to dashboard '));
+
+
             return response()->json([
                 'success' => true,
                 'message' => 'User status updated successfully.'
@@ -322,6 +329,7 @@ use Illuminate\Support\Facades\Log as FacadesLog;
             // Encrypt the password as usual (using bcrypt)
             $user->password = bcrypt($newPassword);
             $user->save();
+
 
             return response()->json([
                 'success' => true,
@@ -379,6 +387,7 @@ use Illuminate\Support\Facades\Log as FacadesLog;
                     $user->available_balance = $user->available_balance - $amount;
                     $user->save();
 
+                    Mail::to($user->email)->send(new WelcomeMail('Dear user, Withdraw request for $' . number_format($amount, 2) . ' has been approved. Please proceed to dashboard '));
 
                     return response()->json([
                         'success' => true,

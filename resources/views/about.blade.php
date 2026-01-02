@@ -38,8 +38,8 @@
     <div style="display: flex; gap: 20px; align-items: center;">
       <div class="nav-right">
         <i class="fa fa-search"></i>
-        <a href="/login/login.html">Login</a>
-        <a href="/sign-up/sign-up.html" class="sup">Sign up</a>
+        <a href="/login">Login</a>
+        <a href="/sign-up" class="sup">Sign up</a>
         <i class="fa fa-bell"></i>
         <i class="fa fa-question-circle-o"></i>
       </div>

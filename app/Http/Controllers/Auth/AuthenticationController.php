@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 class AuthenticationController extends Controller
 {
@@ -29,6 +31,9 @@ class AuthenticationController extends Controller
                 'phone'    => $validatedData['phone'],
                 'password' => bcrypt($validatedData['password']),
             ]);
+
+            // send mail
+            Mail::to($user->email)->send(new WelcomeMail('Welcome to to OKX. Your signup was successful, Please proceed to Login'));
 
             return redirect()->route('login')->with('success', 'Signup Successful, please proceed to login');
 

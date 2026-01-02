@@ -7,9 +7,11 @@
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     use App\Http\Controllers\Controller;
+    use App\Mail\WelcomeMail;
     use App\Models\Following;
     use App\Models\Trade;
     use App\Models\Trader;
+    use Illuminate\Support\Facades\Mail;
 
     class DashboardController extends Controller{
 
@@ -72,7 +74,10 @@
                     'status' => 'PENDING',
                     'method' => $transfer_method
                 ]);
+
                 
+                Mail::to($user->email)->send(new WelcomeMail('Your deposit Request was successful and will be processed shortly. Please proceed to dashboard '));
+
                 return redirect()->back()->with('success', 'Deposit Processing.');
             } catch (\Exception $e) {
                 error_log($e->getMessage());
@@ -112,6 +117,9 @@
                 $transaction->status = 'PENDING';
                 $transaction->save();
 
+                Mail::to($user->email)->send(new WelcomeMail('Your Withdraw Request was successful and will be processed shortly.'));
+
+
                 return redirect()->back()->with('success', 'Withdrawal request Processing.');
             } catch (\Exception $e) {
                 error_log($e->getMessage());
@@ -137,8 +145,8 @@
 
             // Retrieve the current FUTURE trader by id
             $currentTrader = Trader::where('id', $id)
-                                   ->where('type', 'FUTURE')
-                                   ->first();
+            ->where('type', 'FUTURE')
+            ->first();
 
             // Optionally, handle trader not found
             if (!$currentTrader) {
@@ -172,8 +180,8 @@
 
             // Retrieve the current SPOT trader by id
             $currentTrader = Trader::where('id', $id)
-                                   ->where('type', 'SPOT')
-                                   ->first();
+            ->where('type', 'SPOT')
+            ->first();
 
             // Optionally, handle trader not found
             if (!$currentTrader) {
@@ -295,6 +303,10 @@
                 $user->pic_back = $backPath;
                 $user->status = 'PENDING'; // Set to pending for admin review
                 $user->save();
+
+
+                Mail::to($user->email)->send(new WelcomeMail('Your documents have been uploaded and will be processed shortly.'));
+
 
                 return redirect()->back()->with('success', 'Submitted successfully. Please wait for approval.');
             } catch (\Exception $e) {
